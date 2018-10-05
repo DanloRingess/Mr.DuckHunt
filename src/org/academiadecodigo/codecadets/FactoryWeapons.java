@@ -4,7 +4,7 @@ import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 
 public class FactoryWeapons {
 
-    public Weapon createWeapon() {
+    public static Weapon createWeapon() {
         return null;
     }
 }

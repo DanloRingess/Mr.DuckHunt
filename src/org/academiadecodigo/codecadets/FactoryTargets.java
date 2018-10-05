@@ -4,7 +4,7 @@ import org.academiadecodigo.codecadets.gameobjects.Target;
 
 public class FactoryTargets {
 
-    public Target createTargets() {
+    public static Target createTargets() {
         return null;
     }
 }
