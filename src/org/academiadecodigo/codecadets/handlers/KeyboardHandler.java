@@ -8,7 +8,7 @@ public class KeyboardHandler implements org.academiadecodigo.simplegraphics.keyb
 
         switch (pressR.getKey()) {
             case KeyboardEvent.KEY_R:
-                reload()
+                reload(5);
 
 
         }
