@@ -1,4 +1,20 @@
 package org.academiadecodigo.codecadets.gameobjects;
 
-public class Target {
+public abstract class Target extends GameObject {
+
+    private boolean destroyed;
+
+    public Target() {
+        destroyed = false;
+    }
+
+    public abstract void hit();
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void destroy() {
+        this.destroyed = true;
+    }
 }
