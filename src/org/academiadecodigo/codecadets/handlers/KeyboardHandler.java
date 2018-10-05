@@ -4,11 +4,19 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 
 public class KeyboardHandler implements org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler {
 
-    public void keyPressed(KeyboardEvent pressR) {
+    public void keyPressed(KeyboardEvent press) {
 
-        switch (pressR.getKey()) {
+        switch (press.getKey()) {
             case KeyboardEvent.KEY_R:
                 reload(5);
+                break;
+            case KeyboardEvent.KEY_Q:
+                //insert here quit method
+                break;
+            case KeyboardEvent.KEY_LEFT:
+
+                break;
+            case Key
 
 
         }
