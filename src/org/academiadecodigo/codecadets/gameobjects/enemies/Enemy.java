@@ -1,10 +1,13 @@
 package org.academiadecodigo.codecadets.gameobjects.enemies;
 
-public class Enemy {
+import org.academiadecodigo.codecadets.gameobjects.Target;
+
+public class Enemy extends Target {
 
      //proprieties:---------
     private int health;
     private EnemyType type;
+
 
 
     //methods:---------------
@@ -15,6 +18,11 @@ public class Enemy {
 
     public void hit(){
 
+        health = health - damage > 0 ? health - damage : 0;
+
+        if(health == 0){
+            destroid = true;
+        }
     }
 
 

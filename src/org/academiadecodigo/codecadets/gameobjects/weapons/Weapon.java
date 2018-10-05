@@ -1,44 +1,44 @@
 package org.academiadecodigo.codecadets.gameobjects.weapons;
 
 import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.codecadets.gameobjects.GameObject;
+import org.academiadecodigo.codecadets.gameobjects.Target;
 
-public class Weapon {
+abstract public class Weapon extends GameObject {
 
     //Proprieties:----------------
     private Position aim;
     private int ammo;
     private WeaponType type;
+    private int damage;
 
     //methods:---------------------
 
-    public void shoot(target){
+    public void shoot(Target target) {
+
 
     }
 
-    public void reload(int bullets){
+    public void reload(int bullets) {
+
 
     }
 
-    public Position getAim(){
-        return null;
+    public Position getAim() {
+        return aim;
     }
 
-    public int getAmmo(){
+    public int getAmmo() {
         return ammo;
     }
 
-    public WeaponType getType(){
-        return null;
+    public WeaponType getType() {
+        return type;
     }
 
-    public void setAim(Position aimming){
+    public void setAim(Position aimming) {
+
 
     }
-
-
-
-
-
-
 
 }
