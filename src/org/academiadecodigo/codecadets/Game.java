@@ -9,6 +9,8 @@ public class Game implements MouseHandler {
     private Mouse mouse;
     private Player player;
 
+
+
     public void mouseClicked(MouseEvent event) {
 
     }

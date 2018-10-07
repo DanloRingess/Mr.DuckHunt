@@ -10,8 +10,8 @@ public class FactoryTargets {
         int random = (int) (Math.random() * EnemyTypes.values().length);
         EnemyTypes enemyType = EnemyTypes.values()[random];
 
-        Enemy enemy;
-
+        Enemy enemy = null;
+/*
         switch(enemyType){
             case DUCK:
                 enemy = new Enemy1();
@@ -24,7 +24,7 @@ public class FactoryTargets {
             default:
                 enemy = new Enemy1();
         }
-
+*/
         return enemy;
     }
 

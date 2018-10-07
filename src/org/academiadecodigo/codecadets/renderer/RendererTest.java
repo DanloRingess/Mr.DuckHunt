@@ -31,7 +31,21 @@ public class RendererTest {
         myPos.setX(200);
         myPos.setY(200);
 
-        myRenderer.drawAim(myPos);
+        for (int i = 0; i <= 19; i++){
+            myPos.setX(myPos.getX() + (10));
+
+            myPos.setY(myPos.getY() + (10));
+            myRenderer.drawAim(myPos);
+            try
+            {
+                Thread.sleep(10);
+            }
+            catch (InterruptedException localInterruptedException)
+            {
+                System.out.println("Ups");
+            }
+        }
+
 
     }
 }
