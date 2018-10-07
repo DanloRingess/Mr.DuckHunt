@@ -11,6 +11,8 @@ public class Game implements MouseHandler {
 
 
 
+    public void createMouseControler
+
     public void mouseClicked(MouseEvent event) {
 
     }
