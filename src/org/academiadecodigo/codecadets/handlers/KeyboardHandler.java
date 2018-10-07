@@ -1,5 +1,6 @@
 package org.academiadecodigo.codecadets.handlers;
 
+import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -16,6 +17,7 @@ public class KeyboardHandler implements org.academiadecodigo.simplegraphics.keyb
         switch (event.getKey()) {
 
             case KeyboardEvent.KEY_R :
+
 
                 break;
             case KeyboardEvent.KEY_LEFT:
