@@ -14,6 +14,11 @@ public class Enemy extends Target {
 
     //methods:---------------
 
+    public Enemy(EnemyTypes type){
+        this.type = type;
+        this.health = type.getHealth();
+    }
+
     public int getHealth(){
         return health;
     }

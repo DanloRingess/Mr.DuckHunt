@@ -8,4 +8,8 @@ public enum EnemyTypes {
     EnemyTypes(int hp) {
         this.health = hp;
     }
+
+    public int getHealth() {
+        return health;
+    }
 }
