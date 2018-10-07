@@ -26,7 +26,7 @@ public class FactoryTargets {
 
 
     /*public static Prop createProps(){
-        int random = (int) (Math.random() * PropTypes.values().lenght);
+        int random = (int) (Math.random() * PropTypes.values().length);
         PropTypes propType = PropTypes.values()[random];
 
         Prop prop;
