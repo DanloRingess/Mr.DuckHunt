@@ -1,21 +1,22 @@
 package org.academiadecodigo.codecadets;
 
-import org.academiadecodigo.simplegraphics.mouse.Mouse;
-import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
-import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
+import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
+import org.academiadecodigo.codecadets.renderer.Renderer;
 
-public class Game implements MouseHandler {
+public class Game {
 
-    private Mouse mouse;
+    private Renderer renderer;
     private Player player;
+    private DuckMouseHandler mouseHandler;
 
-
-
-    public void mouseClicked(MouseEvent event) {
-
+    public Game() {
     }
 
-    public void mouseMoved(MouseEvent event) {
-
+    public void init(String player) {
+        this.player = new Player(player);
+        this.renderer = new Renderer();
+        this.renderer.initRender();
+        this.mouseHandler = new DuckMouseHandler(this.player, this.renderer);
     }
+
 }

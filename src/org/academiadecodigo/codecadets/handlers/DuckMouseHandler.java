@@ -7,13 +7,13 @@ import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
 
-public class MouseHandler implements org.academiadecodigo.simplegraphics.mouse.MouseHandler {
+public class DuckMouseHandler implements org.academiadecodigo.simplegraphics.mouse.MouseHandler {
 
     private Player player;
     private Renderer renderer;
 
 
-    public MouseHandler(Player player, Renderer renderer) {
+    public DuckMouseHandler(Player player, Renderer renderer) {
         this.player = player;
         this.renderer = renderer;
         initMouse();
