@@ -9,11 +9,11 @@ public abstract class  GameObject {
     private String imgSrc;
 
     public Position getPosition() {
-        return null;
+        return this.position;
     }
 
     public String getImgSrc() {
-        return null;
+        return imgSrc;
     }
 
     public abstract void move(int x, int y);
