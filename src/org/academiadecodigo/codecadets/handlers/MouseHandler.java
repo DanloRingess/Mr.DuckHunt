@@ -30,8 +30,8 @@ public class MouseHandler implements org.academiadecodigo.simplegraphics.mouse.M
     @Override
     public void mouseMoved(MouseEvent event) {
         Position pos = new Position();
-        pos.setX((int) event.getX());
-        pos.setY((int) event.getY());
+        pos.setX((int) event.getX() - (renderer.getCrosshair().getWidth() / 2));
+        pos.setY((int) event.getY() - (renderer.getCrosshair().getHeight() / 2) - 25);
         renderer.drawAim(pos);
     }
 

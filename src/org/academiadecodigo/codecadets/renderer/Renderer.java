@@ -30,7 +30,7 @@ public class Renderer {
 
         //Create score Counter
         scoreCounter = new Text(canvas.getX() + 50, canvas.getY() + 20, "");
-        scoreCounter.grow(RenderConfigs.FONTSIZE+20, RenderConfigs.FONTSIZE);
+        scoreCounter.grow(RenderConfigs.FONTSIZE+30, RenderConfigs.FONTSIZE);
         scoreCounter.setColor(Color.WHITE);
 
         //Create Side Weapon Image
@@ -85,6 +85,10 @@ public class Renderer {
         crosshair.delete();
         crosshair.translate(pos.getX() - crosshair.getX(), pos.getY() - crosshair.getY());
         crosshair.draw();
+    }
+
+    public Picture getCrosshair() {
+        return crosshair;
     }
 
     public Rectangle getCanvas() {
