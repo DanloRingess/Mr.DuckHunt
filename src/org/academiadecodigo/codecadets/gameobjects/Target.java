@@ -8,7 +8,7 @@ public abstract class Target extends GameObject {
         destroyed = false;
     }
 
-    public abstract void hit(int damage);
+    public abstract boolean hit(int damage);
 
     public boolean isDestroyed() {
         return destroyed;

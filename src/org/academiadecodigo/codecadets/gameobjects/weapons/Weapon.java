@@ -12,19 +12,35 @@ abstract public class Weapon extends GameObject {
     private int ammo;
     private WeaponTypes type;
     private int damage;
+    private int clips;
 
     //methods:---------------------
 
-    public void shoot(Target target) {
-
-
-
+    public Weapon(WeaponTypes type) {
+        this.type = type;
+        this.ammo = type.getClipBullets();
+        this.clips = type.getClips();
+        this.damage = type.getDamage();
     }
 
-    public void reload(int bullets) {
-        ammo = bullets;
+    public void shoot(Target target) {
+
+        target.hit(damage);
+    }
+
+    public void reload() {
+        if (clips == 0) {
+            return;
+        }
+
+        ammo = type.getClipBullets();
+        clips--;
+    }
 
 
+    public void setAim(Position aiming) {
+        this.aim.setX(aiming.getX());
+        this.aim.setY(aiming.getY());
     }
 
     public Position getAim() {
@@ -37,11 +53,6 @@ abstract public class Weapon extends GameObject {
 
     public WeaponTypes getType() {
         return type;
-    }
-
-    public void setAim(Position aimming) {
-
-
     }
 
 }
