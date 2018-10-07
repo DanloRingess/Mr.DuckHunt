@@ -10,20 +10,16 @@ public class FactoryWeapons {
        WeaponTypes weaponType = WeaponTypes.values()[random];
 
        Weapon weapon = null;
-/*
-       switch (weaponType){
-           case weaponType1:
-               weapon = new Weapon1();
-               break;
 
-           case weaponType2:
-               weapon = new Weapon2();
+       switch (weaponType){
+           case SHOTGUN:
+               weapon = new Shotgun();
                break;
 
            default:
-               weapon = new Weapon1();
+               weapon = new Shotgun();
        }
-  */
+
         return weapon;
     }
 }

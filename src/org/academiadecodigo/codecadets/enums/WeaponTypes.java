@@ -1,7 +1,7 @@
 package org.academiadecodigo.codecadets.enums;
 
 public enum WeaponTypes {
-    SHOTGUN(15, 4, 5);
+    SHOTGUN(15, 2, 5);
 
     private int damage;
     private int clipBullets;

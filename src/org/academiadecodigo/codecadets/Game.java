@@ -10,6 +10,7 @@ public class Game {
     private DuckMouseHandler mouseHandler;
 
     public Game() {
+
     }
 
     public void init(String player) {
@@ -17,6 +18,12 @@ public class Game {
         this.renderer = new Renderer();
         this.renderer.initRender();
         this.mouseHandler = new DuckMouseHandler(this.player, this.renderer);
+    }
+
+    public void gameStart(){
+        player.changeWeapon(FactoryWeapons.createWeapon());
+
+
     }
 
 }

@@ -21,6 +21,7 @@ abstract public class Weapon extends GameObject {
         this.ammo = type.getClipBullets();
         this.clips = type.getClips();
         this.damage = type.getDamage();
+        this.aim = new Position();
     }
 
     public void shoot(Target target) {
