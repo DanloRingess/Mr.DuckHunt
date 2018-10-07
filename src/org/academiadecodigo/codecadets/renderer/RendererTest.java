@@ -1,11 +1,17 @@
 package org.academiadecodigo.codecadets.renderer;
 
 import javafx.geometry.Pos;
+import org.academiadecodigo.codecadets.Player;
 import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.codecadets.handlers.MouseHandler;
 
 public class RendererTest {
     public static void main(String[] args) {
         Renderer myRenderer = new Renderer();
+        Player player = new Player("Refs");
+        MouseHandler mouseHandler = new MouseHandler(player, myRenderer);
+
+
         myRenderer.initRender();
 
         myRenderer.drawClips(99);

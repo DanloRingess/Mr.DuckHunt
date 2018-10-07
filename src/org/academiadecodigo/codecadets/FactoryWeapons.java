@@ -1,15 +1,16 @@
 package org.academiadecodigo.codecadets;
 
+import org.academiadecodigo.codecadets.enums.WeaponTypes;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 
 public class FactoryWeapons {
 
     public static Weapon createWeapon() {
-       int random = (int)(Math.random() * WeaponTypes.values().lenght);
+       int random = (int)(Math.random() * WeaponTypes.values().length);
        WeaponTypes weaponType = WeaponTypes.values()[random];
 
-       Weapon weapon;
-
+       Weapon weapon = null;
+/*
        switch (weaponType){
            case weaponType1:
                weapon = new Weapon1();
@@ -22,6 +23,7 @@ public class FactoryWeapons {
            default:
                weapon = new Weapon1();
        }
+  */
         return weapon;
     }
 }
