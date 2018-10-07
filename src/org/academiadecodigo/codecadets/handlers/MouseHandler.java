@@ -11,6 +11,6 @@ public class MouseHandler implements org.academiadecodigo.simplegraphics.mouse.M
 
     @Override
     public void mouseMoved(MouseEvent event) {
-        
+
     }
 }
