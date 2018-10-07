@@ -1,5 +1,6 @@
 package org.academiadecodigo.codecadets;
 
+import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 
