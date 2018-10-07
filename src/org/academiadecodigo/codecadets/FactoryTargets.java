@@ -1,22 +1,20 @@
 package org.academiadecodigo.codecadets;
 
+import org.academiadecodigo.codecadets.enums.EnemyTypes;
 import org.academiadecodigo.codecadets.gameobjects.Target;
+import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 
 public class FactoryTargets {
 
     public static Enemy createEnemy() {
-        int random = (int) (Math.random() * EnemyType.values().length);
-        EnemyType enemyType = EnemyType.values()[random];
+        int random = (int) (Math.random() * EnemyTypes.values().length);
+        EnemyTypes enemyType = EnemyTypes.values()[random];
 
         Enemy enemy;
 
         switch(enemyType){
-            case Enemy1:
+            case DUCK:
                 enemy = new Enemy1();
-                break;
-
-            case Enemy2:
-                enemy = new Enemy2();
                 break;
 
             default:
@@ -27,9 +25,9 @@ public class FactoryTargets {
     }
 
 
-    public static Prop createProps(){
-        int random = (int) (Math.random() * PropType.values().lenght);
-        PropType propType = PropType.values()[random];
+    /*public static Prop createProps(){
+        int random = (int) (Math.random() * PropTypes.values().lenght);
+        PropTypes propType = PropTypes.values()[random];
 
         Prop prop;
 
@@ -46,5 +44,5 @@ public class FactoryTargets {
                 prop = new Prop1();
         }
         return prop;
-    }
+    }*/
 }

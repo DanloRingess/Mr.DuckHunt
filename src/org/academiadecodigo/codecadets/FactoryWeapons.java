@@ -5,8 +5,8 @@ import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 public class FactoryWeapons {
 
     public static Weapon createWeapon() {
-       int random = (int)(Math.random() * WeaponType.values().lenght);
-       WeaponType weaponType = WeaponType.values()[random];
+       int random = (int)(Math.random() * WeaponTypes.values().lenght);
+       WeaponTypes weaponType = WeaponTypes.values()[random];
 
        Weapon weapon;
 
