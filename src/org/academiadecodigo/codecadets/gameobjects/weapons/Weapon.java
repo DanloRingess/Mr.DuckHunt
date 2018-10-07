@@ -22,6 +22,7 @@ abstract public class Weapon extends GameObject {
     public void reload(int bullets) {
 
 
+
     }
 
     public Position getAim() {
