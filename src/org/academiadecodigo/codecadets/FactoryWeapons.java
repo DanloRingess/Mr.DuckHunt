@@ -1,6 +1,7 @@
 package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.enums.WeaponTypes;
+import org.academiadecodigo.codecadets.gameobjects.weapons.Shotgun;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 
 public class FactoryWeapons {

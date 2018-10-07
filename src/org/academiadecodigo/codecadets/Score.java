@@ -10,7 +10,10 @@ public class Score {
 
     public void changeScrore(int score){
         this.score += score;
+    }
 
+    public void resetScore(){
+        this.score = 0;
     }
 
 }

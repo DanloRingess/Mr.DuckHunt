@@ -15,6 +15,4 @@ public abstract class  GameObject {
     public String getImgSrc() {
         return imgSrc;
     }
-
-    public abstract void move(int x, int y);
 }

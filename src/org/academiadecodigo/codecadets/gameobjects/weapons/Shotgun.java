@@ -7,8 +7,4 @@ public class Shotgun extends Weapon{
     public Shotgun(){
         super(WeaponTypes.SHOTGUN);
     }
-
-    public void move(int x, int y){
-        
-    }
 }

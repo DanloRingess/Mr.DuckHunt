@@ -2,6 +2,7 @@ package org.academiadecodigo.codecadets.renderer;
 
 import org.academiadecodigo.codecadets.Configs.RenderConfigs;
 import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
@@ -72,12 +73,20 @@ public class Renderer {
         clipsCounter.draw();
     }
 
-    //public void drawWeapon(Weapon weapon){
+    public void drawWeapon(Weapon weapon){
+        switch (weapon.getType()){
+            case SHOTGUN:
+                sideWeapon.load("resources/weapons/shotgunSide.png");
+                break;
+            default:
+                sideWeapon.load("resources/weapons/missingTexture.png");
+        }
 
-    //}
+        sideWeapon.draw();
+    }
 
     public void drawWeaponTest(){
-        sideWeapon.load("resources/weapons/shotgunSide.png");
+        sideWeapon.load("resources/weapons/missingTexture.png");
         sideWeapon.draw();
     }
 

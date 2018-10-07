@@ -1,5 +1,6 @@
 package org.academiadecodigo.codecadets;
 
+import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
 
@@ -9,8 +10,13 @@ public class Game {
     private Player player;
     private DuckMouseHandler mouseHandler;
 
-    public Game() {
+    // Game Properties
+    private boolean gameEnded;
+    private GameStates gameState;
 
+
+    public Game() {
+        gameEnded = false;
     }
 
     public void init(String player) {
@@ -22,8 +28,23 @@ public class Game {
 
     public void gameStart(){
         player.changeWeapon(FactoryWeapons.createWeapon());
+        player.getScore().resetScore();
+        gameEnded = false;
 
+        while(!gameEnded){
 
+        }
+
+        while (gameEnded){
+
+            switch (gameState){
+                case GAMEEXIT:
+                    System.exit(0);
+                    break;
+                case GAMERESTART:
+                    gameStart();
+                    return;
+            }
+        }
     }
-
 }
