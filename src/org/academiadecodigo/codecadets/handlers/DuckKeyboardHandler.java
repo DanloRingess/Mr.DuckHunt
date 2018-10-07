@@ -1,14 +1,21 @@
 package org.academiadecodigo.codecadets.handlers;
 
+import org.academiadecodigo.codecadets.Player;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
-import java.security.Key;
+public class DuckKeyboardHandler implements KeyboardHandler {
 
-public class KeyboardHandler implements org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler {
+    private Object handlerReceiver;
+
 
     private final int KEY_ESC = 27;
+
+    public DuckKeyboardHandler(Object handlerReceiver) {
+        this.handlerReceiver = handlerReceiver;
+    }
 
     @Override
     public void keyPressed(KeyboardEvent event) {
@@ -16,7 +23,9 @@ public class KeyboardHandler implements org.academiadecodigo.simplegraphics.keyb
         switch (event.getKey()) {
 
             case KeyboardEvent.KEY_R :
-
+                if (handlerReceiver instanceof Player) {
+                    ((Player) handlerReceiver).getWeapon().reload();
+                }
                 break;
             case KeyboardEvent.KEY_LEFT:
 
