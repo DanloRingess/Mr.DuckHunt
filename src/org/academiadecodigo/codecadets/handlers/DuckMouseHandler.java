@@ -22,7 +22,7 @@ public class DuckMouseHandler implements org.academiadecodigo.simplegraphics.mou
     @Override
     public void mouseClicked(MouseEvent event) {
         Position pos = new Position();
-        pos.setX((int )event.getX());
+        pos.setX((int) event.getX());
         pos.setY((int) event.getY());
         player.getWeapon().setAim(pos);
     }
@@ -36,11 +36,45 @@ public class DuckMouseHandler implements org.academiadecodigo.simplegraphics.mou
     }
 
 
-    public void initMouse(){
-         Mouse mouse = new Mouse(this);
-
-         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
+    @Override
+    public void mousePressed(MouseEvent event) {
+        System.out.println(event);
     }
+
+    @Override
+    public void mouseReleased(MouseEvent event) {
+        System.out.println(event);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent event) {
+        System.out.println(event);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent event) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent event) {
+        Position pos = new Position();
+        pos.setX((int) event.getX() - (renderer.getCrosshair().getWidth() / 2));
+        pos.setY((int) event.getY() - (renderer.getCrosshair().getHeight() / 2) - 25);
+        renderer.drawAim(pos);
+    }
+
+
+    public void initMouse() {
+        Mouse mouse = new Mouse(this);
+
+        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
+        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
+        mouse.addEventListener(MouseEventType.MOUSE_PRESSED);
+        mouse.addEventListener(MouseEventType.MOUSE_RELEASED);
+        mouse.addEventListener(MouseEventType.MOUSE_ENTERED);
+        mouse.addEventListener(MouseEventType.MOUSE_EXITED);
+        mouse.addEventListener(MouseEventType.MOUSE_DRAGGED);
+    }
+
 
 }

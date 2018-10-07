@@ -1,6 +1,5 @@
 package org.academiadecodigo.codecadets.renderer;
 
-import javafx.geometry.Pos;
 import org.academiadecodigo.codecadets.Player;
 import org.academiadecodigo.codecadets.Position;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
