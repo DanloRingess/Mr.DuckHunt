@@ -1,6 +1,7 @@
 package org.academiadecodigo.codecadets.gameobjects.weapons;
 
 import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.codecadets.enums.WeaponTypes;
 import org.academiadecodigo.codecadets.gameobjects.GameObject;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 
@@ -9,7 +10,7 @@ abstract public class Weapon extends GameObject {
     //Proprieties:----------------
     private Position aim;
     private int ammo;
-    private WeaponType type;
+    private WeaponTypes type;
     private int damage;
 
     //methods:---------------------
@@ -17,10 +18,11 @@ abstract public class Weapon extends GameObject {
     public void shoot(Target target) {
 
 
+
     }
 
     public void reload(int bullets) {
-
+        ammo = bullets;
 
 
     }
@@ -33,7 +35,7 @@ abstract public class Weapon extends GameObject {
         return ammo;
     }
 
-    public WeaponType getType() {
+    public WeaponTypes getType() {
         return type;
     }
 
