@@ -1,5 +1,6 @@
 package org.academiadecodigo.codecadets;
 
+import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
@@ -41,23 +42,38 @@ public class Game {
         gameEnded = false;
 
         while(!gameEnded){
-            if(player.getWeapon().getAmmo() == 0 &&
-               player.getWeapon().getClips() == 0){
-                gameEnded = true;
+            tick();
+
+            try {
+                Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
+            } catch (InterruptedException ex) {
+                System.out.println("Game Loop Exception: " + ex.getMessage());
             }
         }
 
-        while (gameEnded){
+        switch (gameState) {
+            case GAMEENDEDNOAMMO:
 
-            switch (gameState){
-                case GAMEEXIT:
-                    System.exit(0);
-                    break;
-                case GAMERESTART:
-                    gameStart();
-                    return;
-            }
         }
+    }
+
+    private void gameEnded() {
+        switch (gameState) {
+            case GAMEENDEDNOAMMO:
+
+        }
+    }
+
+
+    private void tick() {
+        // Check if no more ammo
+        if (player.getWeapon().getAmmo() == 0 &&
+                player.getWeapon().getClips() == 0) {
+            gameEnded = true;
+            gameState = GameStates.GAMEENDEDNOAMMO;
+        }
+
+
     }
 
     public void eventShoot(){
