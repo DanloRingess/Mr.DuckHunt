@@ -6,8 +6,9 @@ import org.academiadecodigo.codecadets.renderer.Renderer;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
+import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 
-public class DuckMouseHandler implements org.academiadecodigo.simplegraphics.mouse.MouseHandler {
+public class DuckMouseHandler implements MouseHandler {
 
     private Player player;
     private Renderer renderer;

@@ -56,4 +56,7 @@ abstract public class Weapon extends GameObject {
         return type;
     }
 
+    public int getClips() {
+        return clips;
+    }
 }

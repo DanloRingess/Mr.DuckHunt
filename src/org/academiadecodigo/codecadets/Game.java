@@ -1,8 +1,11 @@
 package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.enums.GameStates;
+import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
+
+import java.util.LinkedList;
 
 public class Game {
 
@@ -13,6 +16,7 @@ public class Game {
     // Game Properties
     private boolean gameEnded;
     private GameStates gameState;
+    LinkedList<Target> enemyList;
 
 
     public Game() {
@@ -32,7 +36,15 @@ public class Game {
         gameEnded = false;
 
         while(!gameEnded){
+            renderer.drawAmmo(player.getWeapon().getAmmo());
+            renderer.drawScore(player.getScore().getScore());
+            renderer.drawWeapon(player.getWeapon());
+            renderer.drawClips(player.getWeapon().getType().getClips());
 
+            if(player.getWeapon().getAmmo() == 0 &&
+               player.getWeapon().getClips() == 0){
+                gameEnded = true;
+            }
         }
 
         while (gameEnded){
@@ -45,6 +57,11 @@ public class Game {
                     gameStart();
                     return;
             }
+        }
+    }
+
+    public void eventShoot(){
+        for (Target ourTarget: enemyList) {
         }
     }
 }

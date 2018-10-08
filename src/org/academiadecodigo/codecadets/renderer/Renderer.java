@@ -18,7 +18,7 @@ public class Renderer {
     private Picture crosshair;
 
     public Renderer(){
-        canvas = new Rectangle(10, 10, RenderConfigs.CANVASWIDTH, RenderConfigs.CANVASHEIGHT);
+        canvas = new Rectangle(0, 0, RenderConfigs.CANVASWIDTH, RenderConfigs.CANVASHEIGHT);
         canvas.setColor(Color.PINK);
         canvas.fill();
     }
