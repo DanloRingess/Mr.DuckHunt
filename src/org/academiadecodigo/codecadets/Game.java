@@ -7,6 +7,8 @@ import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
 
+import java.util.LinkedList;
+
 public class Game {
 
     private Renderer renderer;
@@ -16,12 +18,12 @@ public class Game {
     // Game Properties
     private boolean gameEnded;
     private GameStates gameState;
-    Target[] enemyList;
+    private LinkedList<Target> enemyList;
+    private final int TARGETS_NUMBER = 20;
 
 
     public Game() {
         gameEnded = false;
-        enemyList = new Target[100];
     }
 
     public void init(String player) {
@@ -29,9 +31,15 @@ public class Game {
         this.renderer = new Renderer();
         this.renderer.initRender();
         this.mouseHandler = new DuckMouseHandler(this, this.renderer);
+        this.enemyList = new LinkedList<>();
     }
 
     public void gameStart(){
+
+        for(int i = 0; i < TARGETS_NUMBER; i++) {
+            enemyList.add(FactoryTargets.createEnemy());
+        }
+
         player.changeWeapon(FactoryWeapons.createWeapon());
         player.getScore().resetScore();
         renderer.drawClips(player.getWeapon().getType().getClips());
@@ -64,7 +72,6 @@ public class Game {
         }
     }
 
-
     private void tick() {
         // Check if no more ammo
         if (player.getWeapon().getAmmo() == 0 &&
@@ -72,8 +79,6 @@ public class Game {
             gameEnded = true;
             gameState = GameStates.GAMEENDEDNOAMMO;
         }
-
-
     }
 
     public void eventShoot(){
