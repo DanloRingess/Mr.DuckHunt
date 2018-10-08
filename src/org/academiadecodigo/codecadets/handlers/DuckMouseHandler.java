@@ -1,7 +1,8 @@
 package org.academiadecodigo.codecadets.handlers;
 
-import org.academiadecodigo.codecadets.Player;
+import org.academiadecodigo.codecadets.Game;
 import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.renderer.Renderer;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
@@ -10,12 +11,12 @@ import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 
 public class DuckMouseHandler implements MouseHandler {
 
-    private Player player;
+    private Game game;
     private Renderer renderer;
 
 
-    public DuckMouseHandler(Player player, Renderer renderer) {
-        this.player = player;
+    public DuckMouseHandler(Game game, Renderer renderer) {
+        this.game = game;
         this.renderer = renderer;
         initMouse();
     }
@@ -25,7 +26,12 @@ public class DuckMouseHandler implements MouseHandler {
         Position pos = new Position();
         pos.setX((int) event.getX());
         pos.setY((int) event.getY());
-        player.getWeapon().setAim(pos);
+        game.getPlayer().getWeapon().setAim(pos);
+
+        if (game.getGameState() == GameStates.GAMEPLAYING) {
+            game.eventShoot();
+        }
+
     }
 
     @Override

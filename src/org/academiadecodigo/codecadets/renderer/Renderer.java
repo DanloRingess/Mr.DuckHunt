@@ -56,15 +56,32 @@ public class Renderer {
         scoreCounter.draw();
     }
 
-    public void drawAmmo(int ammo){
+    public void drawAmmo(int ammo, int maxAmmo) {
         int numAmmo = ammo >= 10 ? 10 : ammo;
 
-        for (int i = 0; i < ammoCounter.length; i++){
+        for (int i = numAmmo; i < maxAmmo; i++) {
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException localInterruptedException) {
+                System.out.println("Ups");
+            }
+
+            if (!ammoCounter[i].isFilled()) {
+                continue;
+            }
+
             ammoCounter[i].delete();
         }
+    }
 
-        for (int i = 0; i < numAmmo; i++){
+    public void reloadAmmo(int numAmmo) {
+        for (int i = 0; i < numAmmo; i++) {
             ammoCounter[i].fill();
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException localInterruptedException) {
+                System.out.println("Ups");
+            }
         }
     }
 
