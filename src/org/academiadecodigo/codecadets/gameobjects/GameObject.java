@@ -16,4 +16,12 @@ public abstract class GameObject {
     public Picture getPicture() {
         return picture;
     }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 }
