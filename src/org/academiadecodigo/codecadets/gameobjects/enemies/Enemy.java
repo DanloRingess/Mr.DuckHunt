@@ -39,7 +39,5 @@ public class Enemy extends Target {
     @Override
     public void move(int x, int y) {
 
-
-
     }
 }
