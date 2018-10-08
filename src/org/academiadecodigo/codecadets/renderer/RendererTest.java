@@ -1,15 +1,16 @@
 package org.academiadecodigo.codecadets.renderer;
 
-import org.academiadecodigo.codecadets.Player;
+import org.academiadecodigo.codecadets.Game;
 import org.academiadecodigo.codecadets.Position;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 
 public class RendererTest {
     public static void main(String[] args) {
         Renderer myRenderer = new Renderer();
-        Player player = new Player("Refs");
-        DuckMouseHandler mouseHandler = new DuckMouseHandler(player, myRenderer);
+        Game myGame = new Game();
+        myGame.init("Hastronauts");
 
+        DuckMouseHandler mouseHandler = new DuckMouseHandler(myGame, myRenderer);
 
         myRenderer.initRender();
 
@@ -20,7 +21,7 @@ public class RendererTest {
         myRenderer.drawWeaponTest();
 
         for (int i = 0; i <= 19; i++){
-            myRenderer.drawAmmo(i);
+            myRenderer.reloadAmmo(i);
             try
             {
                 Thread.sleep(250);

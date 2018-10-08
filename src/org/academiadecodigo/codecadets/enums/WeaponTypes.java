@@ -1,13 +1,14 @@
 package org.academiadecodigo.codecadets.enums;
 
 public enum WeaponTypes {
-    SHOTGUN(15, 4, 5);
+    SHOTGUN(15, 10, 2, 5);
 
     private int damage;
     private int clipBullets;
     private int clips;
+    private int spread;
 
-    WeaponTypes(int dmg, int clipBullets, int clips) {
+    WeaponTypes(int dmg, int spread, int clipBullets, int clips) {
         this.damage = dmg;
         this.clipBullets = clipBullets;
         this.clips = clips;
@@ -23,5 +24,9 @@ public enum WeaponTypes {
 
     public int getClips() {
         return clips;
+    }
+
+    public int getSpread() {
+        return spread;
     }
 }

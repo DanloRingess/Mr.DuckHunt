@@ -7,6 +7,4 @@ public class Duck extends Enemy {
     public Duck(){
         super(EnemyTypes.DUCK);
     }
-
-
 }
