@@ -53,7 +53,7 @@ public class DuckMouseHandler implements org.academiadecodigo.simplegraphics.mou
 
     @Override
     public void mouseExited(MouseEvent event) {
-
+        System.out.println(event);
     }
 
     @Override
