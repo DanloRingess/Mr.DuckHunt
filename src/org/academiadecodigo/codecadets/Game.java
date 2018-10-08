@@ -4,6 +4,7 @@ import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
+import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
 
@@ -18,12 +19,16 @@ public class Game {
     // Game Properties
     private boolean gameEnded;
     private GameStates gameState;
-    private LinkedList<Target> enemyList;
+    private LinkedList<Target> targetLinkedList;
     private final int TARGETS_NUMBER = 20;
+    private DuckKeyboardHandler keyboardHandler;
+    private boolean restartGame;
 
 
     public Game() {
         gameEnded = false;
+        restartGame = false;
+        keyboardHandler = new DuckKeyboardHandler();
     }
 
     public void init(String player) {
@@ -31,13 +36,14 @@ public class Game {
         this.renderer = new Renderer();
         this.renderer.initRender();
         this.mouseHandler = new DuckMouseHandler(this, this.renderer);
-        this.enemyList = new LinkedList<>();
+        this.targetLinkedList = new LinkedList<>();
+        keyboardHandler.createPlayerControls(this.player);
     }
 
     public void gameStart(){
 
         for(int i = 0; i < TARGETS_NUMBER; i++) {
-            enemyList.add(FactoryTargets.createEnemy());
+            targetLinkedList.add(FactoryTargets.createEnemy());
         }
 
         player.changeWeapon(FactoryWeapons.createWeapon());
@@ -59,16 +65,30 @@ public class Game {
             }
         }
 
+        keyboardHandler.createMenuControls(this);
         switch (gameState) {
             case GAMEENDEDNOAMMO:
-
+            case GAMEENDED:
+                gameEnded();
+                if (restartGame) {
+                    gameState = GameStates.GAMEPLAYING;
+                    init(this.player.getName());
+                } else {
+                    System.exit(0);
+                }
+                break;
+            default:
+                System.out.println("WTF game state is that?: " + gameState.name());
         }
     }
 
     private void gameEnded() {
-        switch (gameState) {
-            case GAMEENDEDNOAMMO:
-
+        while (!gameEnded) {
+            try {
+                Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
+            } catch (InterruptedException ex) {
+                System.out.println("Game Loop Exception: " + ex.getMessage());
+            }
         }
     }
 
@@ -79,29 +99,34 @@ public class Game {
             gameEnded = true;
             gameState = GameStates.GAMEENDEDNOAMMO;
         }
+
+        //Change every target Position
+        for (Target myTarget : targetLinkedList) {
+            //myTarget.move();
+        }
     }
 
     public void eventShoot(){
         Weapon weapon = player.getWeapon();
 
-        for (Target target : enemyList) {
-            if (target == null) {
+        for (Target target : targetLinkedList) {
+            if (target == null || target.getPosition() == null) {
                 continue;
             }
 
-            if (weapon.getPosition().getX() < target.getPosition().getX() - weapon.getType().getSpread()) {
+            if (weapon.getAim().getX() < target.getPosition().getX() - weapon.getType().getSpread()) {
                 continue;
             }
 
-            if (weapon.getPosition().getX() > target.getPosition().getX() + target.getPicture().getWidth() + weapon.getType().getSpread()) {
+            if (weapon.getAim().getX() > target.getPosition().getX() + target.getPicture().getWidth() + weapon.getType().getSpread()) {
                 continue;
             }
 
-            if (weapon.getPosition().getY() < target.getPosition().getY() - weapon.getType().getSpread()) {
+            if (weapon.getAim().getY() < target.getPosition().getY() - weapon.getType().getSpread()) {
                 continue;
             }
 
-            if (weapon.getPosition().getY() > target.getPosition().getY() + target.getPicture().getHeight() + weapon.getType().getSpread()) {
+            if (weapon.getAim().getY() > target.getPosition().getY() + target.getPicture().getHeight() + weapon.getType().getSpread()) {
                 continue;
             }
             weapon.shoot(target);
@@ -121,5 +146,9 @@ public class Game {
 
     public GameStates getGameState() {
         return gameState;
+    }
+
+    public void setRestartGame(boolean restartGame) {
+        this.restartGame = restartGame;
     }
 }
