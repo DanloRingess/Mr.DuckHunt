@@ -149,7 +149,7 @@ public class KeyboardHandler implements org.academiadecodigo.simplegraphics.keyb
 
     public void createPlayerControl() {
 
-         Keyboard gameController = new Keyboard(this);
+        Keyboard gameController = new Keyboard(this);
 
         KeyboardEvent pressR = new KeyboardEvent();
         pressR.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
