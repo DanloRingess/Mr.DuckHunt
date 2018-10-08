@@ -2,6 +2,7 @@ package org.academiadecodigo.codecadets.renderer;
 
 import org.academiadecodigo.codecadets.Configs.RenderConfigs;
 import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
@@ -17,7 +18,7 @@ public class Renderer {
     private Picture crosshair;
 
     public Renderer(){
-        canvas = new Rectangle(10, 10, RenderConfigs.CANVASWIDTH, RenderConfigs.CANVASHEIGHT);
+        canvas = new Rectangle(0, 0, RenderConfigs.CANVASWIDTH, RenderConfigs.CANVASHEIGHT);
         canvas.setColor(Color.PINK);
         canvas.fill();
     }
@@ -55,15 +56,32 @@ public class Renderer {
         scoreCounter.draw();
     }
 
-    public void drawAmmo(int ammo){
+    public void drawAmmo(int ammo, int maxAmmo) {
         int numAmmo = ammo >= 10 ? 10 : ammo;
 
-        for (int i = 0; i < ammoCounter.length; i++){
+        for (int i = numAmmo; i < maxAmmo; i++) {
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException localInterruptedException) {
+                System.out.println("Ups");
+            }
+
+            if (!ammoCounter[i].isFilled()) {
+                continue;
+            }
+
             ammoCounter[i].delete();
         }
+    }
 
-        for (int i = 0; i < numAmmo; i++){
+    public void reloadAmmo(int numAmmo) {
+        for (int i = 0; i < numAmmo; i++) {
             ammoCounter[i].fill();
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException localInterruptedException) {
+                System.out.println("Ups");
+            }
         }
     }
 
@@ -72,12 +90,20 @@ public class Renderer {
         clipsCounter.draw();
     }
 
-    //public void drawWeapon(Weapon weapon){
+    public void drawWeapon(Weapon weapon){
+        switch (weapon.getType()){
+            case SHOTGUN:
+                sideWeapon.load("resources/weapons/shotgunSide.png");
+                break;
+            default:
+                sideWeapon.load("resources/weapons/missingTexture.png");
+        }
 
-    //}
+        sideWeapon.draw();
+    }
 
     public void drawWeaponTest(){
-        sideWeapon.load("resources/weapons/shotgunSide.png");
+        sideWeapon.load("resources/weapons/missingTexture.png");
         sideWeapon.draw();
     }
 

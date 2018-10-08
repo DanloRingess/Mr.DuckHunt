@@ -21,11 +21,16 @@ abstract public class Weapon extends GameObject {
         this.ammo = type.getClipBullets();
         this.clips = type.getClips();
         this.damage = type.getDamage();
+        this.aim = new Position();
     }
 
-    public void shoot(Target target) {
+    public boolean shoot(Target target) {
+        this.ammo = this.ammo <= 0 ? 0 : this.ammo - 1;
+        if (target != null) {
+            return target.hit(damage);
+        }
+        return false;
 
-        target.hit(damage);
     }
 
     public void reload() {
@@ -55,4 +60,7 @@ abstract public class Weapon extends GameObject {
         return type;
     }
 
+    public int getClips() {
+        return clips;
+    }
 }

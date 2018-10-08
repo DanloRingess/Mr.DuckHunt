@@ -17,4 +17,6 @@ public abstract class Target extends GameObject {
     public void destroy() {
         this.destroyed = true;
     }
+
+    public abstract void move(int x, int y);
 }
