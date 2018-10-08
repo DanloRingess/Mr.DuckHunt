@@ -32,7 +32,7 @@ public class DuckMouseHandler implements MouseHandler {
     public void mouseMoved(MouseEvent event) {
         Position pos = new Position();
         pos.setX((int) event.getX() - (renderer.getCrosshair().getWidth() / 2));
-        pos.setY((int) event.getY() - (renderer.getCrosshair().getHeight() / 2) - 25);
+        pos.setY((int) event.getY() - (renderer.getCrosshair().getHeight() / 2) - 33);
         renderer.drawAim(pos);
     }
 
@@ -54,13 +54,14 @@ public class DuckMouseHandler implements MouseHandler {
 
     @Override
     public void mouseExited(MouseEvent event) {
+
     }
 
     @Override
     public void mouseDragged(MouseEvent event) {
         Position pos = new Position();
         pos.setX((int) event.getX() - (renderer.getCrosshair().getWidth() / 2));
-        pos.setY((int) event.getY() - (renderer.getCrosshair().getHeight() / 2) - 25);
+        pos.setY((int) event.getY() - (renderer.getCrosshair().getHeight() / 2) - 33);
         renderer.drawAim(pos);
     }
 
@@ -76,6 +77,4 @@ public class DuckMouseHandler implements MouseHandler {
         mouse.addEventListener(MouseEventType.MOUSE_EXITED);
         mouse.addEventListener(MouseEventType.MOUSE_DRAGGED);
     }
-
-
 }
