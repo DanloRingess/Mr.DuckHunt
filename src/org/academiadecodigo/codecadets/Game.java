@@ -49,10 +49,7 @@ public class Game {
         gameEnded = false;
 
         while(!gameEnded){
-            if(player.getWeapon().getAmmo() == 0 &&
-               player.getWeapon().getClips() == 0){
-                gameEnded = true;
-            }
+           tick();
         }
 
         while (gameEnded){
@@ -65,6 +62,13 @@ public class Game {
                     gameStart();
                     return;
             }
+        }
+    }
+
+    private void tick() {
+        if(player.getWeapon().getAmmo() == 0 &&
+                player.getWeapon().getClips() == 0){
+            gameEnded = true;
         }
     }
 
