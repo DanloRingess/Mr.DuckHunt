@@ -6,12 +6,13 @@ public abstract class Target extends GameObject {
 
     private boolean destroyed;
     private int speedX;
-    private int speedY = 0;
+    private int speedY;
 
     public Target() {
 
         destroyed = false;
         speedX = 2 + (int) Math.random()*4;
+        speedY = 0;
     }
 
     public abstract boolean hit(int damage);
@@ -26,9 +27,9 @@ public abstract class Target extends GameObject {
 
     public void move() {
 
-        Position newPos = new Position(this.getPosition().getX() + speedX, this.getPosition().getY());
+        Position newPos = new Position(this.getPosition().getX() + speedX, this.getPosition().getY() + speedY);
         this.setPosition(newPos);
 
-        this.getPicture().translate(speedX, 0);
+        this.getPicture().translate(speedX, speedY);
     }
 }
