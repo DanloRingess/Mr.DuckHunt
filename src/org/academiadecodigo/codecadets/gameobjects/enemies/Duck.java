@@ -28,7 +28,7 @@ public class Duck extends Enemy {
 
             case RIGHT:
                 setSpeedX(-speed);
-                setPosition(new Position(Canvas.getInstance().getShapes().get(0).getWidth() - 141,
+                setPosition(new Position((int) (Canvas.getInstance().getShapes().get(0).getWidth() - 185*(0.6)),
                             100 + (int) (Math.random() * 300)));
         }
 
@@ -36,7 +36,7 @@ public class Duck extends Enemy {
 
         setPicture(new Picture(this.getPosition().getX(), this.getPosition().getY(),
                 "resources/enemies/duck.png"));
-        getPicture().grow(-40, -20);
+        getPicture().grow(185*(-0.2), 78*(-0.2));
         getPicture().draw();
 
     }
