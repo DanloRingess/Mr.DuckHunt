@@ -1,7 +1,6 @@
 package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
-import org.academiadecodigo.codecadets.enums.EnemyTypes;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
@@ -111,7 +110,13 @@ public class Game {
 
         //Change every target Position
         for (Target myTarget : targetLinkedList) {
-            //myTarget.move();
+            myTarget.move();
+
+            if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
+                    myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
+                myTarget.getPicture().delete();
+                targetLinkedList.remove(myTarget);
+            }
         }
     }
 
