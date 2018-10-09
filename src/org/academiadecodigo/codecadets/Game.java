@@ -10,6 +10,7 @@ import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 
 public class Game {
@@ -108,18 +109,25 @@ public class Game {
         }
 
         //Change every target Position && Remove if out of window
-        LinkedList<Target> tempList = new LinkedList<>();
+        LinkedList<Target> toRemove = new LinkedList<>();
         for (Target myTarget : targetLinkedList) {
             if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
                     myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
 
-                tempList.add(myTarget);
+                toRemove.add(myTarget);
                 myTarget.getPicture().delete();
             }
 
-            myTarget.move();
+
+            try {
+                myTarget.move();
+            } catch (ConcurrentModificationException ex) {
+                System.out.println("Faulty Frame!");
+            }
+
+
         }
-        targetLinkedList.removeAll(tempList);
+        targetLinkedList.removeAll(toRemove);
 
         if (updateCursorPos) {
             renderer.drawAim(cursorPos);
@@ -135,6 +143,7 @@ public class Game {
 
     public void eventShoot(){
         Weapon weapon = player.getWeapon();
+        boolean killedOne = false;
 
         LinkedList<Target> toRemote = new LinkedList<>();
         for (Target target : targetLinkedList) {
@@ -158,15 +167,23 @@ public class Game {
                 continue;
             }
 
+
             if (target instanceof Enemy) {
                 Enemy ourEnemy = (Enemy) target;
                 int enemyScore = ourEnemy.getType().getScore();
 
-                boolean enemyKilled = weapon.shoot(target);
+                if (!killedOne) {
 
-                if (enemyKilled) {
-                    player.getScore().changeScore(enemyScore);
-                    toRemote.add(target);
+                    if (getPlayer().getWeapon().getAmmo() > 0) {
+                        boolean enemyKilled = weapon.shoot(target);
+
+                        if (enemyKilled) {
+                            player.getScore().changeScore(enemyScore);
+                            toRemote.add(target);
+                            target.getPicture().delete();
+                            killedOne = true;
+                        }
+                    }
                 }
             }
 
@@ -178,7 +195,6 @@ public class Game {
         if (!toRemote.isEmpty()) {
             return;
         }
-
 
         weapon.shoot(null);
         renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
