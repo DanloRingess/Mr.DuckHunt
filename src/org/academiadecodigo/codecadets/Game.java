@@ -12,6 +12,7 @@ import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Game {
 
@@ -23,7 +24,7 @@ public class Game {
     // Game Properties
     private boolean gameEnded;
     private GameStates gameState;
-    private LinkedList<Target> targetLinkedList;
+    private List<Target> targetLinkedList;
     private DuckKeyboardHandler keyboardHandler;
 
     private boolean restartGame;
