@@ -21,7 +21,7 @@ public class Game {
     private boolean gameEnded;
     private GameStates gameState;
     private LinkedList<Target> targetLinkedList;
-    private final int TARGETS_NUMBER = 10;
+    private final int TARGETS_NUMBER = 3;
     private DuckKeyboardHandler keyboardHandler;
     private boolean restartGame;
 
