@@ -8,6 +8,9 @@ import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Ellipse;
+import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.ConcurrentModificationException;
@@ -143,9 +146,24 @@ public class Game {
 
         LinkedList<Target> toRemote = new LinkedList<>();
         for (Target target : targetLinkedList) {
+
             if (target == null || target.getPosition() == null) {
                 continue;
             }
+
+            Rectangle hitbox = new Rectangle(target.getPosition().getX(), target.getPosition().getY(), target.getPicture().getWidth(), target.getPicture().getHeight());
+            hitbox.fill();
+            Ellipse origin = new Ellipse(target.getPosition().getX(), target.getPosition().getY(), 5, 5);
+            origin.setColor(Color.RED);
+            origin.fill();
+            Ellipse origin1 = new Ellipse(target.getPicture().getX(), target.getPicture().getY(), 5, 5);
+            origin1.setColor(Color.RED);
+            origin1.fill();
+
+            Ellipse origin2 = new Ellipse(weapon.getAim().getX(), weapon.getAim().getY(), 5, 5);
+            origin2.setColor(Color.GREEN);
+            origin2.fill();
+
 
             if (weapon.getAim().getX() < target.getPosition().getX() - weapon.getType().getSpread()) {
                 continue;
@@ -161,6 +179,13 @@ public class Game {
 
             if (weapon.getAim().getY() > target.getPosition().getY() + target.getPicture().getHeight() + weapon.getType().getSpread()) {
                 continue;
+            }
+
+
+            try{
+                Thread.sleep(250);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
 
 
@@ -183,8 +208,8 @@ public class Game {
                 }
             }
 
-            renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-            renderer.drawClips(player.getWeapon().getClips());
+            renderer.drawAmmo(weapon.getAmmo(), weapon.getType().getClipBullets());
+            renderer.drawClips(weapon.getClips());
             renderer.drawScore(player.getScore().getScore());
         }
         targetLinkedList.removeAll(toRemote);
@@ -193,19 +218,14 @@ public class Game {
         }
 
         weapon.shoot(null);
-        renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-        renderer.drawClips(player.getWeapon().getClips());
+        renderer.drawAmmo(weapon.getAmmo(), player.getWeapon().getType().getClipBullets());
+        renderer.drawClips(weapon.getClips());
     }
 
     public void reloadWeapon() {
         this.player.getWeapon().reload();
         renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
         renderer.drawClips(player.getWeapon().getClips());
-    }
-
-    public void updateCursor(Position cursorPos) {
-        this.cursorPos = cursorPos;
-        this.updateCursorPos = true;
     }
 
     public Player getPlayer() {
@@ -228,7 +248,4 @@ public class Game {
         return restartGame;
     }
 
-    public void setUpdateCursorPos(boolean updateCursorPos) {
-        this.updateCursorPos = updateCursorPos;
-    }
 }

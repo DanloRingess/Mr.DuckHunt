@@ -1,7 +1,5 @@
 package org.academiadecodigo.codecadets.gameobjects;
 
-import org.academiadecodigo.codecadets.Position;
-
 public abstract class Target extends GameObject {
 
     private boolean destroyed;
@@ -41,8 +39,9 @@ public abstract class Target extends GameObject {
 
     public void move() {
 
-        Position newPos = new Position(this.getPosition().getX() + speedX, this.getPosition().getY() + speedY);
-        this.setPosition(newPos);
-        this.getPicture().translate(speedX, speedY);
+        getPosition().setX(getPosition().getX() + speedX);
+        getPosition().setY(getPosition().getY() + speedY);
+
+        getPicture().translate(speedX, speedY);
     }
 }
