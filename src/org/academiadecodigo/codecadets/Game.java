@@ -1,6 +1,7 @@
 package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
+import org.academiadecodigo.codecadets.Configs.RenderConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
@@ -20,7 +21,7 @@ public class Game {
     private boolean gameEnded;
     private GameStates gameState;
     private LinkedList<Target> targetLinkedList;
-    private final int TARGETS_NUMBER = 20;
+    private final int TARGETS_NUMBER = 1;
     private DuckKeyboardHandler keyboardHandler;
     private boolean restartGame;
 
@@ -102,7 +103,13 @@ public class Game {
 
         //Change every target Position
         for (Target myTarget : targetLinkedList) {
-            //myTarget.move();
+            myTarget.move();
+
+            if (myTarget.getPicture().getX() >= RenderConfigs.CANVASWIDTH -
+                    myTarget.getPicture().getWidth()) {
+                myTarget.getPicture().delete();
+                targetLinkedList.remove(myTarget);
+            }
         }
     }
 

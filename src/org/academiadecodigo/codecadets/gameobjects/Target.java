@@ -11,8 +11,14 @@ public abstract class Target extends GameObject {
     public Target() {
 
         destroyed = false;
-        speedX = 2 + (int) Math.random()*4;
-        speedY = 0;
+    }
+
+    public void setSpeedX(int speedX) {
+        this.speedX = speedX;
+    }
+
+    public void setSpeedY(int speedY) {
+        this.speedY = speedY;
     }
 
     public abstract boolean hit(int damage);

@@ -107,7 +107,7 @@ public class Renderer {
         sideWeapon.draw();
     }
 
-    public void drawAim(Position pos){
+    public void drawAim(Position pos) {
         crosshair.delete();
         crosshair.translate(pos.getX() - crosshair.getX(), pos.getY() - crosshair.getY());
         crosshair.draw();
