@@ -35,4 +35,8 @@ public class Enemy extends Target {
 
         return false;
     }
+
+    public EnemyTypes getType() {
+        return type;
+    }
 }
