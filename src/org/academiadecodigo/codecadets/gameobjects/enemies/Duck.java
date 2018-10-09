@@ -35,8 +35,9 @@ public class Duck extends Enemy {
         setSpeedY(0);
 
         setPicture(new Picture(this.getPosition().getX(), this.getPosition().getY(),
-                "resources/small_pp_bison_render_front_off.png"));
-        //getPicture().grow(-35, -42);
+                "resources/enemies/duck.png"));
+        getPicture().grow(-40, -20);
         getPicture().draw();
+
     }
 }

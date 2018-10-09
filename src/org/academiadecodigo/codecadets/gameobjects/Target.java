@@ -53,7 +53,6 @@ public abstract class Target extends GameObject {
 
         Position newPos = new Position(this.getPosition().getX() + speedX, this.getPosition().getY() + speedY);
         this.setPosition(newPos);
-
         this.getPicture().translate(speedX, speedY);
     }
 }

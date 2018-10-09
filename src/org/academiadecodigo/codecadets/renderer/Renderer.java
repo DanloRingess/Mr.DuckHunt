@@ -49,6 +49,7 @@ public class Renderer {
         crosshair = new Picture(1, 1);
         crosshair.load("resources/crosshair.png");
         crosshair.grow(-70, -70);
+        crosshair.draw();
     }
 
     public void drawScore(int score){
@@ -108,9 +109,7 @@ public class Renderer {
     }
 
     public void drawAim(Position pos) {
-        crosshair.delete();
         crosshair.translate(pos.getX() - crosshair.getX(), pos.getY() - crosshair.getY());
-        crosshair.draw();
     }
 
     public void deleteAll() {

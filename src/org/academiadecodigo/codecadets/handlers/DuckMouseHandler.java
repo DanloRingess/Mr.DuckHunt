@@ -24,12 +24,6 @@ public class DuckMouseHandler implements MouseHandler {
     @Override
     public void mouseClicked(MouseEvent event) {
 
-        Position pos = new Position();
-
-        pos.setX((int) event.getX());
-        pos.setY((int) event.getY());
-        game.getPlayer().getWeapon().setAim(pos);
-
         if (game.getGameState() == GameStates.GAMEPLAYING) {
             game.eventShoot();
         }
@@ -71,6 +65,7 @@ public class DuckMouseHandler implements MouseHandler {
             pos.setY((int) (event.getY() - crosshairHalfHeight - correctY));
         }
 
+        game.getPlayer().getWeapon().setAim(pos);
         renderer.drawAim(pos);
     }
 
