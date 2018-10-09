@@ -33,7 +33,14 @@ public class DuckKeyboardHandler implements KeyboardHandler {
                 }
 
                 break;
-            case KeyboardEvent.KEY_LEFT:
+            case KeyboardEvent.KEY_X:
+                switch (game.getGameState()) {
+                    case GAMEENDED:
+                    case GAMEENDEDNOAMMO:
+                        game.setRestartGame(false);
+                        break;
+                    default:
+                }
                 break;
             case KeyboardEvent.KEY_RIGHT:
                 break;
@@ -42,6 +49,7 @@ public class DuckKeyboardHandler implements KeyboardHandler {
             case KeyboardEvent.KEY_DOWN:
                 break;
             case KeyboardEvent.KEY_SPACE:
+                game.setForceRestart(true);
                 break;
         }
 

@@ -1,7 +1,7 @@
 package org.academiadecodigo.codecadets.enums;
 
 public enum EnemyTypes {
-    DUCK(30,10);
+    DUCK(14, 10);
 
     private int health;
     private int score;

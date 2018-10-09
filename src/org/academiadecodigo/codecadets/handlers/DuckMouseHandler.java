@@ -93,16 +93,17 @@ public class DuckMouseHandler implements MouseHandler {
     @Override
     public void mouseExited(MouseEvent event) {
         System.out.println(event);
+        //Canvas.pause();
     }
 
     @Override
     public void mouseDragged(MouseEvent event) {
-
         Position pos = new Position();
 
         pos.setX((int) event.getX() - (renderer.getCrosshair().getWidth() / 2));
         pos.setY((int) event.getY() - (renderer.getCrosshair().getHeight() / 2) - 33);
-        renderer.drawAim(pos);
+
+        game.updateCursor(pos);
     }
 
 
