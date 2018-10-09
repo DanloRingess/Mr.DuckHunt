@@ -1,7 +1,10 @@
 package org.academiadecodigo.codecadets.gameobjects.enemies;
 
+import org.academiadecodigo.codecadets.Configs.RenderConfigs;
 import org.academiadecodigo.codecadets.Position;
 import org.academiadecodigo.codecadets.enums.EnemyTypes;
+import org.academiadecodigo.codecadets.enums.TargetType;
+import org.academiadecodigo.simplegraphics.graphics.Canvas;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Duck extends Enemy {
@@ -11,17 +14,29 @@ public class Duck extends Enemy {
         init();
     }
 
-    public void init() {
+    private void init() {
 
         //setSpeedX((int) (5 + (Math.random() * 10)));
-        setSpeedX(10);
-        setSpeedY(0);
+        setTargetType(TargetType.getRandomType());
+        int speed = 7 + (int)(Math.random()*6);
 
-        setPosition(new Position(0, 100 + (int) (Math.random() * 300)));
+        switch (getTargetType()) {
+            case LEFT:
+                setSpeedX(speed);
+                setPosition(new Position(0, 100 + (int) (Math.random() * 300)));
+                break;
+
+            case RIGHT:
+                setSpeedX(-speed);
+                setPosition(new Position(Canvas.getInstance().getShapes().get(0).getWidth() - 141,
+                            100 + (int) (Math.random() * 300)));
+        }
+
+        setSpeedY(0);
 
         setPicture(new Picture(this.getPosition().getX(), this.getPosition().getY(),
                 "resources/small_pp_bison_render_front_off.png"));
-        getPicture().grow(-35, -42);
+        //getPicture().grow(-35, -42);
         getPicture().draw();
     }
 }
