@@ -106,7 +106,7 @@ public class Game {
             myTarget.move();
 
             if (myTarget.getPicture().getX() >= RenderConfigs.CANVASWIDTH -
-                    myTarget.getPicture().getWidth()) {
+                    myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
                 myTarget.getPicture().delete();
                 targetLinkedList.remove(myTarget);
             }

@@ -20,7 +20,7 @@ public class Duck extends Enemy {
 
         setPicture(new Picture(this.getPosition().getX(), this.getPosition().getY(),
                 "resources/small_pp_bison_render_front_off.png"));
-        getPicture().grow(141 * (-0.5), 171 * (-0.5));
+        getPicture().grow(-35, -42);
         getPicture().draw();
     }
 }
