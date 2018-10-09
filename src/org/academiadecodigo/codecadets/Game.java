@@ -20,7 +20,6 @@ public class Game {
     private boolean gameEnded;
     private GameStates gameState;
     private LinkedList<Target> targetLinkedList;
-    private final int TARGETS_NUMBER = 20;
     private DuckKeyboardHandler keyboardHandler;
     private boolean restartGame;
 
@@ -28,7 +27,6 @@ public class Game {
     public Game() {
         gameEnded = false;
         restartGame = false;
-        keyboardHandler = new DuckKeyboardHandler();
     }
 
     public void init(String player) {
@@ -37,12 +35,13 @@ public class Game {
         this.renderer.initRender();
         this.mouseHandler = new DuckMouseHandler(this, this.renderer);
         this.targetLinkedList = new LinkedList<>();
-        keyboardHandler.createPlayerControls(this.player);
+        this.keyboardHandler = new DuckKeyboardHandler(this);
     }
 
     public void gameStart(){
+        this.keyboardHandler.createPlayerControls();
 
-        for(int i = 0; i < TARGETS_NUMBER; i++) {
+        for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
             targetLinkedList.add(FactoryTargets.createEnemy());
         }
 
@@ -52,8 +51,8 @@ public class Game {
         renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
         renderer.drawWeapon(player.getWeapon());
         renderer.drawScore(player.getScore().getScore());
-        gameState = GameStates.GAMEPLAYING;
-        gameEnded = false;
+        this.gameState = GameStates.GAMEPLAYING;
+        this.gameEnded = false;
 
         while(!gameEnded){
             tick();
@@ -65,13 +64,13 @@ public class Game {
             }
         }
 
-        keyboardHandler.createMenuControls(this);
+        keyboardHandler.createMenuControls();
         switch (gameState) {
             case GAMEENDEDNOAMMO:
             case GAMEENDED:
                 gameEnded();
                 if (restartGame) {
-                    gameState = GameStates.GAMEPLAYING;
+                    this.gameState = GameStates.GAMEPLAYING;
                     init(this.player.getName());
                 } else {
                     System.exit(0);
@@ -96,8 +95,8 @@ public class Game {
         // Check if no more ammo
         if (player.getWeapon().getAmmo() == 0 &&
                 player.getWeapon().getClips() == 0) {
-            gameEnded = true;
-            gameState = GameStates.GAMEENDEDNOAMMO;
+            this.gameEnded = true;
+            this.gameState = GameStates.GAMEENDEDNOAMMO;
         }
 
         //Change every target Position
@@ -131,21 +130,27 @@ public class Game {
             }
             weapon.shoot(target);
             renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-            renderer.drawClips(player.getWeapon().getType().getClips());
+            renderer.drawClips(player.getWeapon().getClips());
             return;
         }
 
         weapon.shoot(null);
         renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-        renderer.drawClips(player.getWeapon().getType().getClips());
+        renderer.drawClips(player.getWeapon().getClips());
+    }
+
+    public void reloadWeapon() {
+        this.player.getWeapon().reload();
+        renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
+        renderer.drawClips(player.getWeapon().getClips());
     }
 
     public Player getPlayer() {
-        return player;
+        return this.player;
     }
 
     public GameStates getGameState() {
-        return gameState;
+        return this.gameState;
     }
 
     public void setRestartGame(boolean restartGame) {
