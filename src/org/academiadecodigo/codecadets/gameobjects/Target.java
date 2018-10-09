@@ -1,11 +1,32 @@
 package org.academiadecodigo.codecadets.gameobjects;
 
+import org.academiadecodigo.codecadets.Position;
+
 public abstract class Target extends GameObject {
 
     private boolean destroyed;
+    private int speedX;
+    private int speedY;
 
     public Target() {
+
         destroyed = false;
+    }
+
+    public int getSpeedX() {
+        return speedX;
+    }
+
+    public void setSpeedX(int speedX) {
+        this.speedX = speedX;
+    }
+
+    public int getSpeedY() {
+        return speedY;
+    }
+
+    public void setSpeedY(int speedY) {
+        this.speedY = speedY;
     }
 
     public abstract boolean hit(int damage);
@@ -18,5 +39,11 @@ public abstract class Target extends GameObject {
         this.destroyed = true;
     }
 
-    public abstract void move(int x, int y);
+    public void move() {
+
+        Position newPos = new Position(this.getPosition().getX() + speedX, this.getPosition().getY() + speedY);
+        this.setPosition(newPos);
+
+        this.getPicture().translate(speedX, speedY);
+    }
 }

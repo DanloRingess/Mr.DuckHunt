@@ -3,14 +3,18 @@ package org.academiadecodigo.codecadets;
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.gameobjects.Target;
+import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
+import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.LinkedList;
 
 public class Game {
 
+    private Position cursorPos;
     private Renderer renderer;
     private Player player;
     private DuckMouseHandler mouseHandler;
@@ -18,26 +22,36 @@ public class Game {
     // Game Properties
     private boolean gameEnded;
     private GameStates gameState;
-    private LinkedList<Target> enemyList;
-    private final int TARGETS_NUMBER = 20;
+    private LinkedList<Target> targetLinkedList;
+    private DuckKeyboardHandler keyboardHandler;
 
+    private boolean restartGame;
+    private boolean forceRestart;
+    private boolean updateCursorPos;
 
     public Game() {
-        gameEnded = false;
+        this.restartGame = true;
     }
 
     public void init(String player) {
+        if (restartGame && gameEnded) {
+            renderer.deleteAll();
+        }
+
         this.player = new Player(player);
         this.renderer = new Renderer();
         this.renderer.initRender();
         this.mouseHandler = new DuckMouseHandler(this, this.renderer);
-        this.enemyList = new LinkedList<>();
+        this.targetLinkedList = new LinkedList<>();
+        this.keyboardHandler = new DuckKeyboardHandler(this);
+
     }
 
     public void gameStart(){
+        this.keyboardHandler.createPlayerControls();
 
-        for(int i = 0; i < TARGETS_NUMBER; i++) {
-            enemyList.add(FactoryTargets.createEnemy());
+        for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
+            targetLinkedList.add(FactoryTargets.createEnemy());
         }
 
         player.changeWeapon(FactoryWeapons.createWeapon());
@@ -46,29 +60,42 @@ public class Game {
         renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
         renderer.drawWeapon(player.getWeapon());
         renderer.drawScore(player.getScore().getScore());
-        gameState = GameStates.GAMEPLAYING;
-        gameEnded = false;
+        this.gameState = GameStates.GAMEPLAYING;
+        this.gameEnded = false;
+        this.forceRestart = false;
 
         while(!gameEnded){
-            tick();
-
             try {
                 Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
             } catch (InterruptedException ex) {
                 System.out.println("Game Loop Exception: " + ex.getMessage());
             }
+
+            tick();
         }
 
+        keyboardHandler.createMenuControls();
         switch (gameState) {
             case GAMEENDEDNOAMMO:
+            case GAMEENDED:
+                Text endGameTxt = renderer.newText(500, 200, "Game Ended!");
 
+                endGameTxt.grow(40, 20);
+                endGameTxt.draw();
+                gameEnded();
+                break;
+            default:
+                System.out.println("WTF game state is that?: " + gameState.name());
         }
     }
 
     private void gameEnded() {
-        switch (gameState) {
-            case GAMEENDEDNOAMMO:
-
+        while (gameEnded && !restartGame) {
+            try {
+                Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
+            } catch (InterruptedException ex) {
+                System.out.println("Game Loop Exception: " + ex.getMessage());
+            }
         }
     }
 
@@ -76,16 +103,42 @@ public class Game {
         // Check if no more ammo
         if (player.getWeapon().getAmmo() == 0 &&
                 player.getWeapon().getClips() == 0) {
+            this.gameEnded = true;
+            this.gameState = GameStates.GAMEENDEDNOAMMO;
+        }
+
+        //Change every target Position && Remove if out of window
+        LinkedList<Target> tempList = new LinkedList<>();
+        for (Target myTarget : targetLinkedList) {
+            if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
+                    myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
+
+                tempList.add(myTarget);
+                myTarget.getPicture().delete();
+            }
+
+            myTarget.move();
+        }
+        targetLinkedList.removeAll(tempList);
+
+        if (updateCursorPos) {
+            renderer.drawAim(cursorPos);
+            updateCursorPos = false;
+        }
+
+        //Check if force Restarted
+        if (forceRestart) {
             gameEnded = true;
-            gameState = GameStates.GAMEENDEDNOAMMO;
+            gameState = GameStates.GAMEENDED;
         }
     }
 
     public void eventShoot(){
         Weapon weapon = player.getWeapon();
 
-        for (Target target : enemyList) {
-            if (target == null) {
+        LinkedList<Target> toRemote = new LinkedList<>();
+        for (Target target : targetLinkedList) {
+            if (target == null || target.getPosition() == null) {
                 continue;
             }
 
@@ -104,22 +157,66 @@ public class Game {
             if (weapon.getAim().getY() > target.getPosition().getY() + target.getPicture().getHeight() + weapon.getType().getSpread()) {
                 continue;
             }
-            weapon.shoot(target);
+
+            if (target instanceof Enemy) {
+                Enemy ourEnemy = (Enemy) target;
+                int enemyScore = ourEnemy.getType().getScore();
+
+                boolean enemyKilled = weapon.shoot(target);
+
+                if (enemyKilled) {
+                    player.getScore().changeScore(enemyScore);
+                    toRemote.add(target);
+                }
+            }
+
             renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-            renderer.drawClips(player.getWeapon().getType().getClips());
+            renderer.drawClips(player.getWeapon().getClips());
+            renderer.drawScore(player.getScore().getScore());
+        }
+        targetLinkedList.removeAll(toRemote);
+        if (!toRemote.isEmpty()) {
             return;
         }
 
+
         weapon.shoot(null);
         renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-        renderer.drawClips(player.getWeapon().getType().getClips());
+        renderer.drawClips(player.getWeapon().getClips());
+    }
+
+    public void reloadWeapon() {
+        this.player.getWeapon().reload();
+        renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
+        renderer.drawClips(player.getWeapon().getClips());
+    }
+
+    public void updateCursor(Position cursorPos) {
+        this.cursorPos = cursorPos;
+        this.updateCursorPos = true;
     }
 
     public Player getPlayer() {
-        return player;
+        return this.player;
     }
 
     public GameStates getGameState() {
-        return gameState;
+        return this.gameState;
+    }
+
+    public void setRestartGame(boolean restartGame) {
+        this.restartGame = restartGame;
+    }
+
+    public void setForceRestart(boolean forceRestart) {
+        this.forceRestart = forceRestart;
+    }
+
+    public boolean getRestartGame() {
+        return restartGame;
+    }
+
+    public void setUpdateCursorPos(boolean updateCursorPos) {
+        this.updateCursorPos = updateCursorPos;
     }
 }

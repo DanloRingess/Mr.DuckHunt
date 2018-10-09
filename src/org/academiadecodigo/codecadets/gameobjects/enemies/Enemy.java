@@ -36,8 +36,7 @@ public class Enemy extends Target {
         return false;
     }
 
-    @Override
-    public void move(int x, int y) {
-
+    public EnemyTypes getType() {
+        return type;
     }
 }

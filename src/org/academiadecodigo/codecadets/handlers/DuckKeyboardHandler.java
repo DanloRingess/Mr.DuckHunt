@@ -1,6 +1,6 @@
 package org.academiadecodigo.codecadets.handlers;
 
-import org.academiadecodigo.codecadets.Player;
+import org.academiadecodigo.codecadets.Game;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -8,13 +8,11 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
 public class DuckKeyboardHandler implements KeyboardHandler {
 
-    private Object handlerReceiver;
+    private Game game;
+    private Keyboard ourKeyboard;
 
-
-    private final int KEY_ESC = 27;
-
-    public DuckKeyboardHandler(Object handlerReceiver) {
-        this.handlerReceiver = handlerReceiver;
+    public DuckKeyboardHandler(Game game) {
+        this.game = game;
     }
 
     @Override
@@ -23,27 +21,35 @@ public class DuckKeyboardHandler implements KeyboardHandler {
         switch (event.getKey()) {
 
             case KeyboardEvent.KEY_R :
-                if (handlerReceiver instanceof Player) {
-                    ((Player) handlerReceiver).getWeapon().reload();
+                switch (game.getGameState()) {
+                    case GAMEENDED:
+                    case GAMEENDEDNOAMMO:
+                        game.setRestartGame(true);
+                        break;
+                    case GAMEPLAYING:
+                        game.reloadWeapon();
+                        break;
+                    default:
+                }
+
+                break;
+            case KeyboardEvent.KEY_X:
+                switch (game.getGameState()) {
+                    case GAMEENDED:
+                    case GAMEENDEDNOAMMO:
+                        game.setRestartGame(false);
+                        break;
+                    default:
                 }
                 break;
-            case KeyboardEvent.KEY_LEFT:
-
-                break;
             case KeyboardEvent.KEY_RIGHT:
-
                 break;
             case KeyboardEvent.KEY_UP:
-
                 break;
             case KeyboardEvent.KEY_DOWN:
-
                 break;
             case KeyboardEvent.KEY_SPACE:
-
-                break;
-            case KEY_ESC:
-
+                game.setForceRestart(true);
                 break;
         }
 
@@ -52,185 +58,44 @@ public class DuckKeyboardHandler implements KeyboardHandler {
 
     @Override
     public void keyReleased(KeyboardEvent event) {
-
-         switch (event.getKey()) {
-
-             case KeyboardEvent.KEY_R:
-
-                 break;
-             case KeyboardEvent.KEY_LEFT:
-
-                 break;
-             case KeyboardEvent.KEY_RIGHT:
-
-                 break;
-             case KeyboardEvent.KEY_UP:
-
-                 break;
-             case KeyboardEvent.KEY_DOWN:
-
-                 break;
-             case KeyboardEvent.KEY_SPACE:
-
-                 break;
-             case KEY_ESC:
-
-                 break;
-
-         }
     }
 
-    public void createGameControl() {
+    public void createPlayerControls() {
+        ourKeyboard = new Keyboard(this);
 
-        Keyboard gameController = new Keyboard(this);
+        KeyboardEvent[] keyboardEvents = {
+                createEvent(KeyboardEvent.KEY_R, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_LEFT, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_RIGHT, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_UP, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_DOWN, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_SPACE, KeyboardEventType.KEY_PRESSED)
+        };
 
-        KeyboardEvent pressR = new KeyboardEvent();
-        pressR.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressR.setKey(KeyboardEvent.KEY_R);
-
-        KeyboardEvent releaseR = new KeyboardEvent();
-        releaseR.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseR.setKey(KeyboardEvent.KEY_R);
-
-        KeyboardEvent pressLeft = new KeyboardEvent();
-        pressLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressLeft.setKey(KeyboardEvent.KEY_LEFT);
-
-        KeyboardEvent releaseLeft = new KeyboardEvent();
-        releaseLeft.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseLeft.setKey(KeyboardEvent.KEY_LEFT);
-
-        KeyboardEvent pressRight = new KeyboardEvent();
-        pressRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressRight.setKey(KeyboardEvent.KEY_RIGHT);
-
-        KeyboardEvent releaseRight = new KeyboardEvent();
-        releaseLeft.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseRight.setKey(KeyboardEvent.KEY_RIGHT);
-
-        KeyboardEvent pressUp = new KeyboardEvent();
-        pressUp.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressUp.setKey(KeyboardEvent.KEY_UP);
-
-        KeyboardEvent releaseUp = new KeyboardEvent();
-        releaseUp.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseUp.setKey(KeyboardEvent.KEY_UP);
-
-        KeyboardEvent pressDown = new KeyboardEvent();
-        pressDown.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressDown.setKey(KeyboardEvent.KEY_DOWN);
-
-        KeyboardEvent releaseDown = new KeyboardEvent();
-        releaseDown.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseDown.setKey(KeyboardEvent.KEY_DOWN);
-
-        KeyboardEvent pressSpace = new KeyboardEvent();
-        pressSpace.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressSpace.setKey(KeyboardEvent.KEY_SPACE);
-
-        KeyboardEvent releaseSpace = new KeyboardEvent();
-        releaseSpace.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        pressSpace.setKey(KeyboardEvent.KEY_SPACE);
-
-        KeyboardEvent pressEsc = new KeyboardEvent();
-        pressEsc.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressEsc.setKey(KEY_ESC);
-
-        KeyboardEvent releaseEsc = new KeyboardEvent();
-        releaseEsc.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseEsc.setKey(KEY_ESC);
-
-        gameController.addEventListener(pressR);
-        gameController.addEventListener(releaseR);
-        gameController.addEventListener(pressLeft);
-        gameController.addEventListener(releaseLeft);
-        gameController.addEventListener(pressRight);
-        gameController.addEventListener(releaseRight);
-        gameController.addEventListener(pressUp);
-        gameController.addEventListener(releaseUp);
-        gameController.addEventListener(pressDown);
-        gameController.addEventListener(releaseDown);
-        gameController.addEventListener(pressSpace);
-        gameController.addEventListener(releaseSpace);
-        gameController.addEventListener(pressEsc);
-        gameController.addEventListener(releaseEsc);
+        for (KeyboardEvent eachEvent : keyboardEvents) {
+            ourKeyboard.addEventListener(eachEvent);
+        }
     }
 
-    public void createPlayerControl() {
+    public void createMenuControls() {
+        ourKeyboard = new Keyboard(this);
 
-        Keyboard gameController = new Keyboard(this);
+        KeyboardEvent[] keyboardEvents = {
+                createEvent(KeyboardEvent.KEY_R, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_X, KeyboardEventType.KEY_PRESSED)
+        };
 
-        KeyboardEvent pressR = new KeyboardEvent();
-        pressR.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressR.setKey(KeyboardEvent.KEY_R);
+        for (KeyboardEvent eachEvent : keyboardEvents) {
+            ourKeyboard.addEventListener(eachEvent);
+        }
+    }
 
-        KeyboardEvent releaseR = new KeyboardEvent();
-        releaseR.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseR.setKey(KeyboardEvent.KEY_R);
+    private KeyboardEvent createEvent(int key, KeyboardEventType keyboardEventType) {
+        KeyboardEvent myEvent = new KeyboardEvent();
+        myEvent.setKey(key);
+        myEvent.setKeyboardEventType(keyboardEventType);
 
-        KeyboardEvent pressLeft = new KeyboardEvent();
-        pressLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressLeft.setKey(KeyboardEvent.KEY_LEFT);
-
-        KeyboardEvent releaseLeft = new KeyboardEvent();
-        releaseLeft.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseLeft.setKey(KeyboardEvent.KEY_LEFT);
-
-        KeyboardEvent pressRight = new KeyboardEvent();
-        pressRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressRight.setKey(KeyboardEvent.KEY_RIGHT);
-
-        KeyboardEvent releaseRight = new KeyboardEvent();
-        releaseLeft.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseRight.setKey(KeyboardEvent.KEY_RIGHT);
-
-        KeyboardEvent pressUp = new KeyboardEvent();
-        pressUp.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressUp.setKey(KeyboardEvent.KEY_UP);
-
-        KeyboardEvent releaseUp = new KeyboardEvent();
-        releaseUp.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseUp.setKey(KeyboardEvent.KEY_UP);
-
-        KeyboardEvent pressDown = new KeyboardEvent();
-        pressDown.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressDown.setKey(KeyboardEvent.KEY_DOWN);
-
-        KeyboardEvent releaseDown = new KeyboardEvent();
-        releaseDown.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseDown.setKey(KeyboardEvent.KEY_DOWN);
-
-        KeyboardEvent pressSpace = new KeyboardEvent();
-        pressSpace.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressSpace.setKey(KeyboardEvent.KEY_SPACE);
-
-        KeyboardEvent releaseSpace = new KeyboardEvent();
-        releaseSpace.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        pressSpace.setKey(KeyboardEvent.KEY_SPACE);
-
-        KeyboardEvent pressEsc = new KeyboardEvent();
-        pressEsc.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        pressEsc.setKey(KEY_ESC);
-
-        KeyboardEvent releaseEsc = new KeyboardEvent();
-        releaseEsc.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        releaseEsc.setKey(KEY_ESC);
-
-        gameController.addEventListener(pressR);
-        gameController.addEventListener(releaseR);
-        gameController.addEventListener(pressLeft);
-        gameController.addEventListener(releaseLeft);
-        gameController.addEventListener(pressRight);
-        gameController.addEventListener(releaseRight);
-        gameController.addEventListener(pressUp);
-        gameController.addEventListener(releaseUp);
-        gameController.addEventListener(pressDown);
-        gameController.addEventListener(releaseDown);
-        gameController.addEventListener(pressSpace);
-        gameController.addEventListener(releaseSpace);
-        gameController.addEventListener(pressEsc);
-        gameController.addEventListener(releaseEsc);
-
+        return myEvent;
     }
 
 }

@@ -107,10 +107,25 @@ public class Renderer {
         sideWeapon.draw();
     }
 
-    public void drawAim(Position pos){
+    public void drawAim(Position pos) {
         crosshair.delete();
         crosshair.translate(pos.getX() - crosshair.getX(), pos.getY() - crosshair.getY());
         crosshair.draw();
+    }
+
+    public void deleteAll() {
+        clipsCounter.delete();
+        scoreCounter.delete();
+        sideWeapon.delete();
+        for (int i = 0; i < ammoCounter.length; i++) {
+            ammoCounter[i].delete();
+        }
+        crosshair.delete();
+    }
+
+    public Text newText(int x, int y, String ourText) {
+        Text newTextRender = new Text(x, y, ourText);
+        return newTextRender;
     }
 
     public Picture getCrosshair() {
@@ -120,4 +135,6 @@ public class Renderer {
     public Rectangle getCanvas() {
         return canvas;
     }
+
+
 }

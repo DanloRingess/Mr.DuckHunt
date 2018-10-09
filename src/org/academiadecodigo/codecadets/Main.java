@@ -10,8 +10,12 @@ public class Main {
         Sound mySound = new Sound("resources/test.wav");
         mySound.loop();
 
-        myGame.init("Hastronauts");
+        while (myGame.getRestartGame()) {
+            myGame.init("Hastronauts");
 
-        myGame.gameStart();
+            myGame.gameStart();
+        }
+
+        System.exit(0);
     }
 }
