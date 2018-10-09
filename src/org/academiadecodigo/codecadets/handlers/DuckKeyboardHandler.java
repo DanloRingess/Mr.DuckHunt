@@ -47,13 +47,12 @@ public class DuckKeyboardHandler implements KeyboardHandler {
             case KeyboardEvent.KEY_UP:
                 break;
             case KeyboardEvent.KEY_DOWN:
+                game.eventShoot();
                 break;
             case KeyboardEvent.KEY_SPACE:
                 game.setForceRestart(true);
                 break;
         }
-
-
     }
 
     @Override
