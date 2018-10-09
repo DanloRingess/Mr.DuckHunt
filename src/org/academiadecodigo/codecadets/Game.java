@@ -72,6 +72,7 @@ public class Game {
             case GAMEENDEDNOAMMO:
             case GAMEENDED:
                 Text endGameTxt = renderer.newText(500, 200, "Game Ended!");
+
                 endGameTxt.grow(40, 20);
                 endGameTxt.draw();
                 gameEnded();
@@ -138,19 +139,19 @@ public class Game {
                 continue;
             }
 
-
             if(weapon.shoot(target)){
+
                 if(target instanceof Enemy){
                     Enemy ourEnemy = (Enemy) target;
                     int enemyScore = ourEnemy.getType().getScore();
+
                     player.getScore().changeScore(enemyScore);
                 }
-
             }
-
 
             renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
             renderer.drawClips(player.getWeapon().getClips());
+
             return;
         }
         weapon.shoot(null);
