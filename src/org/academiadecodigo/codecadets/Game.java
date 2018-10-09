@@ -7,6 +7,7 @@ import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.LinkedList;
 
@@ -23,19 +24,19 @@ public class Game {
     private DuckKeyboardHandler keyboardHandler;
     private boolean restartGame;
 
-
-    public Game() {
-        gameEnded = false;
-        restartGame = false;
-    }
-
     public void init(String player) {
+        if (restartGame) {
+            renderer.deleteAll();
+        }
+
         this.player = new Player(player);
         this.renderer = new Renderer();
         this.renderer.initRender();
         this.mouseHandler = new DuckMouseHandler(this, this.renderer);
         this.targetLinkedList = new LinkedList<>();
         this.keyboardHandler = new DuckKeyboardHandler(this);
+        this.gameEnded = false;
+        this.restartGame = false;
     }
 
     public void gameStart(){
@@ -68,10 +69,16 @@ public class Game {
         switch (gameState) {
             case GAMEENDEDNOAMMO:
             case GAMEENDED:
+                Text endGameTxt = renderer.newText(500, 200, "Game Ended!");
+                endGameTxt.grow(40, 20);
+                endGameTxt.draw();
                 gameEnded();
+
                 if (restartGame) {
                     this.gameState = GameStates.GAMEPLAYING;
                     init(this.player.getName());
+                    gameStart();
+                    return;
                 } else {
                     System.exit(0);
                 }
@@ -82,7 +89,7 @@ public class Game {
     }
 
     private void gameEnded() {
-        while (!gameEnded) {
+        while (gameEnded && !restartGame) {
             try {
                 Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
             } catch (InterruptedException ex) {

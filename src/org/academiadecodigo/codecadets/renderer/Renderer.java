@@ -113,6 +113,21 @@ public class Renderer {
         crosshair.draw();
     }
 
+    public void deleteAll() {
+        clipsCounter.delete();
+        scoreCounter.delete();
+        sideWeapon.delete();
+        for (int i = 0; i < ammoCounter.length; i++) {
+            ammoCounter[i].delete();
+        }
+        crosshair.delete();
+    }
+
+    public Text newText(int x, int y, String ourText) {
+        Text newTextRender = new Text(x, y, ourText);
+        return newTextRender;
+    }
+
     public Picture getCrosshair() {
         return crosshair;
     }
@@ -120,4 +135,6 @@ public class Renderer {
     public Rectangle getCanvas() {
         return canvas;
     }
+
+
 }
