@@ -22,7 +22,7 @@ public class DuckMouseHandler implements MouseHandler {
     }
 
     @Override
-    public void mouseClicked(MouseEvent event) {
+    public void mousePressed(MouseEvent event) {
 
         if (game.getGameState() == GameStates.GAMEPLAYING) {
             game.eventShoot();
@@ -71,7 +71,7 @@ public class DuckMouseHandler implements MouseHandler {
 
 
     @Override
-    public void mousePressed(MouseEvent event) {
+    public void mouseClicked(MouseEvent event) {
         System.out.println(event);
     }
 
@@ -102,15 +102,12 @@ public class DuckMouseHandler implements MouseHandler {
     }
 
 
-    public void initMouse() {
+    private void initMouse() {
 
         Mouse mouse = new Mouse(this);
 
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
         mouse.addEventListener(MouseEventType.MOUSE_PRESSED);
-        mouse.addEventListener(MouseEventType.MOUSE_RELEASED);
-        mouse.addEventListener(MouseEventType.MOUSE_ENTERED);
+        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
         mouse.addEventListener(MouseEventType.MOUSE_EXITED);
         mouse.addEventListener(MouseEventType.MOUSE_DRAGGED);
     }

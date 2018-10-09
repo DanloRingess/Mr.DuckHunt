@@ -12,6 +12,7 @@ import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class Game {
 
@@ -109,25 +110,20 @@ public class Game {
         }
 
         //Change every target Position && Remove if out of window
-        LinkedList<Target> toRemove = new LinkedList<>();
-        for (Target myTarget : targetLinkedList) {
+        ListIterator<Target> targetIterator = targetLinkedList.listIterator();
+        while (targetIterator.hasNext()){
+            Target myTarget = targetIterator.next();
+
             if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
                     myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
 
-                toRemove.add(myTarget);
                 myTarget.getPicture().delete();
+                targetIterator.remove();
+
             }
 
-
-            try {
-                myTarget.move();
-            } catch (ConcurrentModificationException ex) {
-                System.out.println("Faulty Frame!");
-            }
-
-
+            myTarget.move();
         }
-        targetLinkedList.removeAll(toRemove);
 
         if (updateCursorPos) {
             renderer.drawAim(cursorPos);
