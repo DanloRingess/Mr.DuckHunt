@@ -1,8 +1,10 @@
 package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
+import org.academiadecodigo.codecadets.enums.EnemyTypes;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.gameobjects.Target;
+import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
@@ -129,12 +131,22 @@ public class Game {
             if (weapon.getAim().getY() > target.getPosition().getY() + target.getPicture().getHeight() + weapon.getType().getSpread()) {
                 continue;
             }
-            weapon.shoot(target);
+
+
+            if(weapon.shoot(target)){
+                if(target instanceof Enemy){
+                    Enemy ourEnemy = (Enemy) target;
+                    int enemyScore = ourEnemy.getType().getScore();
+                    player.getScore().changeScore(enemyScore);
+                }
+
+            }
+
+
             renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
             renderer.drawClips(player.getWeapon().getType().getClips());
             return;
         }
-
         weapon.shoot(null);
         renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
         renderer.drawClips(player.getWeapon().getType().getClips());
