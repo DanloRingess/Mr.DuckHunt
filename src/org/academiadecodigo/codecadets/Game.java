@@ -2,16 +2,16 @@ package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
+import org.academiadecodigo.codecadets.enums.SoundTypes;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
-import org.academiadecodigo.simplegraphics.graphics.Canvas;
+import org.academiadecodigo.codecadets.sound.Sound;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
-import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ConcurrentModificationException;
@@ -25,6 +25,7 @@ public class Game {
     private Player player;
     private DuckMouseHandler mouseHandler;
     private DuckKeyboardHandler keyboardHandler;
+    private Sound soundEngine;
 
     // Game Properties
     private boolean gameEnded;
@@ -38,12 +39,15 @@ public class Game {
     public Game() {
         this.restartGame = true;
         this.handlersCreated = false;
+        this.soundEngine = new Sound();
+        this.soundEngine.playSound(SoundTypes.BGMUSIC);
     }
 
     public void init(String player) {
         if (renderer != null) {
             renderer.deleteAll();
         }
+
 
         this.player = new Player(player);
         this.renderer = new Renderer();
