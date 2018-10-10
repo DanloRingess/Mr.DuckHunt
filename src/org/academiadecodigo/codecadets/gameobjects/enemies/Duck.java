@@ -34,9 +34,7 @@ public class Duck extends Enemy {
 
         setSpeedY(0);
 
-        setPicture(new Picture(this.getPosition().getX(), this.getPosition().getY(),
-                "resources/enemies/duck.png"));
-        getPicture().grow(185*(-0.2), 78*(-0.2));
+        setPicture("resources/enemies/duck.png");
         getPicture().draw();
 
     }

@@ -4,6 +4,7 @@ import org.academiadecodigo.codecadets.Configs.RenderConfigs;
 import org.academiadecodigo.codecadets.Position;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Ellipse;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
@@ -16,10 +17,11 @@ public class Renderer {
     private Picture sideWeapon;
     private Rectangle[] ammoCounter;
     private Picture crosshair;
+    private Ellipse temp;
 
     public Renderer(){
         canvas = new Rectangle(0, 0, RenderConfigs.CANVASWIDTH, RenderConfigs.CANVASHEIGHT);
-        canvas.setColor(Color.PINK);
+        canvas.setColor(Color.GRAY);
         canvas.fill();
     }
 
@@ -48,8 +50,11 @@ public class Renderer {
         //Create Crosshair
         crosshair = new Picture(1, 1);
         crosshair.load("resources/crosshair.png");
-        crosshair.grow(-70, -70);
         crosshair.draw();
+
+        temp = new Ellipse(1, 1, 20, 20);
+        temp.setColor(Color.MAGENTA);
+        temp.fill();
     }
 
     public void drawScore(int score){
@@ -110,6 +115,7 @@ public class Renderer {
 
     public void drawAim(Position pos) {
         crosshair.translate(pos.getX() - crosshair.getX(), pos.getY() - crosshair.getY());
+        temp.translate(pos.getX() - temp.getX(), pos.getY() - temp.getY());
     }
 
     public void deleteAll() {

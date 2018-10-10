@@ -4,6 +4,8 @@ import org.academiadecodigo.codecadets.Game;
 import org.academiadecodigo.codecadets.Position;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.renderer.Renderer;
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Ellipse;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
@@ -22,7 +24,7 @@ public class DuckMouseHandler implements MouseHandler {
     }
 
     @Override
-    public void mouseClicked(MouseEvent event) {
+    public void mousePressed(MouseEvent event) {
 
         if (game.getGameState() == GameStates.GAMEPLAYING) {
             game.eventShoot();
@@ -32,46 +34,58 @@ public class DuckMouseHandler implements MouseHandler {
 
     @Override
     public void mouseMoved(MouseEvent event) {
+        Position weaponAim = game.getPlayer().getWeapon().getAim();
 
-        Position pos = new Position();
+        weaponAim.setX((int) event.getX());
+        weaponAim.setY((int) event.getY() - 27);
+
+        Ellipse temp = new Ellipse(weaponAim.getX(), weaponAim.getY(), 20, 20);
+        temp.setColor(Color.CYAN);
+        temp.fill();
+
+
+        System.out.println(event);
+        System.out.println(weaponAim);
+
 
         double crosshairHalfWidth = renderer.getCrosshair().getWidth() / 2;
         double crosshairHalfHeight = renderer.getCrosshair().getHeight() / 2;
-        int correctY = 25;
+        int correctY = 27;
+
+
 
         if (event.getX() <= crosshairHalfWidth) {
 
-            pos.setX(0);
+            weaponAim.setX(0);
 
         } else if (event.getX() >= renderer.getCanvas().getWidth() - crosshairHalfWidth) {
 
-            pos.setX((int) (renderer.getCanvas().getWidth() - (2*crosshairHalfWidth)));
+            weaponAim.setX((int) (renderer.getCanvas().getWidth() - (2*crosshairHalfWidth)));
 
         } else {
 
-            pos.setX((int) (event.getX() - crosshairHalfWidth));
+            weaponAim.setX((int) (event.getX() - crosshairHalfWidth));
         }
 
         if (event.getY() <= crosshairHalfHeight + correctY) {
 
-            pos.setY(0);
+            weaponAim.setY(0);
 
         } else if (event.getY() >= renderer.getCanvas().getHeight() - crosshairHalfHeight + correctY) {
 
-            pos.setY((int) (renderer.getCanvas().getHeight() - (2*crosshairHalfHeight)));
+            weaponAim.setY((int) (renderer.getCanvas().getHeight() - (2*crosshairHalfHeight)));
 
         } else {
 
-            pos.setY((int) (event.getY() - crosshairHalfHeight - correctY));
+            weaponAim.setY((int) (event.getY() - crosshairHalfHeight - correctY));
         }
 
-        game.getPlayer().getWeapon().setAim(pos);
-        renderer.drawAim(pos);
+        renderer.drawAim(weaponAim);
     }
 
 
     @Override
-    public void mousePressed(MouseEvent event) {
+    public void mouseClicked(MouseEvent event) {
         System.out.println(event);
     }
 
@@ -93,24 +107,21 @@ public class DuckMouseHandler implements MouseHandler {
 
     @Override
     public void mouseDragged(MouseEvent event) {
-        Position pos = new Position();
+        Position weaponAim = game.getPlayer().getWeapon().getAim();
 
-        pos.setX((int) event.getX() - (renderer.getCrosshair().getWidth() / 2));
-        pos.setY((int) event.getY() - (renderer.getCrosshair().getHeight() / 2) - 33);
+        weaponAim.setX((int) event.getX());
+        weaponAim.setY((int) event.getY());
 
-        game.updateCursor(pos);
+        renderer.drawAim(weaponAim);
     }
 
 
-    public void initMouse() {
+    private void initMouse() {
 
         Mouse mouse = new Mouse(this);
 
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
         mouse.addEventListener(MouseEventType.MOUSE_PRESSED);
-        mouse.addEventListener(MouseEventType.MOUSE_RELEASED);
-        mouse.addEventListener(MouseEventType.MOUSE_ENTERED);
+        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
         mouse.addEventListener(MouseEventType.MOUSE_EXITED);
         mouse.addEventListener(MouseEventType.MOUSE_DRAGGED);
     }
