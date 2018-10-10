@@ -2,6 +2,8 @@ package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
+import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
+import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
@@ -47,6 +49,7 @@ public class Game {
         }
 
         this.player = new Player(player);
+        this.player.init();
         this.renderer = new Renderer();
         this.renderer.initRender();
         this.targetHashList = new HashSet<>();
@@ -67,10 +70,25 @@ public class Game {
 
         for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
 
-            targetHashList.add(FactoryTargets.createEnemy());
+            try{
+
+                targetHashList.add(FactoryTargets.createEnemy());
+
+            }catch (UnknownEnemyException e){
+
+                System.out.println(e.getMessage());
+            }
         }
 
-        player.changeWeapon(FactoryWeapons.createWeapon());
+        try{
+
+            player.changeWeapon(FactoryWeapons.createWeapon());
+
+        }catch(UnknownWeaponException e){
+
+            System.out.println(e.getMessage());
+        }
+
         player.getScore().resetScore();
         renderer.drawClips(player.getWeapon().getType().getClips());
         renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
