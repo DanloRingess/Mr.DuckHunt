@@ -19,7 +19,7 @@ public class Renderer {
 
     public Renderer(){
         canvas = new Rectangle(0, 0, RenderConfigs.CANVASWIDTH, RenderConfigs.CANVASHEIGHT);
-        canvas.setColor(Color.PINK);
+        canvas.setColor(Color.GRAY);
         canvas.fill();
     }
 
@@ -48,7 +48,6 @@ public class Renderer {
         //Create Crosshair
         crosshair = new Picture(1, 1);
         crosshair.load("resources/crosshair.png");
-        crosshair.grow(-70, -70);
         crosshair.draw();
     }
 
@@ -122,8 +121,10 @@ public class Renderer {
         crosshair.delete();
     }
 
-    public Text newText(int x, int y, String ourText) {
+    public Text newText(int x, int y, int xGrowth, int yGrowth, String ourText) {
         Text newTextRender = new Text(x, y, ourText);
+        newTextRender.grow(xGrowth, yGrowth);
+        newTextRender.draw();
         return newTextRender;
     }
 

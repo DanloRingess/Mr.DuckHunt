@@ -17,8 +17,8 @@ public abstract class GameObject {
         return picture;
     }
 
-    public void setPicture(Picture picture) {
-        this.picture = picture;
+    public void setPicture(String imageURI) {
+        this.picture = new Picture(position.getX(), position.getY(), imageURI);
     }
 
     public void setPosition(Position position) {

@@ -24,7 +24,7 @@ public class DuckKeyboardHandler implements KeyboardHandler {
                 switch (game.getGameState()) {
                     case GAMEENDED:
                     case GAMEENDEDNOAMMO:
-                        game.setRestartGame(true);
+                        game.eventRestart();
                         break;
                     case GAMEPLAYING:
                         game.reloadWeapon();
@@ -59,28 +59,12 @@ public class DuckKeyboardHandler implements KeyboardHandler {
     public void keyReleased(KeyboardEvent event) {
     }
 
-    public void createPlayerControls() {
+    public void activateControls() {
         ourKeyboard = new Keyboard(this);
 
         KeyboardEvent[] keyboardEvents = {
                 createEvent(KeyboardEvent.KEY_R, KeyboardEventType.KEY_PRESSED),
-                createEvent(KeyboardEvent.KEY_LEFT, KeyboardEventType.KEY_PRESSED),
-                createEvent(KeyboardEvent.KEY_RIGHT, KeyboardEventType.KEY_PRESSED),
-                createEvent(KeyboardEvent.KEY_UP, KeyboardEventType.KEY_PRESSED),
-                createEvent(KeyboardEvent.KEY_DOWN, KeyboardEventType.KEY_PRESSED),
-                createEvent(KeyboardEvent.KEY_SPACE, KeyboardEventType.KEY_PRESSED)
-        };
-
-        for (KeyboardEvent eachEvent : keyboardEvents) {
-            ourKeyboard.addEventListener(eachEvent);
-        }
-    }
-
-    public void createMenuControls() {
-        ourKeyboard = new Keyboard(this);
-
-        KeyboardEvent[] keyboardEvents = {
-                createEvent(KeyboardEvent.KEY_R, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_SPACE, KeyboardEventType.KEY_PRESSED),
                 createEvent(KeyboardEvent.KEY_X, KeyboardEventType.KEY_PRESSED)
         };
 

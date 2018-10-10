@@ -1,12 +1,14 @@
 package org.academiadecodigo.codecadets.gameobjects;
 
 import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.codecadets.enums.TargetType;
 
 public abstract class Target extends GameObject {
 
     private boolean destroyed;
     private int speedX;
     private int speedY;
+    private TargetType targetType;
 
     public Target() {
 
@@ -27,6 +29,14 @@ public abstract class Target extends GameObject {
 
     public void setSpeedY(int speedY) {
         this.speedY = speedY;
+    }
+
+    public void setTargetType(TargetType targetType) {
+        this.targetType = targetType;
+    }
+
+    public TargetType getTargetType() {
+        return targetType;
     }
 
     public abstract boolean hit(int damage);

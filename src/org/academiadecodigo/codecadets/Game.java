@@ -11,49 +11,56 @@ import org.academiadecodigo.codecadets.renderer.Renderer;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.ConcurrentModificationException;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Game {
 
-    private Position cursorPos;
     private Renderer renderer;
     private Player player;
     private DuckMouseHandler mouseHandler;
+    private DuckKeyboardHandler keyboardHandler;
 
     // Game Properties
     private boolean gameEnded;
     private GameStates gameState;
-    private LinkedList<Target> targetLinkedList;
-    private DuckKeyboardHandler keyboardHandler;
+    private Set<Target> targetHashList;
 
     private boolean restartGame;
     private boolean forceRestart;
-    private boolean updateCursorPos;
+    private boolean handlersCreated;
 
     public Game() {
         this.restartGame = true;
+        this.handlersCreated = false;
     }
 
     public void init(String player) {
-        if (restartGame && gameEnded) {
+        if (renderer != null) {
             renderer.deleteAll();
         }
 
         this.player = new Player(player);
         this.renderer = new Renderer();
         this.renderer.initRender();
-        this.mouseHandler = new DuckMouseHandler(this, this.renderer);
-        this.targetLinkedList = new LinkedList<>();
+        this.targetHashList = new HashSet<>();
         this.keyboardHandler = new DuckKeyboardHandler(this);
+        this.mouseHandler = new DuckMouseHandler(this, this.renderer);
+        mouseHandler.initMouse();
+
+        if (!handlersCreated) {
+            mouseHandler.initMouseClick();
+            keyboardHandler.activateControls();
+            handlersCreated = true;
+        }
 
     }
 
-    public void gameStart(){
-        this.keyboardHandler.createPlayerControls();
+    public void gameStart() {
 
         for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
-            targetLinkedList.add(FactoryTargets.createEnemy());
+            targetHashList.add(FactoryTargets.createEnemy());
         }
 
         player.changeWeapon(FactoryWeapons.createWeapon());
@@ -66,7 +73,7 @@ public class Game {
         this.gameEnded = false;
         this.forceRestart = false;
 
-        while(!gameEnded){
+        while (!gameEnded) {
             try {
                 Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
             } catch (InterruptedException ex) {
@@ -76,14 +83,14 @@ public class Game {
             tick();
         }
 
-        keyboardHandler.createMenuControls();
         switch (gameState) {
             case GAMEENDEDNOAMMO:
             case GAMEENDED:
-                Text endGameTxt = renderer.newText(500, 200, "Game Ended!");
+                Text endGameTxt = renderer.newText(renderer.getCanvas().getWidth() / 2 - 50, 200, 100, 20, "Game Over! Press X To Exit! Press R to restart!");
+                if (gameState == GameStates.GAMEENDEDNOAMMO) {
+                    Text endGameTxtNoAmmo = renderer.newText(500, 170, 60, 20, "No More Ammo");
+                }
 
-                endGameTxt.grow(40, 20);
-                endGameTxt.draw();
                 gameEnded();
                 break;
             default:
@@ -92,7 +99,7 @@ public class Game {
     }
 
     private void gameEnded() {
-        while (gameEnded && !restartGame) {
+        while (gameEnded && restartGame) {
             try {
                 Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
             } catch (InterruptedException ex) {
@@ -110,24 +117,23 @@ public class Game {
         }
 
         //Change every target Position && Remove if out of window
-        ListIterator<Target> targetIterator = targetLinkedList.listIterator();
-        while (targetIterator.hasNext()){
-            Target myTarget = targetIterator.next();
+        Iterator<Target> iterator = targetHashList.iterator();
+        while (iterator.hasNext()) {
+            Target myTarget = iterator.next();
 
             if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
                     myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
 
+                iterator.remove();
                 myTarget.getPicture().delete();
-                targetIterator.remove();
-
             }
 
-            myTarget.move();
-        }
 
-        if (updateCursorPos) {
-            renderer.drawAim(cursorPos);
-            updateCursorPos = false;
+            try {
+                myTarget.move();
+            } catch (ConcurrentModificationException ex) {
+                System.out.println("Faulty Frame!\n");
+            }
         }
 
         //Check if force Restarted
@@ -137,12 +143,15 @@ public class Game {
         }
     }
 
-    public void eventShoot(){
+    public void eventShoot() {
         Weapon weapon = player.getWeapon();
         boolean killedOne = false;
 
-        LinkedList<Target> toRemote = new LinkedList<>();
-        for (Target target : targetLinkedList) {
+
+        Iterator<Target> iterator = targetHashList.iterator();
+        while (iterator.hasNext() && !killedOne) {
+            Target target = iterator.next();
+
             if (target == null || target.getPosition() == null) {
                 continue;
             }
@@ -168,27 +177,24 @@ public class Game {
                 Enemy ourEnemy = (Enemy) target;
                 int enemyScore = ourEnemy.getType().getScore();
 
-                if (!killedOne) {
+                if (getPlayer().getWeapon().getAmmo() > 0) {
+                    boolean enemyKilled = weapon.shoot(target);
 
-                    if (getPlayer().getWeapon().getAmmo() > 0) {
-                        boolean enemyKilled = weapon.shoot(target);
-
-                        if (enemyKilled) {
-                            player.getScore().changeScore(enemyScore);
-                            toRemote.add(target);
-                            target.getPicture().delete();
-                            killedOne = true;
-                        }
+                    if (enemyKilled) {
+                        player.getScore().changeScore(enemyScore);
+                        target.getPicture().delete();
+                        iterator.remove();
+                        killedOne = true;
                     }
                 }
-            }
 
-            renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-            renderer.drawClips(player.getWeapon().getClips());
-            renderer.drawScore(player.getScore().getScore());
+                renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
+                renderer.drawClips(player.getWeapon().getClips());
+                renderer.drawScore(player.getScore().getScore());
+            }
         }
-        targetLinkedList.removeAll(toRemote);
-        if (!toRemote.isEmpty()) {
+
+        if (killedOne) {
             return;
         }
 
@@ -203,9 +209,9 @@ public class Game {
         renderer.drawClips(player.getWeapon().getClips());
     }
 
-    public void updateCursor(Position cursorPos) {
-        this.cursorPos = cursorPos;
-        this.updateCursorPos = true;
+    public void eventRestart() {
+        this.gameEnded = false;
+        this.restartGame = true;
     }
 
     public Player getPlayer() {
@@ -216,10 +222,6 @@ public class Game {
         return this.gameState;
     }
 
-    public void setRestartGame(boolean restartGame) {
-        this.restartGame = restartGame;
-    }
-
     public void setForceRestart(boolean forceRestart) {
         this.forceRestart = forceRestart;
     }
@@ -228,7 +230,7 @@ public class Game {
         return restartGame;
     }
 
-    public void setUpdateCursorPos(boolean updateCursorPos) {
-        this.updateCursorPos = updateCursorPos;
+    public void setRestartGame(boolean restartGame) {
+        this.restartGame = restartGame;
     }
 }
