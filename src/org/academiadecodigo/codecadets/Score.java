@@ -8,9 +8,12 @@ public class Score {
         return score;
     }
 
-    public void changeScrore(int score){
+    public void changeScore(int score){
         this.score += score;
+    }
 
+    public void resetScore(){
+        this.score = 0;
     }
 
 }

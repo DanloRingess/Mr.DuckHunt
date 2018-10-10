@@ -2,6 +2,7 @@ package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.enums.EnemyTypes;
 import org.academiadecodigo.codecadets.gameobjects.Target;
+import org.academiadecodigo.codecadets.gameobjects.enemies.Duck;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 
 public class FactoryTargets {
@@ -10,39 +11,25 @@ public class FactoryTargets {
         int random = (int) (Math.random() * EnemyTypes.values().length);
         EnemyTypes enemyType = EnemyTypes.values()[random];
 
-        Enemy enemy;
+        Enemy enemy = null;
 
         switch(enemyType){
             case DUCK:
-                enemy = new Enemy1();
+                enemy = new Duck();
                 break;
 
             default:
-                enemy = new Enemy1();
+                enemy = new Duck();
         }
 
         return enemy;
     }
 
-
-    /*public static Prop createProps(){
-        int random = (int) (Math.random() * PropTypes.values().length);
-        PropTypes propType = PropTypes.values()[random];
-
-        Prop prop;
-
-        switch(PropType){
-            case Prop1:
-                prop = new Prop1();
-                break;
-
-            case Prop2:
-                prop = new Prop2();
-                break;
-
-            default:
-                prop = new Prop1();
-        }
+/*
+    public static Props createProps(){
+        int random = (int) (Math.random() * PropType.values().lenght);
+        PropType propType = PropType.values()[random];
         return prop;
-    }*/
+    }
+*/
 }
