@@ -20,7 +20,7 @@ public class DuckKeyboardHandler implements KeyboardHandler {
 
         switch (event.getKey()) {
 
-            case KeyboardEvent.KEY_R :
+            case KeyboardEvent.KEY_R:
                 switch (game.getGameState()) {
                     case GAMEENDED:
                     case GAMEENDEDNOAMMO:
@@ -33,15 +33,19 @@ public class DuckKeyboardHandler implements KeyboardHandler {
                 }
 
                 break;
+
             case KeyboardEvent.KEY_X:
                 switch (game.getGameState()) {
+
                     case GAMEENDED:
                     case GAMEENDEDNOAMMO:
                         game.setRestartGame(false);
                         break;
                     default:
                 }
+
                 break;
+
             case KeyboardEvent.KEY_RIGHT:
                 break;
             case KeyboardEvent.KEY_UP:
@@ -60,20 +64,24 @@ public class DuckKeyboardHandler implements KeyboardHandler {
     }
 
     public void activateControls() {
+
         ourKeyboard = new Keyboard(this);
 
         KeyboardEvent[] keyboardEvents = {
+
                 createEvent(KeyboardEvent.KEY_R, KeyboardEventType.KEY_PRESSED),
                 createEvent(KeyboardEvent.KEY_SPACE, KeyboardEventType.KEY_PRESSED),
                 createEvent(KeyboardEvent.KEY_X, KeyboardEventType.KEY_PRESSED)
         };
 
         for (KeyboardEvent eachEvent : keyboardEvents) {
+
             ourKeyboard.addEventListener(eachEvent);
         }
     }
 
     private KeyboardEvent createEvent(int key, KeyboardEventType keyboardEventType) {
+
         KeyboardEvent myEvent = new KeyboardEvent();
         myEvent.setKey(key);
         myEvent.setKeyboardEventType(keyboardEventType);

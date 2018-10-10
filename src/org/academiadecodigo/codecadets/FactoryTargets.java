@@ -8,12 +8,15 @@ import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 public class FactoryTargets { //TODO: Fix name
 
     public static Enemy createEnemy() {
+
         int random = (int) (Math.random() * EnemyTypes.values().length);
+
         EnemyTypes enemyType = EnemyTypes.values()[random];
 
         Enemy enemy = null;
 
-        switch(enemyType){
+        switch (enemyType) {
+
             case DUCK:
                 enemy = new Duck();
                 break;
@@ -22,7 +25,6 @@ public class FactoryTargets { //TODO: Fix name
                 //TODO: add exeption
                 enemy = new Duck();
         }
-
         return enemy;
     }
 

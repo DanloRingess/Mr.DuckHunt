@@ -49,10 +49,12 @@ public class DuckMouseHandler implements MouseHandler {
 
         //Check if Crosshair not out of bounds of our window
         if (event.getX() >= canvas.getWidth() - (crosshairHalfWidth - 10)) {
+
             aimPos.setX(canvas.getWidth() - (crosshair.getWidth()));
         }
 
         if (event.getY() >= canvas.getHeight() - (crosshairHalfHeight - 30)) {
+
             aimPos.setY(canvas.getHeight() - (crosshair.getHeight()));
         }
 
@@ -64,6 +66,7 @@ public class DuckMouseHandler implements MouseHandler {
     public void mousePressed(MouseEvent event) {
 
         if (game.getGameState() == GameStates.GAMEPLAYING) {
+
             game.eventShoot();
         }
 
@@ -92,6 +95,7 @@ public class DuckMouseHandler implements MouseHandler {
 
     @Override
     public void mouseExited(MouseEvent event) {
+
         System.out.println(event);
         //Canvas.pause();
     }
@@ -103,6 +107,7 @@ public class DuckMouseHandler implements MouseHandler {
 
 
     public void initMouse() {
+
         mouse = new Mouse(this);
 
         MouseEventType[] MouseEvents = {
@@ -111,6 +116,7 @@ public class DuckMouseHandler implements MouseHandler {
         };
 
         for (MouseEventType eachEvent : MouseEvents) {
+
             mouse.addEventListener(eachEvent);
         }
     }
@@ -122,6 +128,7 @@ public class DuckMouseHandler implements MouseHandler {
         };
 
         for (MouseEventType eachEvent : MouseEvents) {
+
             mouse.addEventListener(eachEvent);
         }
     }
