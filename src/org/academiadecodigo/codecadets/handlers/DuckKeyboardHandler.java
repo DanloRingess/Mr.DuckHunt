@@ -1,10 +1,13 @@
 package org.academiadecodigo.codecadets.handlers;
 
 import org.academiadecodigo.codecadets.Game;
+import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class DuckKeyboardHandler implements KeyboardHandler {
 
@@ -18,8 +21,9 @@ public class DuckKeyboardHandler implements KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent event) {
 
-        switch (event.getKey()) {
+        Weapon weapon = game.getPlayer().getWeapon();
 
+        switch (event.getKey()) {
             case KeyboardEvent.KEY_R :
                 switch (game.getGameState()) {
                     case GAMEENDED:
@@ -43,6 +47,7 @@ public class DuckKeyboardHandler implements KeyboardHandler {
                 }
                 break;
             case KeyboardEvent.KEY_RIGHT:
+                game.updateCursor(new Position(weapon.getAim().getX() + 10, weapon.getAim().getY()));
                 break;
             case KeyboardEvent.KEY_UP:
                 break;
@@ -65,7 +70,8 @@ public class DuckKeyboardHandler implements KeyboardHandler {
         KeyboardEvent[] keyboardEvents = {
                 createEvent(KeyboardEvent.KEY_R, KeyboardEventType.KEY_PRESSED),
                 createEvent(KeyboardEvent.KEY_SPACE, KeyboardEventType.KEY_PRESSED),
-                createEvent(KeyboardEvent.KEY_X, KeyboardEventType.KEY_PRESSED)
+                createEvent(KeyboardEvent.KEY_X, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_RIGHT, KeyboardEventType.KEY_PRESSED)
         };
 
         for (KeyboardEvent eachEvent : keyboardEvents) {
