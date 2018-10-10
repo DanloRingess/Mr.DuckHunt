@@ -49,8 +49,10 @@ public class Game {
         this.targetLinkedList = new LinkedList<>();
         this.keyboardHandler = new DuckKeyboardHandler(this);
         this.mouseHandler = new DuckMouseHandler(this, this.renderer);
+        mouseHandler.initMouse();
 
         if (!handlersCreated) {
+            mouseHandler.initMouseClick();
             keyboardHandler.activateControls();
             handlersCreated = true;
         }
@@ -87,10 +89,11 @@ public class Game {
         switch (gameState) {
             case GAMEENDEDNOAMMO:
             case GAMEENDED:
-                Text endGameTxt = renderer.newText(500, 200, "Game Ended!");
+                Text endGameTxt = renderer.newText(renderer.getCanvas().getWidth() / 2 - 50, 200, 100, 20, "Game Over! Press X To Exit! Press R to restart!");
+                if (gameState == GameStates.GAMEENDEDNOAMMO) {
+                    Text endGameTxtNoAmmo = renderer.newText(500, 170, 60, 20, "No More Ammo");
+                }
 
-                endGameTxt.grow(40, 20);
-                endGameTxt.draw();
                 gameEnded();
                 break;
             default:

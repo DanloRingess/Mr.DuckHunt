@@ -121,8 +121,10 @@ public class Renderer {
         crosshair.delete();
     }
 
-    public Text newText(int x, int y, String ourText) {
+    public Text newText(int x, int y, int xGrowth, int yGrowth, String ourText) {
         Text newTextRender = new Text(x, y, ourText);
+        newTextRender.grow(xGrowth, yGrowth);
+        newTextRender.draw();
         return newTextRender;
     }
 

@@ -17,11 +17,12 @@ public class DuckMouseHandler implements MouseHandler {
     private Game game;
     private Renderer renderer;
 
+    private Mouse mouse;
+
     public DuckMouseHandler(Game game, Renderer renderer) {
 
         this.game = game;
         this.renderer = renderer;
-        initMouse();
     }
 
     public void updateCursor(MouseEvent event) {
@@ -101,13 +102,27 @@ public class DuckMouseHandler implements MouseHandler {
     }
 
 
-    private void initMouse() {
+    public void initMouse() {
+        mouse = new Mouse(this);
 
-        Mouse mouse = new Mouse(this);
+        MouseEventType[] MouseEvents = {
+                MouseEventType.MOUSE_DRAGGED,
+                MouseEventType.MOUSE_MOVED
+        };
 
-        mouse.addEventListener(MouseEventType.MOUSE_PRESSED);
-        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
-        mouse.addEventListener(MouseEventType.MOUSE_EXITED);
-        mouse.addEventListener(MouseEventType.MOUSE_DRAGGED);
+        for (MouseEventType eachEvent : MouseEvents) {
+            mouse.addEventListener(eachEvent);
+        }
+    }
+
+    public void initMouseClick() {
+
+        MouseEventType[] MouseEvents = {
+                MouseEventType.MOUSE_PRESSED
+        };
+
+        for (MouseEventType eachEvent : MouseEvents) {
+            mouse.addEventListener(eachEvent);
+        }
     }
 }
