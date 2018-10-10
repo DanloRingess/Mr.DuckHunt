@@ -1,20 +1,27 @@
 package org.academiadecodigo.codecadets.gameobjects;
 
 import org.academiadecodigo.codecadets.Position;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public abstract class  GameObject {
+public abstract class GameObject {
 
     private Position position;
 
-    private String imgSrc;
+    private Picture picture;
 
     public Position getPosition() {
-        return null;
+        return this.position;
     }
 
-    public String getImgSrc() {
-        return null;
+    public Picture getPicture() {
+        return picture;
     }
 
-    public abstract void move(int x, int y);
+    public void setPicture(String imageURI) {
+        this.picture = new Picture(position.getX(), position.getY(), imageURI);
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 }
