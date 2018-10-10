@@ -24,17 +24,7 @@ public class DuckMouseHandler implements MouseHandler {
         initMouse();
     }
 
-    @Override
-    public void mousePressed(MouseEvent event) {
-
-        if (game.getGameState() == GameStates.GAMEPLAYING) {
-            game.eventShoot();
-        }
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent event) {
+    public void updateCursor(MouseEvent event) {
         //Canvas
         Rectangle canvas = (Rectangle) Canvas.getInstance().getShapes().get(0);
 
@@ -70,6 +60,21 @@ public class DuckMouseHandler implements MouseHandler {
 
 
     @Override
+    public void mousePressed(MouseEvent event) {
+
+        if (game.getGameState() == GameStates.GAMEPLAYING) {
+            game.eventShoot();
+        }
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent event) {
+        updateCursor(event);
+    }
+
+
+    @Override
     public void mouseClicked(MouseEvent event) {
         System.out.println(event);
     }
@@ -92,12 +97,7 @@ public class DuckMouseHandler implements MouseHandler {
 
     @Override
     public void mouseDragged(MouseEvent event) {
-        Position weaponAim = game.getPlayer().getWeapon().getAim();
-
-        weaponAim.setX((int) event.getX());
-        weaponAim.setY((int) event.getY());
-
-        renderer.drawAim(weaponAim);
+        updateCursor(event);
     }
 
 

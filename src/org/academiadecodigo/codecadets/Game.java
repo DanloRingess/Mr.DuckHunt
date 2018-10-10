@@ -31,26 +31,34 @@ public class Game {
     private boolean forceRestart;
     private boolean updateCursorPos;
 
+    private boolean handlersCreated;
+
     public Game() {
         this.restartGame = true;
+        this.handlersCreated = false;
     }
 
     public void init(String player) {
-        if (restartGame && gameEnded) {
+        if (renderer != null) {
             renderer.deleteAll();
         }
 
         this.player = new Player(player);
         this.renderer = new Renderer();
         this.renderer.initRender();
-        this.mouseHandler = new DuckMouseHandler(this, this.renderer);
         this.targetLinkedList = new LinkedList<>();
         this.keyboardHandler = new DuckKeyboardHandler(this);
+        this.mouseHandler = new DuckMouseHandler(this, this.renderer);
+
+        if (!handlersCreated) {
+            keyboardHandler.activateControls();
+            handlersCreated = true;
+        }
 
     }
 
     public void gameStart(){
-        this.keyboardHandler.createPlayerControls();
+
 
         for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
             targetLinkedList.add(FactoryTargets.createEnemy());
@@ -76,7 +84,6 @@ public class Game {
             tick();
         }
 
-        keyboardHandler.createMenuControls();
         switch (gameState) {
             case GAMEENDEDNOAMMO:
             case GAMEENDED:
@@ -92,7 +99,7 @@ public class Game {
     }
 
     private void gameEnded() {
-        while (gameEnded && !restartGame) {
+        while (gameEnded && restartGame) {
             try {
                 Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
             } catch (InterruptedException ex) {
@@ -208,9 +215,9 @@ public class Game {
         renderer.drawClips(player.getWeapon().getClips());
     }
 
-    public void updateCursor(Position cursorPos) {
-        this.cursorPos = cursorPos;
-        this.updateCursorPos = true;
+    public void eventRestart() {
+        this.gameEnded = false;
+        this.restartGame = true;
     }
 
     public Player getPlayer() {
@@ -231,9 +238,5 @@ public class Game {
 
     public boolean getRestartGame() {
         return restartGame;
-    }
-
-    public void setUpdateCursorPos(boolean updateCursorPos) {
-        this.updateCursorPos = updateCursorPos;
     }
 }
