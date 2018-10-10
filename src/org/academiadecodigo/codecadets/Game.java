@@ -2,6 +2,7 @@ package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
+import org.academiadecodigo.codecadets.enums.TargetType;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
@@ -60,9 +61,6 @@ public class Game {
 
     public void gameStart() {
 
-        for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
-            targetHashList.add(FactoryTargets.createEnemy());
-        }
 
         player.changeWeapon(FactoryWeapons.createWeapon());
         player.getScore().resetScore();
@@ -73,6 +71,12 @@ public class Game {
         this.gameState = GameStates.GAMEPLAYING;
         this.gameEnded = false;
         this.forceRestart = false;
+
+        int targetsNumber = (int) (Math.random() * GameConfigs.MAX_TARGETS_NUMBER);
+
+        for (int i = 0; i < targetsNumber; i++) {
+            targetHashList.add(FactoryTargets.createEnemy());
+        }
 
         while (!gameEnded) {
             try {
@@ -117,30 +121,55 @@ public class Game {
             this.gameState = GameStates.GAMEENDEDNOAMMO;
         }
 
+        //Add random target
+        if (Math.random() < 0.15) {
+            targetHashList.add(FactoryTargets.createEnemy());
+        }
+
         //Change every target Position && Remove if out of window
         Iterator<Target> iterator = targetHashList.iterator();
         while (iterator.hasNext()) {
             Target myTarget = iterator.next();
 
             if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
-                    myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
+                    myTarget.getPicture().getWidth() - myTarget.getSpeedX() ||
+                    myTarget.getPicture().getX() <= myTarget.getSpeedX()) {
+ 
+                if (Math.random() > 0.4) {
 
-                iterator.remove();
-                myTarget.getPicture().delete();
+                    iterator.remove();
+                    myTarget.getPicture().delete();
+
+                } else {
+
+                    switch (myTarget.getTargetType()) {
+
+                        case LEFT:
+                            myTarget.setTargetType(TargetType.RIGHT);
+                            myTarget.setPicture("resources/enemies/duck_right.png");
+                            myTarget.setSpeedX(-myTarget.getSpeedX());
+                            break;
+
+                        case RIGHT:
+                            myTarget.setTargetType(TargetType.LEFT);
+                            myTarget.setPicture("resources/enemies/duck_left.png");
+                            myTarget.setSpeedX(-myTarget.getSpeedX());
+                    }
+                }
             }
-
 
             try {
                 myTarget.move();
             } catch (ConcurrentModificationException ex) {
                 System.out.println("Faulty Frame!\n");
             }
-        }
 
-        //Check if force Restarted
-        if (forceRestart) {
-            gameEnded = true;
-            gameState = GameStates.GAMEENDED;
+
+            //Check if force Restarted
+            if (forceRestart) {
+                gameEnded = true;
+                gameState = GameStates.GAMEENDED;
+            }
         }
     }
 
