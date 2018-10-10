@@ -1,6 +1,6 @@
 package org.academiadecodigo.codecadets.enums;
 
-public enum TargetType {
+public enum TargetType { //TODO: target orientation
     LEFT,
     RIGHT;
 

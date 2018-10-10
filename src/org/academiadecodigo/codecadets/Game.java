@@ -8,7 +8,11 @@ import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
+import org.academiadecodigo.simplegraphics.graphics.Canvas;
+import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
+import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
@@ -212,6 +216,40 @@ public class Game {
     public void eventRestart() {
         this.gameEnded = false;
         this.restartGame = true;
+    }
+
+    public void updateCursor(Position event) {
+        //Canvas
+        Rectangle canvas = renderer.getCanvas();
+
+        //Crosshair
+        Picture crosshair = renderer.getCrosshair();
+
+        //Get crossairHalfSizes
+        int crosshairHalfWidth = (crosshair.getWidth() / 2);
+        int crosshairHalfHeight = (crosshair.getHeight() / 2);
+
+
+        //Get Player Weapon Aim
+        Position weaponAim = getPlayer().getWeapon().getAim();
+
+        //Set Player Aim Position
+        weaponAim.setX((int) event.getX() - 11);
+        weaponAim.setY((int) event.getY() - 32);
+
+        Position aimPos = new Position(weaponAim.getX() - crosshairHalfWidth, weaponAim.getY() - crosshairHalfHeight);
+
+
+        //Check if Crosshair not out of bounds of our window
+        if (event.getX() >= canvas.getWidth() - (crosshairHalfWidth - 10)) {
+            aimPos.setX(canvas.getWidth() - (crosshair.getWidth()));
+        }
+
+        if (event.getY() >= canvas.getHeight() - (crosshairHalfHeight - 30)) {
+            aimPos.setY(canvas.getHeight() - (crosshair.getHeight()));
+        }
+
+        renderer.drawAim(aimPos);
     }
 
     public Player getPlayer() {
