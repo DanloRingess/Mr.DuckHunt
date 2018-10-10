@@ -8,7 +8,6 @@ import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
-import org.academiadecodigo.simplegraphics.graphics.Canvas;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.ConcurrentModificationException;
@@ -61,10 +60,10 @@ public class Game {
     public void gameStart() {
 
         for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
-            targetHashList.add(FactoryTargets.createEnemy());
+            targetHashList.add(TargetsFactory.createEnemy());
         }
 
-        player.changeWeapon(FactoryWeapons.createWeapon());
+        player.changeWeapon(WeaponsFactory.createWeapon());
         player.getScore().resetScore();
         renderer.drawClips(player.getWeapon().getType().getClips());
         renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());

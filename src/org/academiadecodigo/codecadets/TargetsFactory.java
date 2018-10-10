@@ -3,9 +3,10 @@ package org.academiadecodigo.codecadets;
 import org.academiadecodigo.codecadets.enums.EnemyTypes;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Duck;
+import org.academiadecodigo.codecadets.gameobjects.enemies.DuckBoss;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 
-public class FactoryTargets { //TODO: Fix name
+public class TargetsFactory {
 
     public static Enemy createEnemy() {
         int random = (int) (Math.random() * EnemyTypes.values().length);
@@ -16,6 +17,9 @@ public class FactoryTargets { //TODO: Fix name
         switch(enemyType){
             case DUCK:
                 enemy = new Duck();
+                break;
+            case DUCKBOSS:
+                enemy = new DuckBoss();
                 break;
 //TODO: Add more
             default:
