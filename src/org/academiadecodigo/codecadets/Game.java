@@ -155,6 +155,10 @@ public class Game {
         Weapon weapon = player.getWeapon();
         boolean killedOne = false;
 
+        if(weapon.getAmmo() == 0){
+            soundEngine.playSound(SoundTypes.SGEMPTY);
+            return;
+        }
 
         Iterator<Target> iterator = targetHashList.iterator();
         while (iterator.hasNext() && !killedOne) {
@@ -186,6 +190,7 @@ public class Game {
                 int enemyScore = ourEnemy.getType().getScore();
 
                 if (getPlayer().getWeapon().getAmmo() > 0) {
+                    soundEngine.playSound(SoundTypes.DUCKHIT);
                     boolean enemyKilled = weapon.shoot(target);
 
                     if (enemyKilled) {
@@ -212,6 +217,7 @@ public class Game {
     }
 
     public void reloadWeapon() {
+        soundEngine.playSound(SoundTypes.SGRELOADING);
         this.player.getWeapon().reload();
         renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
         renderer.drawClips(player.getWeapon().getClips());
