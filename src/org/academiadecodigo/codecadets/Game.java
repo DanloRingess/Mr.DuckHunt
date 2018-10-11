@@ -146,13 +146,13 @@ public class Game {
 
                         case LEFT:
                             myTarget.setTargetType(TargetType.RIGHT);
-                            myTarget.setPicture("resources/enemies/duck_right.png");
+                            myTarget.setPicture(myTarget.getLeftPicture());
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                             break;
 
                         case RIGHT:
                             myTarget.setTargetType(TargetType.LEFT);
-                            myTarget.setPicture("resources/enemies/duck_left.png");
+                            myTarget.setPicture(myTarget.getRightPicture());
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                     }
                 }
