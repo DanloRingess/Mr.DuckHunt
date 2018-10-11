@@ -8,6 +8,8 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
+import java.security.Key;
+
 public class DuckKeyboardHandler implements KeyboardHandler {
 
     private Game game;
@@ -51,17 +53,52 @@ public class DuckKeyboardHandler implements KeyboardHandler {
                 break;
 
             case KeyboardEvent.KEY_RIGHT:
-                game.updateCursor(new Position(weapon.getAim().getX() + 10, weapon.getAim().getY()));
+                switch(game.getGameState()) {
+                    case GAMEPLAYING:
+                        System.out.println("x: " + weapon.getAim().getX());
+                        System.out.println("y: " + weapon.getAim().getY());
+
+                        game.updateCursor(new Position(weapon.getAim().getX() + 10 +11, weapon.getAim().getY() + 32));
+                    }
+
                 break;
+
+            case KeyboardEvent.KEY_LEFT:
+                switch(game.getGameState()) {
+                    case GAMEPLAYING:
+                        game.updateCursor(new Position(weapon.getAim().getX() -10 +11, weapon.getAim().getY() +32));
+                }
+
+               break;
+
             case KeyboardEvent.KEY_UP:
+                switch(game.getGameState()) {
+                    case GAMEPLAYING:
+                        game.updateCursor(new Position(weapon.getAim().getX() +11, weapon.getAim().getY() - 10+32));
+                }
+
                 break;
+
             case KeyboardEvent.KEY_DOWN:
-                game.eventShoot();
+                switch(game.getGameState()) {
+                    case GAMEPLAYING:
+                        game.updateCursor(new Position(weapon.getAim().getX()+11, weapon.getAim().getY() +10+32));
+                }
+
                 break;
-            case KeyboardEvent.KEY_SPACE:
-                game.setForceRestart(true);
+
+            case KeyboardEvent.KEY_P:
+                switch(game.getGameState()) {
+                    case GAMEPLAYING:
+                        game.setForceRestart(true);
+                }
+
                 break;
+
         }
+
+        System.out.println("x: " + weapon.getAim().getX());
+        System.out.println("y: " + weapon.getAim().getY());
     }
 
     @Override
@@ -77,7 +114,13 @@ public class DuckKeyboardHandler implements KeyboardHandler {
                 createEvent(KeyboardEvent.KEY_R, KeyboardEventType.KEY_PRESSED),
                 createEvent(KeyboardEvent.KEY_SPACE, KeyboardEventType.KEY_PRESSED),
                 createEvent(KeyboardEvent.KEY_X, KeyboardEventType.KEY_PRESSED),
-                createEvent(KeyboardEvent.KEY_RIGHT, KeyboardEventType.KEY_PRESSED)
+                createEvent(KeyboardEvent.KEY_RIGHT, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_LEFT, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_UP, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_DOWN, KeyboardEventType.KEY_PRESSED),
+                createEvent(KeyboardEvent.KEY_P, KeyboardEventType.KEY_PRESSED)
+
+
         };
 
         for (KeyboardEvent eachEvent : keyboardEvents) {
