@@ -30,6 +30,7 @@
         <javac srcdir="${src.dir}" destdir="${classes.dir}">
             <classpath refid="classpath"/>
         </javac>
+        <copydir src="${resources.dir}" dest="${build.dir}/${resources.dir}"/>
     </target>
 
     <!-- Creates a JAR file -->
