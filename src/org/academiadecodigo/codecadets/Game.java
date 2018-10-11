@@ -225,7 +225,7 @@ public class Game {
     public void eventShoot() {
         Weapon weapon = player.getWeapon();
         boolean killedOne = false;
-        boolean hitEnemy = false;
+        boolean hitTarget = false;
 
         if (weapon.getAmmo() == 0) {
             soundEngine.playSound(SoundTypes.SGEMPTY);
@@ -236,7 +236,7 @@ public class Game {
 
         Iterator<Target> iterator = targetHashList.iterator();
 
-        while (iterator.hasNext() && !killedOne && !hitEnemy) {
+        while (iterator.hasNext() && !killedOne && !hitTarget ) {
 
             Target target = iterator.next();
 
@@ -285,7 +285,7 @@ public class Game {
                     renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
                     renderer.drawClips(player.getWeapon().getClips());
                 }
-                hitEnemy = true;
+                hitTarget = true;
             }
 
             if (target instanceof Prop) {
@@ -293,12 +293,21 @@ public class Game {
                 Prop ourProp = (Prop) target;
 
                 if (getPlayer().getWeapon().getAmmo() > 0) {
-                    
+                    soundEngine.playSound(SoundTypes.PROPHIT);
+
+                    weapon.shoot(ourProp);
+                    ourProp.getPowerup().activate(this);
+                    target.getPicture().delete();
+                    iterator.remove();
+
+                    renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
+                    renderer.drawClips(player.getWeapon().getClips());
+
                 }
             }
         }
 
-        if (killedOne || hitEnemy) {
+        if (killedOne || hitTarget) {
 
             return;
         }

@@ -11,6 +11,12 @@ public class Ammo extends PowerUp {
         super(PowerUpTypes.AMMO);
     }
 
+    @Override
+    public void activate(Game game) {
+
+        game.getPlayer().getWeapon().changeClips(ammoValue);
+    }
+
     public int getAmmoValue() {
         return ammoValue;
     }

@@ -3,7 +3,7 @@ package org.academiadecodigo.codecadets.gameobjects.powerups;
 import org.academiadecodigo.codecadets.Game;
 import org.academiadecodigo.codecadets.enums.PowerUpTypes;
 
-public class PowerUp {
+public abstract class PowerUp {
 
     private PowerUpTypes powerUpType;
 
@@ -11,9 +11,7 @@ public class PowerUp {
         this.powerUpType = powerUpType;
     }
 
-    public void activate() {
-
-    }
+    public abstract void activate(Game game);
 
     public PowerUpTypes getPowerUpType() {
         return powerUpType;

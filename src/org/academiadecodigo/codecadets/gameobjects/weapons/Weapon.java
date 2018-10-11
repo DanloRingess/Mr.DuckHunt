@@ -67,4 +67,8 @@ abstract public class Weapon extends GameObject {
     public int getClips() {
         return clips;
     }
+
+    public void changeClips(int clips) {
+        this.clips += clips;
+    }
 }

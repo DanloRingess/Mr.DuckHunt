@@ -16,7 +16,6 @@ public abstract class Prop extends Target {
     @Override
     public boolean hit() {
         destroy();
-        powerup.activate();
         return true;
     }
 
