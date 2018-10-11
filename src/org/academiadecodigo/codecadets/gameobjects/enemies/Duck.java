@@ -11,6 +11,8 @@ public class Duck extends Enemy {
 
     public Duck(){
         super(EnemyTypes.DUCK);
+        this.setLeftPicture("resources/enemies/duck_left.png");
+        this.setRightPicture("resources/enemies/duck_right.png");
         init();
     }
 
@@ -23,15 +25,15 @@ public class Duck extends Enemy {
         switch (getTargetType()) {
             case LEFT:
                 setSpeedX(speed);
-                setPosition(new Position(0, 70 + (int) (Math.random() * 450)));
-                setPicture("resources/enemies/duck_left.png");
+                setPosition(new Position(0, 50 + (int) (Math.random() * 390)));
+                setPicture(this.getLeftPicture());
                 break;
 
             case RIGHT:
                 setSpeedX(-speed);
-                setPosition(new Position((int) (Canvas.getInstance().getShapes().get(0).getWidth() - 185*(0.6)),
-                            70 + (int) (Math.random() * 450)));
-                setPicture("resources/enemies/duck_right.png");
+                setPosition(new Position((int) (Canvas.getInstance().getShapes().get(0).getWidth() - 93),
+                            50 + (int) (Math.random() * 390)));
+                setPicture(this.getRightPicture());
         }
 
         setSpeedY(0);

@@ -11,11 +11,9 @@ public class TargetsFactory {
 
     public static Enemy createEnemy() throws UnknownEnemyException {
 
-        int random = (int) (Math.random() * EnemyTypes.values().length);
+        EnemyTypes enemyType = EnemyTypes.values()[Math.random() >= 0.7 ? 1 : 0];
 
-        EnemyTypes enemyType = EnemyTypes.values()[random];
-
-        Enemy enemy = null;
+        Enemy enemy;
 
         switch (enemyType) {
 

@@ -3,9 +3,9 @@ package org.academiadecodigo.codecadets;
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
-import org.academiadecodigo.codecadets.enums.TargetType;
 import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
 import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
+import org.academiadecodigo.codecadets.enums.TargetType;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
@@ -55,7 +55,6 @@ public class Game {
 
             renderer.deleteAll();
         }
-
 
         this.player = new Player(player);
         this.player.init();
@@ -125,6 +124,7 @@ public class Game {
                 gameEnded();
 
                 break;
+
             default:
                 System.out.println("WTF game state is that?: " + gameState.name());
         }
@@ -186,7 +186,7 @@ public class Game {
                         case LEFT:
                             myTarget.setTargetType(TargetType.RIGHT);
                             myTarget.getPicture().delete();
-                            myTarget.setPicture("resources/enemies/duck_right.png");
+                            myTarget.setPicture(myTarget.getLeftPicture());
                             myTarget.getPicture().draw();
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                             break;
@@ -194,7 +194,7 @@ public class Game {
                         case RIGHT:
                             myTarget.setTargetType(TargetType.LEFT);
                             myTarget.getPicture().delete();
-                            myTarget.setPicture("resources/enemies/duck_left.png");
+                            myTarget.setPicture(myTarget.getRightPicture());
                             myTarget.getPicture().draw();
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                     }
@@ -209,13 +209,14 @@ public class Game {
 
                 System.out.println("Faulty Frame!\n");
             }
-        }
 
-        //Check if force Restarted
-        if (forceRestart) {
 
-            gameEnded = true;
-            gameState = GameStates.GAMEENDED;
+            //Check if force Restarted
+            if (forceRestart) {
+
+                gameEnded = true;
+                gameState = GameStates.GAMEENDED;
+            }
         }
     }
 
@@ -261,7 +262,6 @@ public class Game {
 
                 continue;
             }
-
 
             if (target instanceof Enemy) {
 

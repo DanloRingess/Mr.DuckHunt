@@ -9,6 +9,9 @@ public abstract class Target extends GameObject {
     private int speedX;
     private int speedY;
     private TargetType targetType;
+    private String leftPicture;
+    private String rightPicture;
+
 
     public Target() {
 
@@ -37,6 +40,22 @@ public abstract class Target extends GameObject {
 
     public TargetType getTargetType() {
         return targetType;
+    }
+
+    public String getLeftPicture() {
+        return leftPicture;
+    }
+
+    public void setLeftPicture(String leftPicture) {
+        this.leftPicture = leftPicture;
+    }
+
+    public String getRightPicture() {
+        return rightPicture;
+    }
+
+    public void setRightPicture(String rightPicture) {
+        this.rightPicture = rightPicture;
     }
 
     public abstract boolean hit(int damage);
