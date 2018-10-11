@@ -271,7 +271,17 @@ public class Game {
                 int enemyScore = ourEnemy.getType().getScore();
 
                 if (getPlayer().getWeapon().getAmmo() > 0) {
-                    soundEngine.playSound(SoundTypes.DUCKHIT);
+
+
+                    if(Math.random() < 0.7) {
+
+                        soundEngine.playSound(SoundTypes.DUCKHIT);
+
+                    }else{
+
+                        soundEngine.playSound(SoundTypes.DUCKHIT2);
+                    }
+
                     boolean enemyKilled = weapon.shoot(target);
 
                     if (enemyKilled) {
@@ -304,6 +314,9 @@ public class Game {
                     renderer.drawClips(player.getWeapon().getClips());
 
                 }
+
+
+                hitTarget = true;
             }
         }
 
@@ -368,10 +381,6 @@ public class Game {
         renderer.drawAim(aimPos);
     }
 
-    public void activatePowerUp(PowerUp powerUp) {
-
-    }
-
     public Player getPlayer() {
         return this.player;
     }
@@ -391,6 +400,4 @@ public class Game {
     public void setRestartGame(boolean restartGame) {
         this.restartGame = restartGame;
     }
-
-
 }
