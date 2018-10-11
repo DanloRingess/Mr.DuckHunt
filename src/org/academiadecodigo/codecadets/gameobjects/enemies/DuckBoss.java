@@ -15,8 +15,6 @@ public class DuckBoss extends Enemy {
     }
 
     private void init() {
-
-
         setTargetType(TargetType.getRandomType());
         int speed = 7 + (int)(Math.random()*6);
 

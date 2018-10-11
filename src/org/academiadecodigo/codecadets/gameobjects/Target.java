@@ -58,8 +58,6 @@ public abstract class Target extends GameObject {
         this.rightPicture = rightPicture;
     }
 
-    public abstract boolean hit();
-
     public abstract boolean hit(int damage);
 
     public boolean isDestroyed() {

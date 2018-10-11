@@ -13,12 +13,6 @@ public abstract class Prop extends Target {
         powerup = PowerUpFactory.createPowerUp();
     }
 
-    @Override
-    public boolean hit() {
-        destroy();
-        return true;
-    }
-
     public PowerUp getPowerup() {
         return powerup;
     }

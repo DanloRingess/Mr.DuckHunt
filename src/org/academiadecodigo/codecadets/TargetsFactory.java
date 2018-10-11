@@ -7,6 +7,7 @@ import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Duck;
 import org.academiadecodigo.codecadets.gameobjects.enemies.DuckBoss;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
+import org.academiadecodigo.codecadets.gameobjects.props.Prop;
 
 public class TargetsFactory {
 
@@ -37,7 +38,7 @@ public class TargetsFactory {
 
         PropTypes propType = PropTypes.values()[random];
 
-        Prop prop;
+        Prop prop = null;
 
         switch(propType){
 

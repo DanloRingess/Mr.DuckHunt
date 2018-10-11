@@ -48,7 +48,7 @@ public class Game {
         this.restartGame = true;
         this.handlersCreated = false;
         this.soundEngine = new Sound();
-        this.soundEngine.playSound(SoundTypes.BGMUSIC);
+
 
     }
 
@@ -59,6 +59,7 @@ public class Game {
         startPage = new StartPage();
         soundEngine.playSound(SoundTypes.GAMENAME);
         startPage.init();
+        this.soundEngine.playSound(SoundTypes.BGMUSIC);
     }
 
     public void init(String player) {

@@ -3,7 +3,7 @@ package org.academiadecodigo.codecadets.gameobjects.enemies;
 import org.academiadecodigo.codecadets.enums.EnemyTypes;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 
-public abstract class Enemy extends Target {
+public class Enemy extends Target {
 
      //proprieties:---------
     private int health;
