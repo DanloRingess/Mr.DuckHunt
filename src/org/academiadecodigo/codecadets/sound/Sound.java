@@ -29,6 +29,9 @@ public class Sound {
             case SGSHOOT:
                 startMusicLoop(SoundConfigs.SGSHOOT, false);
                 break;
+            case GAMENAME:
+                startMusicLoop(SoundConfigs.GAMENAME, false);
+                break;
             default:
                 System.out.println("No such Sound: " + sndType.toString());
         }

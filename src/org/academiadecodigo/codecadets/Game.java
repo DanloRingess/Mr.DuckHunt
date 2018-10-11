@@ -55,6 +55,7 @@ public class Game {
         this.keyboardHandler = new DuckKeyboardHandler(this);
         keyboardHandler.activateControls();
         startPage = new StartPage();
+        soundEngine.playSound(SoundTypes.GAMENAME);
         startPage.init();
     }
 

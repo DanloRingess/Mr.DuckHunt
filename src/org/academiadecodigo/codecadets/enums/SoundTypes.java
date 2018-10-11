@@ -6,5 +6,6 @@ public enum SoundTypes {
     DUCKHIT2,
     SGRELOADING,
     SGEMPTY,
-    SGSHOOT;
+    SGSHOOT,
+    GAMENAME;
 }

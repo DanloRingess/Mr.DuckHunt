@@ -24,7 +24,6 @@ public class TargetsFactory {
             case DUCKBOSS:
                 enemy = new DuckBoss();
                 break;
-//TODO: Add more
             default:
                throw new UnknownEnemyException("I don't know what enemy is this!");
         }
