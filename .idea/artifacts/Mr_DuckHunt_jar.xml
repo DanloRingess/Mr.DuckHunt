@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Mr.DuckHunt:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Mr_DuckHunt_jar</output-path>
-    <root id="archive" name="Mr.DuckHunt.jar">
-      <element id="module-output" name="Mr.DuckHunt" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/simplegraphics.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>

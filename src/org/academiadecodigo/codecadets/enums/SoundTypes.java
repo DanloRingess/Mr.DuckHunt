@@ -4,6 +4,7 @@ public enum SoundTypes {
     BGMUSIC,
     DUCKHIT,
     DUCKHIT2,
+    PROPHIT,
     SGRELOADING,
     SGEMPTY,
     SGSHOOT,
