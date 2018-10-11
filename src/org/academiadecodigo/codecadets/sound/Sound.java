@@ -18,6 +18,8 @@ public class Sound {
             case DUCKHIT:
                 startMusicLoop(SoundConfigs.DUCKHIT, false);
                 break;
+            case DUCKHIT2:
+                startMusicLoop(SoundConfigs.DUCKHIT2, false);
             case SGRELOADING:
                 startMusicLoop(SoundConfigs.SGRELOADING, false);
                 break;

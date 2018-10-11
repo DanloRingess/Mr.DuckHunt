@@ -276,7 +276,17 @@ public class Game {
                 int enemyScore = ourEnemy.getType().getScore();
 
                 if (getPlayer().getWeapon().getAmmo() > 0) {
-                    soundEngine.playSound(SoundTypes.DUCKHIT);
+
+
+                    if(Math.random() < 0.7) {
+
+                        soundEngine.playSound(SoundTypes.DUCKHIT);
+
+                    }else{
+
+                        soundEngine.playSound(SoundTypes.DUCKHIT2);
+                    }
+
                     boolean enemyKilled = weapon.shoot(target);
 
                     if (enemyKilled) {
@@ -290,6 +300,8 @@ public class Game {
                     renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
                     renderer.drawClips(player.getWeapon().getClips());
                 }
+
+
                 hitEnemy = true;
             }
         }
