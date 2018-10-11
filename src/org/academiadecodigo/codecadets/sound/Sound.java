@@ -24,8 +24,11 @@ public class Sound {
             case SGEMPTY:
                 startMusicLoop(SoundConfigs.SGEMPTY, false);
                 break;
+            case SGSHOOT:
+                startMusicLoop(SoundConfigs.SGSHOOT, false);
+                break;
             default:
-                System.out.println("No such Sound: "+sndType.toString());
+                System.out.println("No such Sound: " + sndType.toString());
         }
     }
 

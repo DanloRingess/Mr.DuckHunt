@@ -56,6 +56,7 @@ public class Game {
             renderer.deleteAll();
         }
 
+
         this.player = new Player(player);
         this.player.init();
         this.renderer = new Renderer();
@@ -124,7 +125,6 @@ public class Game {
                 gameEnded();
 
                 break;
-
             default:
                 System.out.println("WTF game state is that?: " + gameState.name());
         }
@@ -201,7 +201,6 @@ public class Game {
                 }
             }
 
-
             try {
 
                 myTarget.move();
@@ -210,20 +209,17 @@ public class Game {
 
                 System.out.println("Faulty Frame!\n");
             }
-
-
-            //Check if force Restarted
-            if (forceRestart) {
-
-                gameEnded = true;
-                gameState = GameStates.GAMEENDED;
-            }
         }
 
+        //Check if force Restarted
+        if (forceRestart) {
+
+            gameEnded = true;
+            gameState = GameStates.GAMEENDED;
+        }
     }
 
     public void eventShoot() {
-
         Weapon weapon = player.getWeapon();
         boolean killedOne = false;
         boolean hitEnemy = false;
@@ -232,6 +228,8 @@ public class Game {
             soundEngine.playSound(SoundTypes.SGEMPTY);
             return;
         }
+        soundEngine.playSound(SoundTypes.SGSHOOT);
+
 
         Iterator<Target> iterator = targetHashList.iterator();
 
@@ -264,13 +262,13 @@ public class Game {
                 continue;
             }
 
+
             if (target instanceof Enemy) {
 
                 Enemy ourEnemy = (Enemy) target;
                 int enemyScore = ourEnemy.getType().getScore();
 
                 if (getPlayer().getWeapon().getAmmo() > 0) {
-
                     soundEngine.playSound(SoundTypes.DUCKHIT);
                     boolean enemyKilled = weapon.shoot(target);
 
