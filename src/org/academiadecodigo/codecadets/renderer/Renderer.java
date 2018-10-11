@@ -16,6 +16,7 @@ public class Renderer {
     private Picture sideWeapon;
     private Rectangle[] ammoCounter;
     private Picture crosshair;
+    private Picture landscape;
 
     public Renderer() {
 
@@ -24,7 +25,11 @@ public class Renderer {
         canvas.fill();
     }
 
-    public void initRender() {
+    public void initRender(){
+        //Create Landscape
+        landscape = new Picture(1,1);
+        landscape.load("resources/Landscape.png");
+        landscape.draw();
 
         //Create Clips Counter
         clipsCounter = new Text(RenderConfigs.CANVASWIDTH - 50, RenderConfigs.CANVASHEIGHT - RenderConfigs.FONTSIZE - 20, "");

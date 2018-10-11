@@ -4,9 +4,10 @@ import org.academiadecodigo.codecadets.enums.EnemyTypes;
 import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Duck;
+import org.academiadecodigo.codecadets.gameobjects.enemies.DuckBoss;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 
-public class FactoryTargets { //TODO: Fix name
+public class TargetsFactory {
 
     public static Enemy createEnemy() throws UnknownEnemyException {
 
@@ -20,6 +21,9 @@ public class FactoryTargets { //TODO: Fix name
 
             case DUCK:
                 enemy = new Duck();
+                break;
+            case DUCKBOSS:
+                enemy = new DuckBoss();
                 break;
 //TODO: Add more
             default:

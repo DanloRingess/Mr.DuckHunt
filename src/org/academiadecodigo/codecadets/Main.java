@@ -6,9 +6,6 @@ public class Main {
 
         Game myGame = new Game();
 
-        /*Sound mySound = new Sound("resources/test.wav");
-        mySound.loop();*/
-
         while (myGame.getRestartGame()) {
 
             myGame.init("Hastronauts");
@@ -17,6 +14,5 @@ public class Main {
         }
 
         System.exit(0);
-
     }
 }

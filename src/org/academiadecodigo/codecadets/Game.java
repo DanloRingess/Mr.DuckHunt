@@ -77,7 +77,7 @@ public class Game {
 
         try {
 
-            player.changeWeapon(FactoryWeapons.createWeapon());
+            player.changeWeapon(WeaponsFactory.createWeapon());
 
         } catch (UnknownWeaponException ex) {
 
@@ -156,7 +156,7 @@ public class Game {
         //Add random target
         if (Math.random() < 0.15 && targetHashList.size() < targetsNumber) {
             try {
-                targetHashList.add(FactoryTargets.createEnemy());
+                targetHashList.add(TargetsFactory.createEnemy());
             } catch (UnknownEnemyException ex) {
                 System.out.println(ex.getMessage());
             }

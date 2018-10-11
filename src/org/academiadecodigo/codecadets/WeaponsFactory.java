@@ -5,7 +5,7 @@ import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Shotgun;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 
-public class FactoryWeapons {
+public class WeaponsFactory {
 
     public static Weapon createWeapon() throws UnknownWeaponException {
 

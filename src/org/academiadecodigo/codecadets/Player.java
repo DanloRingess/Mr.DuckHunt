@@ -2,9 +2,6 @@ package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
-import org.academiadecodigo.simplegraphics.mouse.Mouse;
-import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
-import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 
 public class Player {
 
@@ -16,14 +13,13 @@ public class Player {
 
         this.name = name;
         this.score = new Score();
-        //this.weapon = FactoryWeapons.createWeapon();
     }
 
     public void init(){
 
         try{
 
-            this.weapon = FactoryWeapons.createWeapon();
+            this.weapon = WeaponsFactory.createWeapon();
 
         }catch (UnknownWeaponException e){
 
