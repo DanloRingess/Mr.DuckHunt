@@ -23,14 +23,14 @@ public class Duck extends Enemy {
         switch (getTargetType()) {
             case LEFT:
                 setSpeedX(speed);
-                setPosition(new Position(0, 70 + (int) (Math.random() * 450)));
+                setPosition(new Position(0, 100 + (int) (Math.random() * 300)));
                 setPicture("resources/enemies/duck_left.png");
                 break;
 
             case RIGHT:
                 setSpeedX(-speed);
-                setPosition(new Position((int) (Canvas.getInstance().getShapes().get(0).getWidth() - 185*(0.6)),
-                            70 + (int) (Math.random() * 450)));
+                setPosition(new Position((int) (Canvas.getInstance().getShapes().get(0).getWidth() - 185*(0.6)), //TODO: USE GameConfigs
+                            100 + (int) (Math.random() * 300)));
                 setPicture("resources/enemies/duck_right.png");
         }
 

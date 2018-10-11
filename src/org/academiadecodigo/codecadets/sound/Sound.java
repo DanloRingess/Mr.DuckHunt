@@ -1,49 +1,37 @@
 package org.academiadecodigo.codecadets.sound;
 
-import javax.sound.sampled.*;
-import java.applet.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import org.academiadecodigo.codecadets.Configs.SoundConfigs;
+import org.academiadecodigo.codecadets.enums.SoundTypes;
+import java.net.URI;
+
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.net.URISyntaxException;
 
 
-//Ignore this class It exist so we know how it may work, MC_s will *maybe* teach us to make it work
-public class Sound
-        implements AudioClip
-{
-    Clip clip;
+// Change this class to your liking, this is just a base example
 
-    public Sound(String paramString) {
-        URL localURL = Sound.class.getResource("/" + paramString);
-        try {
-            if (localURL == null) {
-                File localFile = new File(paramString);
-                localURL = localFile.toURI().toURL();
-            }
-            AudioInputStream localAudioInputStream = AudioSystem.getAudioInputStream(localURL);
-            this.clip = AudioSystem.getClip();
-            this.clip.open(localAudioInputStream);
-        } catch (UnsupportedAudioFileException localUnsupportedAudioFileException) {
-            localUnsupportedAudioFileException.printStackTrace();
-        } catch (IOException localIOException) {
-            localIOException.printStackTrace();
-        } catch (LineUnavailableException localLineUnavailableException) {
-            localLineUnavailableException.printStackTrace();
+public class Sound {
+
+    public void playSound(SoundTypes sndType){
+        switch (sndType){
+            case BGMUSIC:
+                startMusicLoop(SoundConfigs.BGMUSIC_URI);
+                break;
+            default:
+                System.out.println("No such Sound");
         }
     }
 
-    public void play() {
-        this.clip.stop();
-        this.clip.flush();
-        this.clip.setFramePosition(0);
-        this.clip.start();
-    }
-
-    public void loop() {
-        this.clip.loop(-1);
-    }
-
-    public void stop() {
-        this.clip.stop();
+    public void startMusicLoop(String soundURI) {
+        try {
+            Media media = new Media(); //TODO FIX THIS
+            MediaPlayer mPlayer = new MediaPlayer(media);
+            mPlayer.play();
+            mPlayer.setAutoPlay(true);
+        } catch (URISyntaxException ex) {
+            System.out.println("URI not valid.");
+        }
     }
 }

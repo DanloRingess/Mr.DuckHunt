@@ -2,15 +2,17 @@ package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
-import org.academiadecodigo.codecadets.enums.TargetType;
+import org.academiadecodigo.codecadets.enums.SoundTypes;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
 import org.academiadecodigo.codecadets.renderer.Renderer;
-import org.academiadecodigo.simplegraphics.graphics.Canvas;
+import org.academiadecodigo.codecadets.sound.Sound;
+import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ public class Game {
     private Player player;
     private DuckMouseHandler mouseHandler;
     private DuckKeyboardHandler keyboardHandler;
+    private Sound soundEngine;
 
     // Game Properties
     private boolean gameEnded;
@@ -33,17 +36,18 @@ public class Game {
     private boolean forceRestart;
     private boolean handlersCreated;
 
-    private int targetsNumber;
-
     public Game() {
         this.restartGame = true;
         this.handlersCreated = false;
+        this.soundEngine = new Sound();
+        this.soundEngine.playSound(SoundTypes.BGMUSIC);
     }
 
     public void init(String player) {
         if (renderer != null) {
             renderer.deleteAll();
         }
+
 
         this.player = new Player(player);
         this.renderer = new Renderer();
@@ -63,6 +67,9 @@ public class Game {
 
     public void gameStart() {
 
+        for (int i = 0; i < GameConfigs.MAX_TARGETS_NUMBER; i++) {
+            targetHashList.add(FactoryTargets.createEnemy());
+        }
 
         player.changeWeapon(FactoryWeapons.createWeapon());
         player.getScore().resetScore();
@@ -73,8 +80,6 @@ public class Game {
         this.gameState = GameStates.GAMEPLAYING;
         this.gameEnded = false;
         this.forceRestart = false;
-
-        targetsNumber = (int) (Math.random() * GameConfigs.MAX_TARGETS_NUMBER);
 
         while (!gameEnded) {
             try {
@@ -119,61 +124,30 @@ public class Game {
             this.gameState = GameStates.GAMEENDEDNOAMMO;
         }
 
-        //Add random target
-        if (Math.random() < 0.15 && targetHashList.size() < targetsNumber) {
-            targetHashList.add(FactoryTargets.createEnemy());
-        }
-
         //Change every target Position && Remove if out of window
         Iterator<Target> iterator = targetHashList.iterator();
         while (iterator.hasNext()) {
             Target myTarget = iterator.next();
 
-            if ((myTarget.getTargetType() == TargetType.LEFT &&
-                    myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
-                    myTarget.getPicture().getWidth() - myTarget.getSpeedX()) ||
-                    (myTarget.getTargetType() == TargetType.RIGHT &&
-                    myTarget.getPicture().getX() <= myTarget.getSpeedX())) {
- 
-                if (Math.random() > 0.4) {
+            if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
+                    myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
 
-                    iterator.remove();
-                    myTarget.getPicture().delete();
-
-                } else {
-
-                    switch (myTarget.getTargetType()) {
-
-                        case LEFT:
-                            myTarget.setTargetType(TargetType.RIGHT);
-                            myTarget.getPicture().delete();
-                            myTarget.setPicture("resources/enemies/duck_right.png");
-                            myTarget.getPicture().draw();
-                            myTarget.setSpeedX(-myTarget.getSpeedX());
-                            break;
-
-                        case RIGHT:
-                            myTarget.setTargetType(TargetType.LEFT);
-                            myTarget.getPicture().delete();
-                            myTarget.setPicture("resources/enemies/duck_left.png");
-                            myTarget.getPicture().draw();
-                            myTarget.setSpeedX(-myTarget.getSpeedX());
-                    }
-                }
+                iterator.remove();
+                myTarget.getPicture().delete();
             }
+
 
             try {
                 myTarget.move();
             } catch (ConcurrentModificationException ex) {
                 System.out.println("Faulty Frame!\n");
             }
+        }
 
-
-            //Check if force Restarted
-            if (forceRestart) {
-                gameEnded = true;
-                gameState = GameStates.GAMEENDED;
-            }
+        //Check if force Restarted
+        if (forceRestart) {
+            gameEnded = true;
+            gameState = GameStates.GAMEENDED;
         }
     }
 
@@ -246,6 +220,40 @@ public class Game {
     public void eventRestart() {
         this.gameEnded = false;
         this.restartGame = true;
+    }
+
+    public void updateCursor(Position event) {
+        //Canvas
+        Rectangle canvas = renderer.getCanvas();
+
+        //Crosshair
+        Picture crosshair = renderer.getCrosshair();
+
+        //Get crossairHalfSizes
+        int crosshairHalfWidth = (crosshair.getWidth() / 2);
+        int crosshairHalfHeight = (crosshair.getHeight() / 2);
+
+
+        //Get Player Weapon Aim
+        Position weaponAim = getPlayer().getWeapon().getAim();
+
+        //Set Player Aim Position
+        weaponAim.setX((int) event.getX() - 11);
+        weaponAim.setY((int) event.getY() - 32);
+
+        Position aimPos = new Position(weaponAim.getX() - crosshairHalfWidth, weaponAim.getY() - crosshairHalfHeight);
+
+
+        //Check if Crosshair not out of bounds of our window
+        if (event.getX() >= canvas.getWidth() - (crosshairHalfWidth - 10)) {
+            aimPos.setX(canvas.getWidth() - (crosshair.getWidth()));
+        }
+
+        if (event.getY() >= canvas.getHeight() - (crosshairHalfHeight - 30)) {
+            aimPos.setY(canvas.getHeight() - (crosshair.getHeight()));
+        }
+
+        renderer.drawAim(aimPos);
     }
 
     public Player getPlayer() {

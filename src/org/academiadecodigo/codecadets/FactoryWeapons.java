@@ -16,8 +16,9 @@ public class FactoryWeapons {
            case SHOTGUN:
                weapon = new Shotgun();
                break;
-
+//TODO: Add more
            default:
+               //TODO: Throw exeption
                weapon = new Shotgun();
        }
 

@@ -5,7 +5,7 @@ import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Duck;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 
-public class FactoryTargets {
+public class FactoryTargets { //TODO: Fix name
 
     public static Enemy createEnemy() {
         int random = (int) (Math.random() * EnemyTypes.values().length);
@@ -17,8 +17,9 @@ public class FactoryTargets {
             case DUCK:
                 enemy = new Duck();
                 break;
-
+//TODO: Add more
             default:
+                //TODO: add exeption
                 enemy = new Duck();
         }
 
