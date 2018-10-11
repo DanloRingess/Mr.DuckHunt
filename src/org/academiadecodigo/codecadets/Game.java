@@ -33,6 +33,8 @@ public class Game {
     private boolean forceRestart;
     private boolean handlersCreated;
 
+    private int targetsNumber;
+
     public Game() {
         this.restartGame = true;
         this.handlersCreated = false;
@@ -72,11 +74,7 @@ public class Game {
         this.gameEnded = false;
         this.forceRestart = false;
 
-        int targetsNumber = (int) (Math.random() * GameConfigs.MAX_TARGETS_NUMBER);
-
-        for (int i = 0; i < targetsNumber; i++) {
-            targetHashList.add(FactoryTargets.createEnemy());
-        }
+        targetsNumber = (int) (Math.random() * GameConfigs.MAX_TARGETS_NUMBER);
 
         while (!gameEnded) {
             try {
@@ -122,7 +120,7 @@ public class Game {
         }
 
         //Add random target
-        if (Math.random() < 0.15) {
+        if (Math.random() < 0.15 && targetHashList.size() < targetsNumber) {
             targetHashList.add(FactoryTargets.createEnemy());
         }
 
@@ -131,9 +129,11 @@ public class Game {
         while (iterator.hasNext()) {
             Target myTarget = iterator.next();
 
-            if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
-                    myTarget.getPicture().getWidth() - myTarget.getSpeedX() ||
-                    myTarget.getPicture().getX() <= myTarget.getSpeedX()) {
+            if ((myTarget.getTargetType() == TargetType.LEFT &&
+                    myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
+                    myTarget.getPicture().getWidth() - myTarget.getSpeedX()) ||
+                    (myTarget.getTargetType() == TargetType.RIGHT &&
+                    myTarget.getPicture().getX() <= myTarget.getSpeedX())) {
  
                 if (Math.random() > 0.4) {
 
@@ -146,13 +146,17 @@ public class Game {
 
                         case LEFT:
                             myTarget.setTargetType(TargetType.RIGHT);
+                            myTarget.getPicture().delete();
                             myTarget.setPicture("resources/enemies/duck_right.png");
+                            myTarget.getPicture().draw();
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                             break;
 
                         case RIGHT:
                             myTarget.setTargetType(TargetType.LEFT);
+                            myTarget.getPicture().delete();
                             myTarget.setPicture("resources/enemies/duck_left.png");
+                            myTarget.getPicture().draw();
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                     }
                 }
