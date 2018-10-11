@@ -7,6 +7,7 @@ public enum EnemyTypes {
     private int score;
 
     EnemyTypes(int hp, int score) {
+
         this.health = hp;
         this.score = score;
     }

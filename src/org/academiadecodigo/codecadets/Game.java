@@ -3,6 +3,8 @@ package org.academiadecodigo.codecadets;
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
+import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
+import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
@@ -37,6 +39,7 @@ public class Game {
     private boolean handlersCreated;
 
     public Game() {
+
         this.restartGame = true;
         this.handlersCreated = false;
         this.soundEngine = new Sound();
@@ -44,12 +47,14 @@ public class Game {
     }
 
     public void init(String player) {
+
         if (renderer != null) {
+
             renderer.deleteAll();
         }
 
-
         this.player = new Player(player);
+        this.player.init();
         this.renderer = new Renderer();
         this.renderer.initRender();
         this.targetHashList = new HashSet<>();
@@ -58,6 +63,7 @@ public class Game {
         mouseHandler.initMouse();
 
         if (!handlersCreated) {
+
             mouseHandler.initMouseClick();
             keyboardHandler.activateControls();
             handlersCreated = true;
@@ -68,10 +74,26 @@ public class Game {
     public void gameStart() {
 
         for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
-            targetHashList.add(FactoryTargets.createEnemy());
+
+            try{
+
+                targetHashList.add(FactoryTargets.createEnemy());
+
+            }catch (UnknownEnemyException e){
+
+                System.out.println(e.getMessage());
+            }
         }
 
-        player.changeWeapon(FactoryWeapons.createWeapon());
+        try{
+
+            player.changeWeapon(FactoryWeapons.createWeapon());
+
+        }catch(UnknownWeaponException e){
+
+            System.out.println(e.getMessage());
+        }
+
         player.getScore().resetScore();
         renderer.drawClips(player.getWeapon().getType().getClips());
         renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
@@ -82,9 +104,13 @@ public class Game {
         this.forceRestart = false;
 
         while (!gameEnded) {
+
             try {
+
                 Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
+
             } catch (InterruptedException ex) {
+
                 System.out.println("Game Loop Exception: " + ex.getMessage());
             }
 
@@ -92,25 +118,36 @@ public class Game {
         }
 
         switch (gameState) {
+
             case GAMEENDEDNOAMMO:
             case GAMEENDED:
+
                 Text endGameTxt = renderer.newText(renderer.getCanvas().getWidth() / 2 - 50, 200, 100, 20, "Game Over! Press X To Exit! Press R to restart!");
+
                 if (gameState == GameStates.GAMEENDEDNOAMMO) {
+
                     Text endGameTxtNoAmmo = renderer.newText(500, 170, 60, 20, "No More Ammo");
                 }
 
                 gameEnded();
+
                 break;
+
             default:
                 System.out.println("WTF game state is that?: " + gameState.name());
         }
     }
 
     private void gameEnded() {
+
         while (gameEnded && restartGame) {
+
             try {
+
                 Thread.sleep(GameConfigs.GAME_SLEEP_TIME);
+
             } catch (InterruptedException ex) {
+
                 System.out.println("Game Loop Exception: " + ex.getMessage());
             }
         }
@@ -127,6 +164,7 @@ public class Game {
         //Change every target Position && Remove if out of window
         Iterator<Target> iterator = targetHashList.iterator();
         while (iterator.hasNext()) {
+
             Target myTarget = iterator.next();
 
             if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
@@ -138,20 +176,25 @@ public class Game {
 
 
             try {
+
                 myTarget.move();
+
             } catch (ConcurrentModificationException ex) {
+
                 System.out.println("Faulty Frame!\n");
             }
         }
 
         //Check if force Restarted
         if (forceRestart) {
+
             gameEnded = true;
             gameState = GameStates.GAMEENDED;
         }
     }
 
     public void eventShoot() {
+
         Weapon weapon = player.getWeapon();
         boolean killedOne = false;
 
@@ -161,39 +204,49 @@ public class Game {
         }
 
         Iterator<Target> iterator = targetHashList.iterator();
+
         while (iterator.hasNext() && !killedOne) {
+
             Target target = iterator.next();
 
             if (target == null || target.getPosition() == null) {
+
                 continue;
             }
 
             if (weapon.getAim().getX() < target.getPosition().getX() - weapon.getType().getSpread()) {
+
                 continue;
             }
 
             if (weapon.getAim().getX() > target.getPosition().getX() + target.getPicture().getWidth() + weapon.getType().getSpread()) {
+
                 continue;
             }
 
             if (weapon.getAim().getY() < target.getPosition().getY() - weapon.getType().getSpread()) {
+
                 continue;
             }
 
             if (weapon.getAim().getY() > target.getPosition().getY() + target.getPicture().getHeight() + weapon.getType().getSpread()) {
+
                 continue;
             }
 
 
             if (target instanceof Enemy) {
+
                 Enemy ourEnemy = (Enemy) target;
                 int enemyScore = ourEnemy.getType().getScore();
 
                 if (getPlayer().getWeapon().getAmmo() > 0) {
+
                     soundEngine.playSound(SoundTypes.DUCKHIT);
                     boolean enemyKilled = weapon.shoot(target);
 
                     if (enemyKilled) {
+
                         player.getScore().changeScore(enemyScore);
                         target.getPicture().delete();
                         iterator.remove();
@@ -208,6 +261,7 @@ public class Game {
         }
 
         if (killedOne) {
+
             return;
         }
 
@@ -217,6 +271,7 @@ public class Game {
     }
 
     public void reloadWeapon() {
+
         soundEngine.playSound(SoundTypes.SGRELOADING);
         this.player.getWeapon().reload();
         renderer.reloadAmmo(player.getWeapon().getType().getClipBullets());
@@ -224,6 +279,7 @@ public class Game {
     }
 
     public void eventRestart() {
+
         this.gameEnded = false;
         this.restartGame = true;
     }

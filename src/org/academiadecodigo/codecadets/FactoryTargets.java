@@ -1,28 +1,30 @@
 package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.enums.EnemyTypes;
+import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Duck;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 
 public class FactoryTargets { //TODO: Fix name
 
-    public static Enemy createEnemy() {
+    public static Enemy createEnemy() throws UnknownEnemyException {
+
         int random = (int) (Math.random() * EnemyTypes.values().length);
+
         EnemyTypes enemyType = EnemyTypes.values()[random];
 
         Enemy enemy = null;
 
-        switch(enemyType){
+        switch (enemyType) {
+
             case DUCK:
                 enemy = new Duck();
                 break;
 //TODO: Add more
             default:
-                //TODO: add exeption
-                enemy = new Duck();
+               throw new UnknownEnemyException("I don't know what enemy is this!");
         }
-
         return enemy;
     }
 
