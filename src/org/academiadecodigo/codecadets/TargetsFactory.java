@@ -31,9 +31,11 @@ public class TargetsFactory {
     }
 
 /*
-    public static Props createProps(){
+    public static Props createProps() {
+
         int random = (int) (Math.random() * PropType.values().lenght);
         PropType propType = PropType.values()[random];
+
         return prop;
     }
 */
