@@ -56,7 +56,7 @@ public class Renderer {
 
         //Create Crosshair
         crosshair = new Picture(1, 1);
-        crosshair.load("resources/crosshair.png");
+        crosshair.load(RenderConfigs.CROSSHAIRIMG);
         crosshair.draw();
     }
 
@@ -117,10 +117,10 @@ public class Renderer {
         switch (weapon.getType()) {
 
             case SHOTGUN:
-                sideWeapon.load("resources/weapons/shotgunSide.png");
+                sideWeapon.load(RenderConfigs.SIDESHOTGUN);
                 break;
             default:
-                sideWeapon.load("resources/weapons/missingTexture.png");
+                sideWeapon.load(RenderConfigs.MISSINGTEXTURE);
         }
 
         sideWeapon.draw();
@@ -128,7 +128,7 @@ public class Renderer {
 
     public void drawWeaponTest() {
 
-        sideWeapon.load("resources/weapons/missingTexture.png");
+        sideWeapon.load(RenderConfigs.MISSINGTEXTURE);
         sideWeapon.draw();
     }
 

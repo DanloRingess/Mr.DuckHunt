@@ -1,22 +1,12 @@
 package org.academiadecodigo.codecadets.sound;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 import org.academiadecodigo.codecadets.Configs.SoundConfigs;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
 
-import javax.print.DocFlavor;
 import javax.sound.sampled.*;
-import java.io.IOException;
-import java.net.URI;
-
 import java.io.File;
-import java.net.URISyntaxException;
+import java.io.IOException;
 import java.net.URL;
-
-
-// Change this class to your liking, this is just a base example
 
 public class Sound {
 
