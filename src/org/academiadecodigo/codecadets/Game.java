@@ -5,6 +5,7 @@ import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
 import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
 import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
+import org.academiadecodigo.codecadets.enums.TargetType;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
@@ -38,6 +39,8 @@ public class Game {
     private boolean forceRestart;
     private boolean handlersCreated;
 
+    private int targetsNumber;
+
     public Game() {
 
         this.restartGame = true;
@@ -68,30 +71,17 @@ public class Game {
             keyboardHandler.activateControls();
             handlersCreated = true;
         }
-
     }
 
     public void gameStart() {
 
-        for (int i = 0; i < GameConfigs.TARGETS_NUMBER; i++) {
-
-            try{
-
-                targetHashList.add(FactoryTargets.createEnemy());
-
-            }catch (UnknownEnemyException e){
-
-                System.out.println(e.getMessage());
-            }
-        }
-
-        try{
+        try {
 
             player.changeWeapon(FactoryWeapons.createWeapon());
 
-        }catch(UnknownWeaponException e){
+        } catch (UnknownWeaponException ex) {
 
-            System.out.println(e.getMessage());
+            System.out.println(ex.getMessage());
         }
 
         player.getScore().resetScore();
@@ -102,6 +92,8 @@ public class Game {
         this.gameState = GameStates.GAMEPLAYING;
         this.gameEnded = false;
         this.forceRestart = false;
+
+        targetsNumber = (int) (Math.random() * GameConfigs.MAX_TARGETS_NUMBER);
 
         while (!gameEnded) {
 
@@ -161,17 +153,52 @@ public class Game {
             this.gameState = GameStates.GAMEENDEDNOAMMO;
         }
 
+        //Add random target
+        if (Math.random() < 0.15 && targetHashList.size() < targetsNumber) {
+            try {
+                targetHashList.add(FactoryTargets.createEnemy());
+            } catch (UnknownEnemyException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
         //Change every target Position && Remove if out of window
         Iterator<Target> iterator = targetHashList.iterator();
         while (iterator.hasNext()) {
 
             Target myTarget = iterator.next();
 
-            if (myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
-                    myTarget.getPicture().getWidth() - myTarget.getSpeedX()) {
+            if ((myTarget.getTargetType() == TargetType.LEFT &&
+                    myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
+                            myTarget.getPicture().getWidth() - myTarget.getSpeedX()) ||
+                    (myTarget.getTargetType() == TargetType.RIGHT &&
+                            myTarget.getPicture().getX() <= myTarget.getSpeedX())) {
 
-                iterator.remove();
-                myTarget.getPicture().delete();
+                if (Math.random() > 0.4) {
+
+                    iterator.remove();
+                    myTarget.getPicture().delete();
+
+                } else {
+
+                    switch (myTarget.getTargetType()) {
+
+                        case LEFT:
+                            myTarget.setTargetType(TargetType.RIGHT);
+                            myTarget.getPicture().delete();
+                            myTarget.setPicture("resources/enemies/duck_right.png");
+                            myTarget.getPicture().draw();
+                            myTarget.setSpeedX(-myTarget.getSpeedX());
+                            break;
+
+                        case RIGHT:
+                            myTarget.setTargetType(TargetType.LEFT);
+                            myTarget.getPicture().delete();
+                            myTarget.setPicture("resources/enemies/duck_left.png");
+                            myTarget.getPicture().draw();
+                            myTarget.setSpeedX(-myTarget.getSpeedX());
+                    }
+                }
             }
 
 
@@ -183,14 +210,16 @@ public class Game {
 
                 System.out.println("Faulty Frame!\n");
             }
+
+
+            //Check if force Restarted
+            if (forceRestart) {
+
+                gameEnded = true;
+                gameState = GameStates.GAMEENDED;
+            }
         }
 
-        //Check if force Restarted
-        if (forceRestart) {
-
-            gameEnded = true;
-            gameState = GameStates.GAMEENDED;
-        }
     }
 
     public void eventShoot() {
@@ -198,7 +227,7 @@ public class Game {
         Weapon weapon = player.getWeapon();
         boolean killedOne = false;
 
-        if(weapon.getAmmo() == 0){
+        if (weapon.getAmmo() == 0) {
             soundEngine.playSound(SoundTypes.SGEMPTY);
             return;
         }
@@ -233,7 +262,6 @@ public class Game {
 
                 continue;
             }
-
 
             if (target instanceof Enemy) {
 
@@ -271,8 +299,8 @@ public class Game {
     }
 
     public void reloadWeapon() {
-        
-        if (getPlayer().getWeapon().getClips() == 0){
+
+        if (getPlayer().getWeapon().getClips() == 0) {
             return;
         }
 
@@ -304,8 +332,8 @@ public class Game {
         Position weaponAim = getPlayer().getWeapon().getAim();
 
         //Set Player Aim Position
-        weaponAim.setX( event.getX() - 11);
-        weaponAim.setY( event.getY() - 32);
+        weaponAim.setX(event.getX() - 11);
+        weaponAim.setY(event.getY() - 32);
 
         Position aimPos = new Position(weaponAim.getX() - crosshairHalfWidth, weaponAim.getY() - crosshairHalfHeight);
 
