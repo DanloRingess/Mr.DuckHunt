@@ -271,6 +271,10 @@ public class Game {
     }
 
     public void reloadWeapon() {
+        
+        if (getPlayer().getWeapon().getClips() == 0){
+            return;
+        }
 
         soundEngine.playSound(SoundTypes.SGRELOADING);
         this.player.getWeapon().reload();
@@ -300,8 +304,8 @@ public class Game {
         Position weaponAim = getPlayer().getWeapon().getAim();
 
         //Set Player Aim Position
-        weaponAim.setX((int) event.getX() - 11);
-        weaponAim.setY((int) event.getY() - 32);
+        weaponAim.setX( event.getX() - 11);
+        weaponAim.setY( event.getY() - 32);
 
         Position aimPos = new Position(weaponAim.getX() - crosshairHalfWidth, weaponAim.getY() - crosshairHalfHeight);
 
