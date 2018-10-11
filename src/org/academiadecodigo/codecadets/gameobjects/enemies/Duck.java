@@ -25,14 +25,14 @@ public class Duck extends Enemy {
         switch (getTargetType()) {
             case LEFT:
                 setSpeedX(speed);
-                setPosition(new Position(0, 100 + (int) (Math.random() * 300)));
+                setPosition(new Position(0, 70 + (int) (Math.random() * 450)));
                 setPicture(this.getLeftPicture());
                 break;
 
             case RIGHT:
                 setSpeedX(-speed);
                 setPosition(new Position((int) (Canvas.getInstance().getShapes().get(0).getWidth() - 185*(0.6)),
-                            100 + (int) (Math.random() * 300)));
+                            70 + (int) (Math.random() * 450)));
                 setPicture(this.getRightPicture());
         }
 

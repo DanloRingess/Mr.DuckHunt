@@ -14,9 +14,10 @@ abstract public class Weapon extends GameObject {
     private int damage;
     private int clips;
 
-    //methods:---------------------
+    //methods:--------------------
 
     public Weapon(WeaponTypes type) {
+
         this.type = type;
         this.ammo = type.getClipBullets();
         this.clips = type.getClips();
@@ -25,16 +26,18 @@ abstract public class Weapon extends GameObject {
     }
 
     public boolean shoot(Target target) {
+
         this.ammo = this.ammo <= 0 ? 0 : this.ammo - 1;
         if (target != null) {
             return target.hit(damage);
         }
         return false;
-
     }
 
     public void reload() {
+
         if (clips == 0) {
+
             return;
         }
 
@@ -44,6 +47,7 @@ abstract public class Weapon extends GameObject {
 
 
     public void setAim(Position aiming) {
+
         this.aim.setX(aiming.getX());
         this.aim.setY(aiming.getY());
     }
