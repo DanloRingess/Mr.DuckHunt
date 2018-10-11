@@ -1,6 +1,7 @@
 package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.enums.EnemyTypes;
+import org.academiadecodigo.codecadets.enums.PropTypes;
 import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Duck;
@@ -30,11 +31,24 @@ public class TargetsFactory {
         return enemy;
     }
 
-/*
-    public static Props createProps(){
-        int random = (int) (Math.random() * PropType.values().lenght);
-        PropType propType = PropType.values()[random];
+
+    public static Prop createProps(){
+
+        int random = (int) (Math.random() * PropTypes.values().length);
+
+        PropTypes propType = PropTypes.values()[random];
+
+        Prop prop;
+
+        switch(propType){
+
+            case CRATE:
+                prop = new Crate();
+                break;
+            case EGG:
+                prop = new Egg();
+                break;
+        }
         return prop;
     }
-*/
 }
