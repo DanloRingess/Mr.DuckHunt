@@ -1,35 +1,37 @@
 package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.Configs.RenderConfigs;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class StartPage {
 
-    private Rectangle bgRect;
+    private Picture bgPic;
     private Picture logo;
     private boolean canStart;
+    private Picture pressToStart;
 
     public StartPage(){
         canStart = false;
-        bgRect = new Rectangle(0, 0, RenderConfigs.CANVASWIDTH, RenderConfigs.CANVASHEIGHT);
-        logo = new Picture( 50,100, RenderConfigs.GAMELOGO);
+        bgPic = new Picture(0, 0, RenderConfigs.STARTBG);
+        logo = new Picture( 200,100, RenderConfigs.GAMELOGO);
+        pressToStart = new Picture(180, 330, RenderConfigs.PRESSTOSTART);
     }
 
     public void init() {
-        bgRect.setColor(Color.BLACK);
-        bgRect.fill();
+        bgPic.draw();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         logo.draw();
+        pressToStart.draw();
+
+        waitToStart();
     }
 
-    public void waitToStart(){
+    private void waitToStart(){
         while (!canStart){
             try {
                 Thread.sleep(250);
@@ -37,10 +39,14 @@ public class StartPage {
                 e.printStackTrace();
             }
         }
+
+        destroy();
     }
 
-    public void destroy() {
-        bgRect.delete();
+    private void destroy() {
+        bgPic.delete();
+        logo.delete();
+        pressToStart.delete();
     }
 
     public void canStart() {

@@ -121,11 +121,11 @@ public class Game {
             case GAMEENDEDNOAMMO:
             case GAMEENDED:
 
-                Text endGameTxt = renderer.newText(renderer.getCanvas().getWidth() / 2 - 50, 200, 100, 20, "Game Over! Press X To Exit! Press R to restart!");
+                Text endGameTxt = renderer.newText(250, 200, 150, 30, "Game Over! Press X To Exit! Press R to restart!");
 
                 if (gameState == GameStates.GAMEENDEDNOAMMO) {
 
-                    Text endGameTxtNoAmmo = renderer.newText(500, 170, 60, 20, "No More Ammo");
+                    Text endGameTxtNoAmmo = renderer.newText(300, 120, 60, 20, "No More Ammo");
                 }
 
                 gameEnded();
@@ -373,5 +373,9 @@ public class Game {
 
     public void setRestartGame(boolean restartGame) {
         this.restartGame = restartGame;
+    }
+
+    public StartPage getStartPage() {
+        return startPage;
     }
 }

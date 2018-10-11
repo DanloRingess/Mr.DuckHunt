@@ -22,7 +22,11 @@ public class DuckKeyboardHandler implements KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent event) {
 
-        Weapon weapon = game.getPlayer().getWeapon();
+        Weapon weapon = null;
+
+        if (game.getPlayer() != null){
+            weapon = game.getPlayer().getWeapon();
+        }
 
         switch (event.getKey()) {
 
@@ -95,10 +99,20 @@ public class DuckKeyboardHandler implements KeyboardHandler {
 
                 break;
 
-        }
+            case KeyboardEvent.KEY_SPACE:
+                switch (game.getGameState()){
+                    case GAMEPLAYING:
+                        game.eventShoot();
+                        break;
+                    case GAMESTARTING:
+                        game.getStartPage().canStart();
+                        break;
+                }
+                break;
+            default:
+                System.out.println("Unhandled Key!");
 
-        System.out.println("x: " + weapon.getAim().getX());
-        System.out.println("y: " + weapon.getAim().getY());
+        }
     }
 
     @Override
