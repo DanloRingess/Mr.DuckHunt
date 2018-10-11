@@ -3,9 +3,9 @@ package org.academiadecodigo.codecadets;
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
+import org.academiadecodigo.codecadets.enums.TargetType;
 import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
 import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
-import org.academiadecodigo.codecadets.enums.TargetType;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
@@ -226,6 +226,7 @@ public class Game {
 
         Weapon weapon = player.getWeapon();
         boolean killedOne = false;
+        boolean hitEnemy = false;
 
         if (weapon.getAmmo() == 0) {
             soundEngine.playSound(SoundTypes.SGEMPTY);
@@ -234,7 +235,7 @@ public class Game {
 
         Iterator<Target> iterator = targetHashList.iterator();
 
-        while (iterator.hasNext() && !killedOne) {
+        while (iterator.hasNext() && !killedOne && !hitEnemy) {
 
             Target target = iterator.next();
 
@@ -279,23 +280,22 @@ public class Game {
                         target.getPicture().delete();
                         iterator.remove();
                         killedOne = true;
+                        renderer.drawScore(player.getScore().getScore());
                     }
+                    renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
+                    renderer.drawClips(player.getWeapon().getClips());
                 }
-
-                renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-                renderer.drawClips(player.getWeapon().getClips());
-                renderer.drawScore(player.getScore().getScore());
+                hitEnemy = true;
             }
         }
 
-        if (killedOne) {
+        if (killedOne || hitEnemy) {
 
             return;
         }
 
         weapon.shoot(null);
         renderer.drawAmmo(player.getWeapon().getAmmo(), player.getWeapon().getType().getClipBullets());
-        renderer.drawClips(player.getWeapon().getClips());
     }
 
     public void reloadWeapon() {
