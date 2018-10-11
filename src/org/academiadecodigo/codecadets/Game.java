@@ -8,6 +8,8 @@ import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
 import org.academiadecodigo.codecadets.enums.TargetType;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
+import org.academiadecodigo.codecadets.gameobjects.powerups.PowerUp;
+import org.academiadecodigo.codecadets.gameobjects.props.Prop;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
 import org.academiadecodigo.codecadets.handlers.DuckMouseHandler;
@@ -285,6 +287,15 @@ public class Game {
                 }
                 hitEnemy = true;
             }
+
+            if (target instanceof Prop) {
+
+                Prop ourProp = (Prop) target;
+
+                if (getPlayer().getWeapon().getAmmo() > 0) {
+                    
+                }
+            }
         }
 
         if (killedOne || hitEnemy) {
@@ -348,6 +359,10 @@ public class Game {
         renderer.drawAim(aimPos);
     }
 
+    public void activatePowerUp(PowerUp powerUp) {
+
+    }
+
     public Player getPlayer() {
         return this.player;
     }
@@ -367,4 +382,6 @@ public class Game {
     public void setRestartGame(boolean restartGame) {
         this.restartGame = restartGame;
     }
+
+
 }
