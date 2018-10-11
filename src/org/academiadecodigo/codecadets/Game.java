@@ -29,6 +29,7 @@ public class Game {
     private DuckMouseHandler mouseHandler;
     private DuckKeyboardHandler keyboardHandler;
     private Sound soundEngine;
+    private StartPage startPage;
 
     // Game Properties
     private boolean gameEnded;
@@ -42,11 +43,19 @@ public class Game {
     private int targetsNumber;
 
     public Game() {
-
         this.restartGame = true;
         this.handlersCreated = false;
         this.soundEngine = new Sound();
         this.soundEngine.playSound(SoundTypes.BGMUSIC);
+
+    }
+
+    public void showStartMenu() {
+        this.gameState = GameStates.GAMESTARTING;
+        this.keyboardHandler = new DuckKeyboardHandler(this);
+        keyboardHandler.activateControls();
+        startPage = new StartPage();
+        startPage.init();
     }
 
     public void init(String player) {
@@ -61,14 +70,12 @@ public class Game {
         this.renderer = new Renderer();
         this.renderer.initRender();
         this.targetHashList = new HashSet<>();
-        this.keyboardHandler = new DuckKeyboardHandler(this);
         this.mouseHandler = new DuckMouseHandler(this, this.renderer);
         mouseHandler.initMouse();
 
         if (!handlersCreated) {
 
             mouseHandler.initMouseClick();
-            keyboardHandler.activateControls();
             handlersCreated = true;
         }
     }

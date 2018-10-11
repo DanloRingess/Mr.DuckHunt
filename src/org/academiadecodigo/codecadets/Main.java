@@ -6,6 +6,8 @@ public class Main {
 
         Game myGame = new Game();
 
+        myGame.showStartMenu();
+
         while (myGame.getRestartGame()) {
 
             myGame.init("Hastronauts");
