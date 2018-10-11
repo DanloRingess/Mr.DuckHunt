@@ -3,12 +3,11 @@ package org.academiadecodigo.codecadets;
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
-import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
+import org.academiadecodigo.codecadets.exceptions.UnknownTargetException;
 import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
-import org.academiadecodigo.codecadets.enums.TargetType;
+import org.academiadecodigo.codecadets.enums.TargetSide;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
-import org.academiadecodigo.codecadets.gameobjects.powerups.PowerUp;
 import org.academiadecodigo.codecadets.gameobjects.props.Prop;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
@@ -159,7 +158,7 @@ public class Game {
         if (Math.random() < 0.15 && targetHashList.size() < targetsNumber) {
             try {
                 targetHashList.add(TargetsFactory.createEnemy());
-            } catch (UnknownEnemyException ex) {
+            } catch (UnknownTargetException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -170,10 +169,10 @@ public class Game {
 
             Target myTarget = iterator.next();
 
-            if ((myTarget.getTargetType() == TargetType.LEFT &&
+            if ((myTarget.getTargetSide() == TargetSide.LEFT &&
                     myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
                             myTarget.getPicture().getWidth() - myTarget.getSpeedX()) ||
-                    (myTarget.getTargetType() == TargetType.RIGHT &&
+                    (myTarget.getTargetSide() == TargetSide.RIGHT &&
                             myTarget.getPicture().getX() <= myTarget.getSpeedX())) {
 
                 if (Math.random() > 0.4) {
@@ -183,10 +182,10 @@ public class Game {
 
                 } else {
 
-                    switch (myTarget.getTargetType()) {
+                    switch (myTarget.getTargetSide()) {
 
                         case LEFT:
-                            myTarget.setTargetType(TargetType.RIGHT);
+                            myTarget.setTargetSide(TargetSide.RIGHT);
                             myTarget.getPicture().delete();
                             myTarget.setPicture(myTarget.getLeftPicture());
                             myTarget.getPicture().draw();
@@ -194,7 +193,7 @@ public class Game {
                             break;
 
                         case RIGHT:
-                            myTarget.setTargetType(TargetType.LEFT);
+                            myTarget.setTargetSide(TargetSide.LEFT);
                             myTarget.getPicture().delete();
                             myTarget.setPicture(myTarget.getRightPicture());
                             myTarget.getPicture().draw();

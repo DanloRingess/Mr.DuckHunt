@@ -5,7 +5,7 @@ import org.academiadecodigo.codecadets.PowerUpFactory;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.powerups.PowerUp;
 
-public abstract class Prop extends Target {
+public class Prop extends Target {
 
     private PowerUp powerup;
 
@@ -14,7 +14,7 @@ public abstract class Prop extends Target {
     }
 
     @Override
-    public boolean hit() {
+    public boolean hit(int damage) {
         destroy();
         return true;
     }

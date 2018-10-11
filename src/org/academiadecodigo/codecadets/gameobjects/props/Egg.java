@@ -1,24 +1,25 @@
-package org.academiadecodigo.codecadets.gameobjects.enemies;
+package org.academiadecodigo.codecadets.gameobjects.props;
 
 import org.academiadecodigo.codecadets.Position;
-import org.academiadecodigo.codecadets.enums.EnemyTypes;
+import org.academiadecodigo.codecadets.enums.PropTypes;
 import org.academiadecodigo.codecadets.enums.TargetSide;
 import org.academiadecodigo.simplegraphics.graphics.Canvas;
 
-public class DuckBoss extends Enemy {
+public class Egg extends Prop{
 
-    public DuckBoss(){
-        super(EnemyTypes.DUCKBOSS);
-        this.setLeftPicture("resources/enemies/FinalBoss_Left.png");
-        this.setRightPicture("resources/enemies/FinalBoss_Right.png");
+    PropTypes propType;
+
+    public Egg() {
+        this.propType = PropTypes.EGG;
+        this.setLeftPicture("resources/props/egg.png");
+        this.setRightPicture("resources/props/egg.png");
         init();
     }
 
     private void init() {
 
-
         setTargetSide(TargetSide.getRandomType());
-        int speed = 7 + (int)(Math.random()*6);
+        int speed = 7 + (int) (Math.random() * 6);
 
         switch (getTargetSide()) {
             case LEFT:
@@ -39,5 +40,4 @@ public class DuckBoss extends Enemy {
         getPicture().draw();
 
     }
-
 }

@@ -1,11 +1,11 @@
 package org.academiadecodigo.codecadets.enums;
 
-public enum TargetType { //TODO: target orientation
+public enum TargetSide { //TODO: target orientation
 
     LEFT,
     RIGHT;
 
-    public static TargetType getRandomType() {
+    public static TargetSide getRandomType() {
 
         int random = (int) (2 * Math.random());
 
