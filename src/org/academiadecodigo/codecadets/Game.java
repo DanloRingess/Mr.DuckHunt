@@ -103,7 +103,9 @@ public class Game {
         this.gameEnded = false;
         this.forceRestart = false;
 
-        targetsNumber = (int) (Math.random() * GameConfigs.MAX_TARGETS_NUMBER);
+        while (targetsNumber < 5 ) {
+            targetsNumber = (int) (Math.random() * GameConfigs.MAX_TARGETS_NUMBER) ;
+        }
 
         while (!gameEnded) {
 

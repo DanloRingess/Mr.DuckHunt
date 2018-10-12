@@ -37,6 +37,7 @@ public class Sound {
                 break;
             case PROPHIT:
                 startMusicLoop(SoundConfigs.PROPHIT, false);
+                break;
             default:
                 System.out.println("No such Sound: " + sndType.toString());
         }
