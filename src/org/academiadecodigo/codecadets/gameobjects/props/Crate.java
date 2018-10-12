@@ -10,6 +10,7 @@ public class Crate extends Prop {
     PropTypes propType;
 
     public Crate() {
+        super();
         this.propType = PropTypes.CRATE;
         this.setLeftPicture("resources/props/crate.png");
         this.setRightPicture("resources/props/crate.png");

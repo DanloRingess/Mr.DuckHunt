@@ -10,6 +10,7 @@ public class Egg extends Prop{
     PropTypes propType;
 
     public Egg() {
+        super();
         this.propType = PropTypes.EGG;
         this.setLeftPicture("resources/props/egg.png");
         this.setRightPicture("resources/props/egg.png");
