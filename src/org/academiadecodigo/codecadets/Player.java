@@ -18,12 +18,11 @@ public class Player {
     public void init(){
 
         try{
-
             this.weapon = WeaponsFactory.createWeapon();
 
         }catch (UnknownWeaponException e){
 
-            System.out.println(e.getMessage());
+            System.out.println("Error Creating Weapon on Player");
         }
     }
 

@@ -2,18 +2,19 @@ package org.academiadecodigo.codecadets;
 
 import org.academiadecodigo.codecadets.enums.EnemyTypes;
 import org.academiadecodigo.codecadets.enums.PropTypes;
-import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
-import org.academiadecodigo.codecadets.gameobjects.Target;
+import org.academiadecodigo.codecadets.exceptions.UnknownTargetException;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Duck;
 import org.academiadecodigo.codecadets.gameobjects.enemies.DuckBoss;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
 import org.academiadecodigo.codecadets.gameobjects.props.Prop;
+import org.academiadecodigo.codecadets.gameobjects.props.Crate;
+import org.academiadecodigo.codecadets.gameobjects.props.Egg;
 
 public class TargetsFactory {
 
-    public static Enemy createEnemy() throws UnknownEnemyException {
+    public static Enemy createEnemy() throws UnknownTargetException {
 
-        EnemyTypes enemyType = EnemyTypes.values()[Math.random() >= 0.7 ? 1 : 0];
+        EnemyTypes enemyType = EnemyTypes.values()[Math.random() >= 0.83 ? 1 : 0];
 
         Enemy enemy;
 
@@ -26,13 +27,13 @@ public class TargetsFactory {
                 enemy = new DuckBoss();
                 break;
             default:
-               throw new UnknownEnemyException("I don't know what enemy is this!");
+               throw new UnknownTargetException("I don't know what enemy is this!");
         }
         return enemy;
     }
 
 
-    public static Prop createProps(){
+    public static Prop createProps() throws UnknownTargetException {
 
         int random = (int) (Math.random() * PropTypes.values().length);
 
@@ -48,6 +49,8 @@ public class TargetsFactory {
             case EGG:
                 prop = new Egg();
                 break;
+            default:
+                throw new UnknownTargetException("I don't know what prop is this!");
         }
         return prop;
     }

@@ -3,12 +3,11 @@ package org.academiadecodigo.codecadets;
 import org.academiadecodigo.codecadets.Configs.GameConfigs;
 import org.academiadecodigo.codecadets.enums.GameStates;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
-import org.academiadecodigo.codecadets.exceptions.UnknownEnemyException;
+import org.academiadecodigo.codecadets.exceptions.UnknownTargetException;
 import org.academiadecodigo.codecadets.exceptions.UnknownWeaponException;
-import org.academiadecodigo.codecadets.enums.TargetType;
+import org.academiadecodigo.codecadets.enums.TargetSide;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.enemies.Enemy;
-import org.academiadecodigo.codecadets.gameobjects.powerups.PowerUp;
 import org.academiadecodigo.codecadets.gameobjects.props.Prop;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
 import org.academiadecodigo.codecadets.handlers.DuckKeyboardHandler;
@@ -92,7 +91,7 @@ public class Game {
 
         } catch (UnknownWeaponException ex) {
 
-            System.out.println(ex.getMessage());
+            System.out.println("Error Creating Weapon on Game");
         }
 
         player.getScore().resetScore();
@@ -165,11 +164,17 @@ public class Game {
         }
 
         //Add random target
-        if (Math.random() < 0.15 && targetHashList.size() < targetsNumber) {
+        if (Math.random() < 0.20 && targetHashList.size() < targetsNumber) {
             try {
-                targetHashList.add(TargetsFactory.createEnemy());
-            } catch (UnknownEnemyException ex) {
-                System.out.println(ex.getMessage());
+
+                if (Math.random() < 0.80) {
+                    targetHashList.add(TargetsFactory.createEnemy());
+                } else {
+                    targetHashList.add(TargetsFactory.createProps());
+                }
+
+            } catch (UnknownTargetException ex) {
+                System.out.println("Error Creating Target!");
             }
         }
 
@@ -179,10 +184,10 @@ public class Game {
 
             Target myTarget = iterator.next();
 
-            if ((myTarget.getTargetType() == TargetType.LEFT &&
+            if ((myTarget.getTargetSide() == TargetSide.LEFT &&
                     myTarget.getPicture().getX() >= renderer.getCanvas().getWidth() -
                             myTarget.getPicture().getWidth() - myTarget.getSpeedX()) ||
-                    (myTarget.getTargetType() == TargetType.RIGHT &&
+                    (myTarget.getTargetSide() == TargetSide.RIGHT &&
                             myTarget.getPicture().getX() <= myTarget.getSpeedX())) {
 
                 if (Math.random() > 0.4) {
@@ -192,20 +197,20 @@ public class Game {
 
                 } else {
 
-                    switch (myTarget.getTargetType()) {
+                    switch (myTarget.getTargetSide()) {
 
                         case LEFT:
-                            myTarget.setTargetType(TargetType.RIGHT);
+                            myTarget.setTargetSide(TargetSide.RIGHT);
                             myTarget.getPicture().delete();
-                            myTarget.setPicture(myTarget.getLeftPicture());
+                            myTarget.setPicture(myTarget.getRightPicture());
                             myTarget.getPicture().draw();
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                             break;
 
                         case RIGHT:
-                            myTarget.setTargetType(TargetType.LEFT);
+                            myTarget.setTargetSide(TargetSide.LEFT);
                             myTarget.getPicture().delete();
-                            myTarget.setPicture(myTarget.getRightPicture());
+                            myTarget.setPicture(myTarget.getLeftPicture());
                             myTarget.getPicture().draw();
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                     }
@@ -245,7 +250,7 @@ public class Game {
 
         Iterator<Target> iterator = targetHashList.iterator();
 
-        while (iterator.hasNext() && !killedOne && !hitTarget ) {
+        while (iterator.hasNext() && !killedOne && !hitTarget) {
 
             Target target = iterator.next();
 
@@ -282,11 +287,11 @@ public class Game {
                 if (getPlayer().getWeapon().getAmmo() > 0) {
 
 
-                    if(Math.random() < 0.7) {
+                    if (Math.random() < 0.7) {
 
                         soundEngine.playSound(SoundTypes.DUCKHIT);
 
-                    }else{
+                    } else {
 
                         soundEngine.playSound(SoundTypes.DUCKHIT2);
                     }

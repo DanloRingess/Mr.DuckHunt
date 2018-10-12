@@ -1,14 +1,14 @@
 package org.academiadecodigo.codecadets.gameobjects;
 
 import org.academiadecodigo.codecadets.Position;
-import org.academiadecodigo.codecadets.enums.TargetType;
+import org.academiadecodigo.codecadets.enums.TargetSide;
 
 public abstract class Target extends GameObject {
 
     private boolean destroyed;
     private int speedX;
     private int speedY;
-    private TargetType targetType;
+    private TargetSide targetSide;
     private String leftPicture;
     private String rightPicture;
 
@@ -34,12 +34,12 @@ public abstract class Target extends GameObject {
         this.speedY = speedY;
     }
 
-    public void setTargetType(TargetType targetType) {
-        this.targetType = targetType;
+    public void setTargetSide(TargetSide targetSide) {
+        this.targetSide = targetSide;
     }
 
-    public TargetType getTargetType() {
-        return targetType;
+    public TargetSide getTargetSide() {
+        return targetSide;
     }
 
     public String getLeftPicture() {

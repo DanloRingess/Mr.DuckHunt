@@ -10,6 +10,7 @@ public class SoundConfigs {
     public static final String DUCKHIT2 = "resources/sounds/enemies/quackMotherF.wav";
 
     //Props
+    public static final String PROPHIT = "resources/sounds/props/propHit.wav";
 
     //Weapons
     public static final String SGRELOADING = "resources/sounds/weapons/shotgunReloading.wav";

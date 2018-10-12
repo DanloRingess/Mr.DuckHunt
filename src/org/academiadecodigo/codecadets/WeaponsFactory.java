@@ -20,7 +20,6 @@ public class WeaponsFactory {
             case SHOTGUN:
                 weapon = new Shotgun();
                 break;
-//TODO: Add more
             default:
                throw new UnknownWeaponException("I don't know what weapon is this!");
         }
