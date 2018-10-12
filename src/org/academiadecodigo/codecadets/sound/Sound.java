@@ -44,6 +44,8 @@ public class Sound {
         AudioInputStream audioInputStream = null;
         URL soundURL;
 
+        soundURI = soundURI.startsWith("/") ? soundURI : "/" + soundURI;
+
         try {
             soundURL = Main.class.getResource(soundURI);
 
