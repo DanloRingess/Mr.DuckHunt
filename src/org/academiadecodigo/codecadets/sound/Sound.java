@@ -1,11 +1,14 @@
 package org.academiadecodigo.codecadets.sound;
 
 import org.academiadecodigo.codecadets.Configs.SoundConfigs;
+import org.academiadecodigo.codecadets.Main;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
 
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class Sound {
@@ -38,17 +41,26 @@ public class Sound {
     }
 
     private void startMusicLoop(String soundURI, boolean loop) {
-        URL soundURL;
         AudioInputStream audioInputStream = null;
+        URL soundURL;
+
         try {
-            File file = new File(soundURI);
-            soundURL = file.toURI().toURL();
+            soundURL = Main.class.getResource(soundURI);
+
+            if (soundURL == null) {
+                soundURI = soundURI.substring(1);
+                File file = new File(soundURI);
+                soundURL = file.toURI().toURL();
+            }
+
             audioInputStream = AudioSystem.getAudioInputStream(soundURL);
+
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         try {
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
