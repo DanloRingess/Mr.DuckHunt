@@ -155,9 +155,15 @@ public class Game {
         }
 
         //Add random target
-        if (Math.random() < 0.15 && targetHashList.size() < targetsNumber) {
+        if (Math.random() < 0.20 && targetHashList.size() < targetsNumber) {
             try {
-                targetHashList.add(TargetsFactory.createEnemy());
+
+                if (Math.random() < 0.80) {
+                    targetHashList.add(TargetsFactory.createEnemy());
+                } else {
+                    targetHashList.add(TargetsFactory.createProps());
+                }
+
             } catch (UnknownTargetException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -187,7 +193,7 @@ public class Game {
                         case LEFT:
                             myTarget.setTargetSide(TargetSide.RIGHT);
                             myTarget.getPicture().delete();
-                            myTarget.setPicture(myTarget.getLeftPicture());
+                            myTarget.setPicture(myTarget.getRightPicture());
                             myTarget.getPicture().draw();
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                             break;
@@ -195,7 +201,7 @@ public class Game {
                         case RIGHT:
                             myTarget.setTargetSide(TargetSide.LEFT);
                             myTarget.getPicture().delete();
-                            myTarget.setPicture(myTarget.getRightPicture());
+                            myTarget.setPicture(myTarget.getLeftPicture());
                             myTarget.getPicture().draw();
                             myTarget.setSpeedX(-myTarget.getSpeedX());
                     }
@@ -235,7 +241,7 @@ public class Game {
 
         Iterator<Target> iterator = targetHashList.iterator();
 
-        while (iterator.hasNext() && !killedOne && !hitTarget ) {
+        while (iterator.hasNext() && !killedOne && !hitTarget) {
 
             Target target = iterator.next();
 
@@ -272,11 +278,11 @@ public class Game {
                 if (getPlayer().getWeapon().getAmmo() > 0) {
 
 
-                    if(Math.random() < 0.7) {
+                    if (Math.random() < 0.7) {
 
                         soundEngine.playSound(SoundTypes.DUCKHIT);
 
-                    }else{
+                    } else {
 
                         soundEngine.playSound(SoundTypes.DUCKHIT2);
                     }

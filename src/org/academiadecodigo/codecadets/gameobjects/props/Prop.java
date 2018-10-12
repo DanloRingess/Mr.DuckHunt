@@ -2,6 +2,7 @@ package org.academiadecodigo.codecadets.gameobjects.props;
 
 import org.academiadecodigo.codecadets.Game;
 import org.academiadecodigo.codecadets.PowerUpFactory;
+import org.academiadecodigo.codecadets.exceptions.UnknownPowerUpException;
 import org.academiadecodigo.codecadets.gameobjects.Target;
 import org.academiadecodigo.codecadets.gameobjects.powerups.PowerUp;
 
@@ -10,7 +11,11 @@ public class Prop extends Target {
     private PowerUp powerup;
 
     public Prop() {
-        powerup = PowerUpFactory.createPowerUp();
+        try {
+            powerup = PowerUpFactory.createPowerUp();
+        } catch (UnknownPowerUpException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

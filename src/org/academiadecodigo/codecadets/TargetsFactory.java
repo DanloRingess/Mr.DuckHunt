@@ -14,7 +14,7 @@ public class TargetsFactory {
 
     public static Enemy createEnemy() throws UnknownTargetException {
 
-        EnemyTypes enemyType = EnemyTypes.values()[Math.random() >= 0.7 ? 1 : 0];
+        EnemyTypes enemyType = EnemyTypes.values()[Math.random() >= 0.83 ? 1 : 0];
 
         Enemy enemy;
 
@@ -26,7 +26,6 @@ public class TargetsFactory {
             case DUCKBOSS:
                 enemy = new DuckBoss();
                 break;
-//TODO: Add more
             default:
                throw new UnknownTargetException("I don't know what enemy is this!");
         }

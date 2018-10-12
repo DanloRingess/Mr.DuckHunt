@@ -30,7 +30,7 @@ public class Egg extends Prop{
 
             case RIGHT:
                 setSpeedX(-speed);
-                setPosition(new Position((int) (Canvas.getInstance().getShapes().get(0).getWidth() - 100),
+                setPosition(new Position((int) (Canvas.getInstance().getShapes().get(0).getWidth() - 33),
                         50 + (int) (Math.random() * 370)));
                 setPicture(this.getRightPicture());
         }
