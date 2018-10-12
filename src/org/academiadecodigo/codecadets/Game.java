@@ -413,4 +413,8 @@ public class Game {
     public StartPage getStartPage() {
         return startPage;
     }
+
+    public Sound getSoundEngine() {
+        return soundEngine;
+    }
 }

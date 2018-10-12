@@ -3,11 +3,13 @@ package org.academiadecodigo.codecadets.handlers;
 import org.academiadecodigo.codecadets.Game;
 import org.academiadecodigo.codecadets.Position;
 import org.academiadecodigo.codecadets.gameobjects.weapons.Weapon;
+import org.academiadecodigo.codecadets.sound.Sound;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
+import javax.sound.sampled.Clip;
 import java.security.Key;
 
 public class DuckKeyboardHandler implements KeyboardHandler {

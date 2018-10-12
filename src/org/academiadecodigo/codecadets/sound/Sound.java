@@ -7,16 +7,16 @@ import org.academiadecodigo.codecadets.enums.SoundTypes;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class Sound {
 
+    private static Clip bgMusic;
+
     public void playSound(SoundTypes sndType){
         switch (sndType){
             case BGMUSIC:
-                startMusicLoop(SoundConfigs.BGMUSIC_URI, true);
+                bgMusic = startMusicLoop(SoundConfigs.BGMUSIC_URI, true);
                 break;
             case DUCKHIT:
                 startMusicLoop(SoundConfigs.DUCKHIT, false);
@@ -40,7 +40,7 @@ public class Sound {
         }
     }
 
-    private void startMusicLoop(String soundURI, boolean loop) {
+    private Clip startMusicLoop(String soundURI, boolean loop) {
         AudioInputStream audioInputStream = null;
         URL soundURL;
 
@@ -70,11 +70,18 @@ public class Sound {
             if (loop){
                 clip.loop(clip.LOOP_CONTINUOUSLY);
             }
+
+            return clip;
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    public static Clip getBgMusic() {
+        return bgMusic;
     }
 }
