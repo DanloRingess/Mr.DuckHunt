@@ -5,6 +5,9 @@ import org.academiadecodigo.codecadets.Main;
 import org.academiadecodigo.codecadets.enums.SoundTypes;
 
 import javax.sound.sampled.*;
+import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -72,6 +75,47 @@ public class Sound {
             clip.start();
             if (loop){
                 clip.loop(clip.LOOP_CONTINUOUSLY);
+            }
+
+            Frame[] frames = Frame.getFrames();
+
+            for (Frame frame: frames) {
+                frame.addWindowListener(new WindowListener() {
+                    @Override
+                    public void windowOpened(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        clip.stop();
+                    }
+
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        clip.stop();
+                    }
+
+                    @Override
+                    public void windowIconified(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowDeiconified(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowActivated(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowDeactivated(WindowEvent e) {
+
+                    }
+                });
             }
 
             return clip;
